@@ -25,7 +25,7 @@ Template built with [koa](http://koajs.com/) for IIC2513 - Tecnologías y Aplica
 ### Create development database
 
 ```sh
-createdb iic2513template_dev
+createdb questudio
 ```
 
 ### Run migrations
