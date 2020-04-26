@@ -1,0 +1,25 @@
+<h1>Universidades</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Descripción</th>
+            <th>Ir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% universitiesList.forEach((university) => { %>
+        <tr>
+            <td><%- university.name %></td>
+            <td><%- university.address %></td>
+            <td><%- university.description %></td>
+            <td><a href="<%- universityShowPath(university) %>">Ir a universidad</a></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+
+<a href="<%- careerListPath %>">Ir a carreras</a>

@@ -3,7 +3,7 @@
 
   <head>
     <meta charset="utf-8">
-    <title>IIC2513 - CHANGE-ME</title>
+    <title>Questudio</title>
     <% if (env !== 'development') { %>
       <link rel="stylesheet" href="<%= assetPath('app.css') %>">
     <% } %>
@@ -12,7 +12,9 @@
   <body>
     <header>
       <div id="logo">
-        <img src="<%= assetPath('logo.png') %>" alt="Logo" />
+        <a href="<%- universitiesPath %>">
+          <img width="200px" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
+        </a>
       </div>
     </header>
     <%- body %>

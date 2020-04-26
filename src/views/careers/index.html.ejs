@@ -1,0 +1,23 @@
+<h1>Carreras</h1>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Área</th>
+            <th>Vacantes</th>
+            <th>Ir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% careersList.forEach((career) => { %>
+        <tr>
+            <td><%- career.name %></td>
+            <td><%- career.area %></td>
+            <td><%- career.vacancies %></td>
+            <td><a href="<%- careerShowPath(career) %>">Ir a carrera</a></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>

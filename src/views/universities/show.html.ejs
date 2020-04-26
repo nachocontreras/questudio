@@ -1,0 +1,28 @@
+<h1><%- university.name %></h1>
+
+<p><%- university.description %></p>
+
+<p>Tiene <%- careersList.length %> carreras</p>
+
+<% if (careersList.length == 0) { %> 
+
+<% } else { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Área</th>
+                <th>Vacantes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% careersList.forEach((career) => { %>
+            <tr>
+                <td><%- career.name %></td>
+                <td><%- career.area %></td>
+                <td><%- career.vacancies %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<% } %>
