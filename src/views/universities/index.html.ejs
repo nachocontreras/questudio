@@ -17,9 +17,17 @@
             <td><%- university.address %></td>
             <td><%- university.description %></td>
             <td><a href="<%- universityShowPath(university) %>">Ir a universidad</a></td>
+            <td><a href="<%- universityEditPath(university) %>">Editar universidad</a></td>
+            <td>
+              <form action="<%= universityDeletePath(university) %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input type="submit" value="Delete" />
+              </form>
+            </td>
         </tr>
         <% }); %>
     </tbody>
 </table>
 
+<a href="<%- newUniversityPath %>">Crear universidad</a>
 <a href="<%- careerListPath %>">Ir a carreras</a>

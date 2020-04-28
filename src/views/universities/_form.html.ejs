@@ -1,0 +1,39 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitUniversityPath %>" method="post">
+    <% if (!university.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div  class="field">
+      <label for="name">Nombre: </label>
+      <input type="text" name="name" value="<%= university.name %>" required>
+    </div>
+    
+    <div  class="field">
+      <label for="address">Direccion: </label>
+      <input type="text" name="address" value="<%= university.address %>" required>
+    </div>
+
+    <div  class="field">
+      <label for="description">Descripcion: </label>
+      <input type="text" name="description" value="<%= university.description %>" required>
+    </div>
+
+    <div  class="field">
+      <% if (university.isNewRecord) { %>
+        <input type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>
