@@ -46,7 +46,6 @@ router.post('universities.create', '/', async (ctx) => {
 router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     const { university } = ctx.state;
     const careersList = await university.getCareers();
-    console.log(careersList);
     await ctx.render('universities/show', {
         university,
         careersList,
