@@ -7,6 +7,7 @@
             <th>Nombre</th>
             <th>Área</th>
             <th>Vacantes</th>
+            <th>Universidad</th>
             <th>Ir</th>
         </tr>
     </thead>
@@ -16,6 +17,7 @@
             <td><%- career.name %></td>
             <td><%- career.area %></td>
             <td><%- career.vacancies %></td>
+            <td><%- career.universityId %></td>
             <td><a href="<%- careerShowPath(career) %>">Ir a carrera</a></td>
         </tr>
         <% }); %>

@@ -2,7 +2,7 @@
 
 <p><%- university.description %></p>
 
-<p>Tiene <%- careersList.length %> carreras</p>
+<p>Tiene <%- careersList.length %> carrera(s)</p>
 
 <% if (careersList.length == 0) { %> 
 
@@ -21,6 +21,13 @@
                 <td><%- career.name %></td>
                 <td><%- career.area %></td>
                 <td><%- career.vacancies %></td>
+                <td><a href="<%= editCareerPath(career) %>">Editar</a></td>
+                <td>
+                  <form action="<%= deleteCareerPath(career) %>" method="POST">
+                    <input type="hidden" name="_method" value="delete" />
+                    <input type="submit" value="Delete" />
+                  </form>
+                </td>
             </tr>
             <% }); %>
         </tbody>
@@ -28,3 +35,4 @@
 <% } %>
 
 <a href="<%= universityEditPath(university) %>">Editar</a>
+<a href="<%= newCareerPath(university) %>">Añadir carrera</a>

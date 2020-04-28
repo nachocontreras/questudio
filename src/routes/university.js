@@ -46,10 +46,14 @@ router.post('universities.create', '/', async (ctx) => {
 router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     const { university } = ctx.state;
     const careersList = await university.getCareers();
+    console.log(careersList);
     await ctx.render('universities/show', {
         university,
         careersList,
         universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
+        newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
+        editCareerPath: career => ctx.router.url('careers.edit', { id: career.id }),
+        deleteCareerPath: career => ctx.router.url('careers.delete', { id: career.id }),
     });
 });
 
