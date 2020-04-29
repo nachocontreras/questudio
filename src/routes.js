@@ -10,6 +10,7 @@ const router = new KoaRouter();
 router.use(async (ctx, next) => {
     data = {
         universitiesPath: ctx.router.url('universities.list'),
+        careersPath: ctx.router.url('careers.list'),
     }
     Object.assign(ctx.state, data);
     return next();

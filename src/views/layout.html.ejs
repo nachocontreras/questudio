@@ -7,14 +7,29 @@
     <% if (env !== 'development') { %>
       <link rel="stylesheet" href="<%= assetPath('app.css') %>">
     <% } %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
 
   <body>
     <header>
-      <div id="logo">
-        <a href="<%- universitiesPath %>">
-          <img width="200px" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
+      <div class="topnav">
+        <a href="<%- universitiesPath %>" style="padding: 0;">
+          <img height="45px" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
         </a>
+        <div class="short-container">
+          <a href="<%- universitiesPath %>">Universidades</a>
+          <a href="<%- careersPath %>">Carreras</a>
+        </div>
+        <div class="search-container">
+          <form action="/action_page.php">
+            <input class="search-box" type="text" placeholder="Buscar.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+        <div class="session-container">
+          <a>Iniciar sesión</a>
+          <a>Registrarse</a>
+        </div>
       </div>
     </header>
     <%- body %>
