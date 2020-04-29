@@ -11,6 +11,7 @@ router.use(async (ctx, next) => {
     data = {
         universitiesPath: ctx.router.url('universities.list'),
         careersPath: ctx.router.url('careers.list'),
+        currentUser: null
     }
     Object.assign(ctx.state, data);
     return next();
