@@ -1,0 +1,48 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitCareerPath %>" method="post">
+    <% if (!career.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div  class="field">
+      <label for="name">Nombre: </label>
+      <input type="text" name="name" value="<%= career.name %>" required>
+    </div>
+    
+    <div  class="field">
+      <label for="area">Área: </label>
+      <input type="text" name="area" value="<%= career.area %>" required>
+    </div>
+
+    <div  class="field">
+      <label for="vacancies">Vacantes: </label>
+      <input type="number" name="vacancies" value="<%= career.vacancies %>" required>
+    </div>
+
+    <div  class="field">
+      <label for="minScore">Puntaje mínimo para postular: </label>
+      <input type="number" name="minScore" value="<%= career.minScore %>" required>
+    </div>
+
+    <div  class="field">
+      <label for="duration">Duración: </label>
+      <input type="number" name="duration" value="<%= career.duration %>" required>
+    </div>
+    <div  class="field">
+      <% if (career.isNewRecord) { %>
+        <input type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>
