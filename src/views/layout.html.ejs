@@ -17,19 +17,22 @@
   <body>
     <header>
       <div class="topnav">
-        <a href="<%- universitiesPath %>" style="padding: 0;">
-          <img height="45px" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
-        </a>
+        <div class="logo-container">
+          <a href="<%- universitiesPath %>" style="padding: 0;">
+            <img height="45px" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
+          </a>
+        </div>
         <div class="short-container">
           <a href="<%- universitiesPath %>">Universidades</a>
           <a href="<%- careersPath %>">Carreras</a>
         </div>
         <div class="search-container">
-          <form action="/action_page.php">
-            <input class="search-box" type="text" placeholder="Buscar.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
+          <form id="search-form">
+            <input id="search-box" class="search-box" type="text" placeholder="Buscar.." name="search">
+            <button id="search-button"><i class="fa fa-search"></i></button>
           </form>
         </div>
+        <div id="search-results"></div>
         <% if (currentUser) { %>
           <div class="session-container">
             <a>Perfil</a>
