@@ -1,0 +1,8 @@
+<p>Nombre: <%- user.name %></p>
+<p>Apellidos: <%- user.lastname %></p>
+<p>Email: <%- user.email %></p>
+<p>Tipo de usuario: <%- user.getType() %></p>
+
+<% if (user.userType == '1') { %>
+    <p>Universidad: <%- user.university.name %></p>
+<% } %>

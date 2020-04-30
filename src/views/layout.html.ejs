@@ -36,7 +36,7 @@
         <div id="search-results"></div>
         <% if (currentUser) { %>
           <div class="session-container">
-            <a>Perfil</a>
+            <a href="<%- profilePath %>">Perfil</a>
             <form id="signout-form" action="<%= destroySessionPath %>" method="post">
               <input type="hidden" name="_method" value="delete" />
               <a onclick="document.getElementById('signout-form').submit()">
