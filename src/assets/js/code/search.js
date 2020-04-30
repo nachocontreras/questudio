@@ -1,23 +1,27 @@
-$("#search-form").submit(function(e) {
-    e.preventDefault();
-    let text = $('#search-box').val();
-    console.log(text);
-    $("#search-results").empty();   
-    var x = $("#search-box").position();
-    var z = $("#search-box").width();
-    var y = $(".topnav").height();
-    $("#search-results").css({top: x.top + y, left: x.left, width: Math.min(2 * z, window.innerWidth), display: 'block'});
-    searchFunction(text);
-});
+$( document ).ready(function() {
 
-$(document).mouseup(function(e) {
-    var container = $("#search-results");
+    $("#search-form").submit(function(e) {
+        e.preventDefault();
+        let text = $('#search-box').val();
+        console.log(text);
+        $("#search-results").empty();   
+        var x = $("#search-box").position();
+        var z = $("#search-box").width();
+        var y = $(".topnav").height();
+        $("#search-results").css({top: x.top + y, left: x.left, width: Math.min(2 * z, window.innerWidth), display: 'block'});
+        searchFunction(text);
+    });
 
-    // if the target of the click isn't the container nor a descendant of the container
-    if (!container.is(e.target) && container.has(e.target).length === 0) 
-    {
-        container.hide();
-    }
+    $(document).mouseup(function(e) {
+        var container = $("#search-results");
+
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) 
+        {
+            container.hide();
+        }
+    });
+
 
 });
 
