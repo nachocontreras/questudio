@@ -37,12 +37,17 @@
         <% if (currentUser) { %>
           <div class="session-container">
             <a>Perfil</a>
-            <a><i class="fas fa-sign-out-alt"></i></a>
+            <form id="signout-form" action="<%= destroySessionPath %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <a onclick="document.getElementById('signout-form').submit()">
+                <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </form>
           </div>
         <% } else { %>
           <div class="session-container">
-            <a>Iniciar sesión</a>
-            <a>Registrarse</a>
+            <a href="<%- newSessionPath %>">Iniciar sesión</a>
+            <a href="<%- createUserPath %>">Registrarse</a>
           </div>
         <% } %>
       </div>
