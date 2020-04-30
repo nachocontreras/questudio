@@ -21,6 +21,7 @@ router.use(async (ctx, next) => {
     }
     if (ctx.session.userId) {
         data["currentUser"] = await ctx.orm.user.findById(ctx.session.userId);
+        data["profilePath"] = ctx.router.url('users.profile', { id: ctx.session.userId });
     }
     Object.assign(ctx.state, data);
     return next();

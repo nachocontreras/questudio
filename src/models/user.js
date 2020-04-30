@@ -1,4 +1,5 @@
 'use strict';
+const universityModel = require('../models/university'); 
 
 const bcrypt = require('bcrypt');
 
@@ -33,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
     user.hasMany(models.comment);
     user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'universityId' }); // moderate
     user.hasMany(models.vocationalTestResult);
+    user.prototype.getUniversity = async function getUniversity() {
+      if (this.universityId != null) {
+        return await models.university.findById(this.universityId);
+      }
+    }
   };
 
   user.beforeUpdate(buildPasswordHash);
@@ -40,6 +46,16 @@ module.exports = (sequelize, DataTypes) => {
 
   user.prototype.checkPassword = function checkPassword(password) {
     return bcrypt.compare(password, this.password);
+  };
+
+  user.prototype.getType = function getType() {
+    if (this.userType == '0') {
+      return "Estudiante enseñanza media";
+    } else if (this.userType == '1') {
+      return "Estudiante universitario";
+    } else {
+      return "Este tipo no está definido";
+    }
   };
 
   return user;

@@ -33,5 +33,13 @@ router.post("users.create", '/signup', async (ctx) => {
     }
     ctx.redirect(ctx.router.url('session.new'));
 });
+
+router.get('users.profile', '/:id/profile', async (ctx) => {
+  const user = await ctx.orm.user.findById(ctx.params.id);
+  user.university = await user.getUniversity();
+  await ctx.render('users/show', {
+    user,
+  });
+});
   
 module.exports = router;
