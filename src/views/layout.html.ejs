@@ -41,18 +41,22 @@
       <% if (currentUser) { %>
         <div class="navbar-end">
           <div class="navbar-item">
-            <a>Perfil</a>
+            <a href="<%- profilePath %>">Perfil</a>
+            <form id="signout-form" action="<%= destroySessionPath %>" method="post">
+              <input type="hidden" name="_method" value="delete" />
+              <a onclick="document.getElementById('signout-form').submit()">
+                <i class="fas fa-sign-out-alt"></i>
+              </a>
+            </form>
           </div>
+
       <% } else { %>
          <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary">
-              <strong>Iniciar Sesión</strong>
-            </a>
-            <a class="button is-light">
-              Registrarse
-            </a>
+            <a class="button is-primary" href="<%- newSessionPath %>"><strong>Iniciar Sesión</strong></a>
+            <a class="button is-light" href="<%- createUserPath %>">Registrarse</a>
           </div>
+        </div>
       <% } %>
 
       <div class="navbar-end">

@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+
+<body>
+</br>
+</br>
+  
+  <div class="container">
+    <% if (locals.notice) { %>
+      <div className="notice"><%= notice %></div>
+    <% } %>
+    <h3 class="title is-1" align="center">Log in</h3>
+    <% if (locals.error) { %>
+      <div class="error">
+        <p class="help is-danger"><%= error %></p>
+      </div>
+    <% } %>
+    <form action="<%= createSessionPath %>" method="post">
+      <input type="hidden" name="_method" value="put" />
+
+      <div class="field">
+        <p class="control has-icons-left has-icons-right">
+          <input class="input" type="email" placeholder="Email" name="email" value="<%= locals.email %>" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-check"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control has-icons-left">
+          <input class="input" type="password" placeholder="Password" name="password" value="<%= locals.password %>" />
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
+
+      <div class="field">
+        <p class="control">
+          <input class="button is-primary" type="submit" name="sign-in" value="Log In" />
+        </p>
+      </div>
+
+  </div>
+</body>

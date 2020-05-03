@@ -1,52 +1,77 @@
 <!DOCTYPE html>
 <html>
-<h1>Universidades</h1>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
 
-<div class="columns">
-  <div class="column">
-    First column
-  </div>
-  <div class="column">
-    Second column
-  </div>
-  <div class="column">
-    Third column
-  </div>
-  <div class="column">
-    Fourth column
-  </div>
+
+<body>
+  <div class="container">
+    <br>
+    <h1 class="title is-1">Universidades</h1>
+    <br>
+
+    <div class="columns">
+      <% universitiesList.forEach((university) => { %>
+        <div class="column">
+
+          <div class="card">
+
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
+              </figure>
+            </div>
+
+            <div class="card-content">
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                  </figure>
+                </div>
+
+                <div class="media-content">
+                  <p class="title is-5"><%- university.name %></p>
+                  <p class="title is-6"><%- university.address %></p>
+                  
+                </div>
+
+              </div>
+
+              <div class="content">
+                <%- university.description %>
+                <a href="#">#css</a> <a href="#">#responsive</a>
+                <br>
+                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+              </div>
+
+            </div>
+            <footer class="card-footer">
+              <a href="<%- universityShowPath(university) %>" class="card-footer-item">Ir a Universidad</a>
+              <a href="<%- universityEditPath(university) %>" class="card-footer-item">Editar universidad</a>
+              <form class="card-footer-item" action="<%= universityDeletePath(university) %>" method="POST">
+                <input type="hidden" name="_method" value="delete" />
+                <input class="button is-light" type="submit" value="Delete" />
+              </form>
+
+              
+            </footer>
+          </div>
+
+        </div>
+        <% }); %>
+
+    </div>
+
 </div>
 
-
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Descripción</th>
-            <th>Ir</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% universitiesList.forEach((university) => { %>
-        <tr>
-            <td><%- university.name %></td>
-            <td><%- university.address %></td>
-            <td><%- university.description %></td>
-            <td><a href="<%- universityShowPath(university) %>">Ir a universidad</a></td>
-            <td><a href="<%- universityEditPath(university) %>">Editar universidad</a></td>
-            <td>
-              <form action="<%= universityDeletePath(university) %>" method="POST">
-                <input type="hidden" name="_method" value="delete" />
-                <input type="submit" value="Delete" />
-              </form>
-            </td>
-        </tr>
-        <% }); %>
-    </tbody>
-</table>
-
+</br>
+</br>
+</br>
 <a href="<%- newUniversityPath %>">Crear universidad</a>
+</br>
 <a href="<%- careerListPath %>">Ir a carreras</a>
+
+</body>
+
+
