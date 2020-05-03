@@ -14,10 +14,12 @@ router.use(async (ctx, next) => {
     data = {
         universitiesPath: ctx.router.url('universities.list'),
         careersPath: ctx.router.url('careers.list'),
+        welcomePath: '/',
         createUserPath: ctx.router.url('users.new'),
         newSessionPath: ctx.router.url('session.new'),
         destroySessionPath: ctx.router.url('session.destroy'),
-        currentUser: null
+        currentUser: null,
+
     }
     if (ctx.session.userId) {
         data["currentUser"] = await ctx.orm.user.findById(ctx.session.userId);

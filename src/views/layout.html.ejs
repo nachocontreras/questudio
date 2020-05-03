@@ -8,34 +8,39 @@
       <link rel="stylesheet" href="<%= assetPath('app.css') %>">
     <% } %>
     <link
-    rel="stylesheet"
-    href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
-    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
     <script src="<%= assetPath('app.js') %>"></script>
   </head>
 
   <body>
-    <header>
-      <div class="topnav">
-        <div class="logo-container">
-          <a href="<%- universitiesPath %>" style="padding: 0;">
-            <img height="45px" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
-          </a>
+
+  <nav class="navbar is-white" role="navigation" aria-label="main navigation">
+    <span></span>
+    <div class="navbar-brand">
+      <a class="navbar-item" href="<%- welcomePath %>" style="padding: 0;">
+        <img width="120" height="200" src="<%= assetPath('questudio.jpeg') %>" alt="Logo" />
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="<%- universitiesPath %>">Universidades</a>
+        <a class="navbar-item" href="<%- careersPath %>">Carreras</a>
+
+          <div class="navbar-item field">
+            <p class="control has-icons-right">
+              <input class="input" type="search" placeholder="Search...">
+              <span class="icon is-small is-right">
+                <icon />
+              </span>
+            </p>
+          </div>
         </div>
-        <div class="short-container">
-          <a href="<%- universitiesPath %>">Universidades</a>
-          <a href="<%- careersPath %>">Carreras</a>
-        </div>
-        <div class="search-container">
-          <form id="search-form">
-            <input id="search-box" class="search-box" type="text" placeholder="Buscar.." name="search">
-            <button id="search-button"><i class="fa fa-search"></i></button>
-          </form>
-        </div>
-        <div id="search-results"></div>
-        <% if (currentUser) { %>
-          <div class="session-container">
+      </div>
+
+      <% if (currentUser) { %>
+        <div class="navbar-end">
+          <div class="navbar-item">
             <a href="<%- profilePath %>">Perfil</a>
             <form id="signout-form" action="<%= destroySessionPath %>" method="post">
               <input type="hidden" name="_method" value="delete" />
@@ -44,15 +49,22 @@
               </a>
             </form>
           </div>
-        <% } else { %>
-          <div class="session-container">
-            <a href="<%- newSessionPath %>">Iniciar sesión</a>
-            <a href="<%- createUserPath %>">Registrarse</a>
+
+      <% } else { %>
+         <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary" href="<%- newSessionPath %>"><strong>Iniciar Sesión</strong></a>
+            <a class="button is-light" href="<%- createUserPath %>">Registrarse</a>
           </div>
-        <% } %>
+        </div>
+      <% } %>
+
+      <div class="navbar-end">
       </div>
-    </header>
-    <%- body %>
+    </div>
+  </nav>
+  <%- body %>
   </body>
 
 </html>
+

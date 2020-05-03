@@ -1,56 +1,111 @@
-<div>
-    <% if (locals.notice) { %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+
+<body>
+
+  <% if (locals.notice) { %>
       <div className="notice"><%= notice %></div>
     <% } %>
-    <h3>Registrarse</h3>
-    <% if (locals.error) { %>
-      <div class="error">
-        <%= error %>
+
+  <head>
+    <div class="container">
+      <br>
+      <br>
+      <h3 class="title is-1" align="center">Regístrate en questudio</h3>
+    </div>
+  </head></br>
+
+  <% if (locals.error) { %>
+    <div class="error">
+      <%= error %>
+    </div>
+  <% } %>
+
+  
+  <div class="container">
+  <form action="<%= createUserPath %>" method="post">
+
+    <div class="field">
+      <label for="name" class="label">Nombre</label>
+      <div class="control">
+        <input class="input" type="text" name="name" value="<%= locals.name %>" required/>
       </div>
-    <% } %>
-    <form action="<%= createUserPath %>" method="post">
-      <div class="field">
-        <label for="name">Nombre</label>
-        <input type="text" name="name" value="<%= locals.name %>" required/>
+    </div>
+
+    <div class="field">
+      <label for="lastname" class="label">Apellidos</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-success" type="text" name="lastname" value="<%= locals.lastname %>" required/>
+        <span class="icon is-small is-left">
+          <i class="fas fa-user"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-check"></i>
+        </span>
       </div>
-      <div class="field">
-        <label for="name">Apellidos</label>
-        <input type="text" name="lastname" value="<%= locals.lastname %>" required/>
+      <!-- <p class="help is-success">This username is available</p> -->
+    </div>
+
+    <div class="field">
+      <label for="email" class="label">Email</label>
+      <div class="control has-icons-left has-icons-right">
+        <input class="input is-danger" type="email" name="email" value="<%= locals.email %>" required />
+        <span class="icon is-small is-left">
+          <i class="fas fa-envelope"></i>
+        </span>
+        <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
       </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input type="email" name="email" value="<%= locals.email %>" required />
+      <!-- <p class="help is-danger">This email is invalid</p> -->
+    </div>
+
+    <div class="field">
+      <label for="password" class="label">Contraseña</label>
+      <div class="control">
+        <input class="input" type="password" name="password" id="password" value="<%= locals.password %>" required/>
       </div>
-      <div class="field">
-        <label for="password">Contraseña</label>
-        <input type="password" name="password" id="password" value="<%= locals.password %>" required/>
+    </div>
+
+    <div class="field">
+      <label for="confirm_password" class="label">Repetir Contraseña</label>
+      <div class="control">
+        <input class="input" type="password" name="confirm_password" id="confirm_password" required/>
+    </div>
+    <br>
+
+    <div class="field">
+      <label class="label">¿Quién soy?</label>
+      <div class="control">
+        <div class="select">
+          <select id="select-user" name="userType">
+            <option value="0">Estudiante enseñanza media</option>
+            <option value="1">Estudiante universitario</option>
+          </select>
+        </div>
       </div>
-      <div class="field">
-        <label for="confirm_password">Repetir contraseña</label>
-        <input type="password" name="confirm_password" id="confirm_password" required/>
+    </div>
+
+    <div id="field-university" class="field" style="display: none;">
+      <label class="label">Pertenezco a:</label>
+      <select id="select-universiy" name="universityId">
+        <option value="empty"></option>
+        <% universitiesList.forEach((university) => { %>
+          <option value="<%- university.id %>"><%- university.name %></option>
+        <% }) %>
+      </select>
+    </div>
+    <br>
+    <div class="container" align="center">
+
+      <div class="control">
+        <input class="button is-link"  type="submit" id="register" name="sign-up" value="Registrarse" disabled />
       </div>
-      <div class="field">
-        <label>¿Quién soy?</label>
-        <select id="select-user" name="userType">
-          <option value="0">Estudiante enseñanza media</option>
-          <option value="1">Estudiante universitario</option>
-          <!-- <option value="2">Staff universidad</option> -->
-        </select>
-      </div>
-      <div id="field-university" class="field" style="display: none;">
-        <label>Pertenezco a:</label>
-        <select id="select-universiy" name="universityId">
-          <option value="empty"></option>
-          <% universitiesList.forEach((university) => { %>
-            <option value="<%- university.id %>"><%- university.name %></option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="field">
-        <input type="submit" id="register" name="sign-up" value="Registrarse" disabled />
-      </div>
-    </form>
-</div>
+      </br>
+    </div>
+
+  </form>
+  </div>
+</body>
 
 <script>
     var password = document.getElementById("password")
