@@ -87,12 +87,16 @@
 
     <div id="field-university" class="field" style="display: none;">
       <label class="label">Pertenezco a:</label>
-      <select id="select-universiy" name="universityId">
-        <option value="empty"></option>
-        <% universitiesList.forEach((university) => { %>
-          <option value="<%- university.id %>"><%- university.name %></option>
-        <% }) %>
-      </select>
+      <div class="control">
+        <div class="select">
+        <select id="select-universiy" name="universityId">
+          <option value="empty"></option>
+          <% universitiesList.forEach((university) => { %>
+            <option value="<%- university.id %>"><%- university.name %></option>
+          <% }) %>
+        </select>
+      </div>
+    </div>  
     </div>
     <br>
     <div class="container" align="center">
