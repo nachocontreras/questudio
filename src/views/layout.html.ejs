@@ -9,6 +9,7 @@
     <% } %>
     <link
     rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
     <script src="<%= assetPath('app.js') %>"></script>
   </head>
 
@@ -41,7 +42,7 @@
       <% if (currentUser) { %>
         <div class="navbar-end">
           <div class="navbar-item">
-            <a href="<%- profilePath %>">Perfil</a>
+            <a href="<%- profilePath %>">Perfil&nbsp;&nbsp;</a>
             <form id="signout-form" action="<%= destroySessionPath %>" method="post">
               <input type="hidden" name="_method" value="delete" />
               <a onclick="document.getElementById('signout-form').submit()">
