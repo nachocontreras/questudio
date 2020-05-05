@@ -25,6 +25,7 @@ before_script:
 script:
 - yarn test
 
+# Configuracion para heroku
 deploy:
   provider: heroku
   app: questudio
