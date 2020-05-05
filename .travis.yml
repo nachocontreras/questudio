@@ -1,0 +1,32 @@
+language: node_js
+
+node_js:
+  - "10"
+
+branches:
+  - master
+  - development
+  - travis
+
+cache: yarn
+
+directories:
+  - node_modules
+
+services:
+  - postgresql
+
+before_script:
+  - yarn --frozen-lockfile
+  - psql -c 'create database questudio_test;' -U postgres
+
+script:
+- yarn test
+
+deploy:
+  provider: heroku
+  api_key: sm
+  on: master
+  run: 
+    - "sequelize db:migrate"
+    - "sequelize db:seed:all"

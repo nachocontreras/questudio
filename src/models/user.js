@@ -1,7 +1,7 @@
 'use strict';
 const universityModel = require('../models/university'); 
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const PASSWORD_SALT = 10;
 
