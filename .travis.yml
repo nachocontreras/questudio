@@ -3,10 +3,11 @@ language: node_js
 node_js:
   - "10"
 
+# Se consideran todas las ramas
 branches:
-  - master
-  - development
-  - travis
+  only:
+  - gh-pages
+  - /.*/
 
 cache: yarn
 
@@ -20,12 +21,13 @@ before_script:
   - yarn --frozen-lockfile
   - psql -c 'create database questudio;' -U postgres
 
+# Aca se debe configurar el comando pa testing
 script:
-- yarn start
+- yarn test
 
 deploy:
   provider: heroku
-  api_key: f2386d6d-3350-460a-ac27-25b5421ba7f2
+  app: questudio
   on: master
   run: 
     - "sequelize db:migrate"
