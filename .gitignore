@@ -63,5 +63,8 @@ typings/
 # dotenv environment variables file
 .env
 
+
 .idea
 .envrc
+
+package-lock.json
