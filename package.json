@@ -5,7 +5,7 @@
   "repository": "https://github.com/IIC2513-2019-1/template.git",
   "license": "MIT",
   "scripts": {
-      "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
+    "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
     "test": "node ./node_modules/jasmine/bin/jasmine.js",
     "start": "node index.js",
     "dev": "nodemon index.js",

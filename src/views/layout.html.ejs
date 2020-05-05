@@ -15,8 +15,8 @@
   </head>
 
   <body>
-
-  <nav class="navbar is-white" role="navigation" aria-label="main navigation">
+  
+  <nav class="navbar has-background-grey-lighter" role="navigation" aria-label="main navigation" style="height: 0px;">
     <span></span>
     <div class="navbar-brand">
       <a class="navbar-item" href="<%- welcomePath %>" style="padding: 0;">
@@ -31,10 +31,12 @@
 
           <div class="navbar-item field">
             <p class="control has-icons-right">
-              <input class="input" type="search" placeholder="Search...">
+              <form id="search-form" style="margin-top: 20px;">
+              <input id="search-box" class="input" type="search" placeholder="Search...">
               <span class="icon is-small is-right">
                 <icon />
               </span>
+              </form>
             </p>
           </div>
         </div>
@@ -65,6 +67,7 @@
       </div>
     </div>
   </nav>
+  <div id="search-results"></div>
   <%- body %>
   </body>
 
