@@ -21,6 +21,9 @@ before_script:
   - yarn --frozen-lockfile
   - psql -c 'create database questudio;' -U postgres
 
+install:
+  - yarn install
+
 # Aca se debe configurar el comando pa testing
 script:
 - yarn test
@@ -28,6 +31,7 @@ script:
 # Configuracion para heroku
 deploy:
   provider: heroku
+  api_key: $HEROKU_API_KEY
   app: questudio
   on: master
   run: 
