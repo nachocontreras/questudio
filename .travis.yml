@@ -3,7 +3,7 @@ language: node_js
 node_js:
   - "10"
 
-# Se consideran todas las ramas
+# Se consideran todas las ramas 
 branches:
   only:
   - gh-pages
@@ -21,12 +21,17 @@ before_script:
   - yarn --frozen-lockfile
   - psql -c 'create database questudio;' -U postgres
 
+install:
+  - yarn install
+
 # Aca se debe configurar el comando pa testing
 script:
 - yarn test
 
+# Configuracion para heroku
 deploy:
   provider: heroku
+  api_key: $HEROKU_API_KEY
   app: questudio
   on: master
   run: 
