@@ -24,15 +24,14 @@ before_script:
 install:
   - yarn install
 
-# Aca se debe configurar el comando pa testing
 script:
-- yarn test
+  - yarn test
 
 # Configuracion para heroku
 deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
-  app: questudio
+  app: questudio-cl
   on: master
   run: 
     - "sequelize db:migrate"
