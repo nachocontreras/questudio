@@ -65,3 +65,5 @@ typings/
 
 .idea
 .envrc
+
+package-lock.json
