@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - "10"
+  - "stable"
 
 branches:
   - master
@@ -18,7 +18,7 @@ services:
 
 before_script:
   - yarn --frozen-lockfile
-  - psql -c 'create database questudio_test;' -U postgres
+  - psql -c 'create database questudio;' -U postgres
 
 script:
 - yarn start
