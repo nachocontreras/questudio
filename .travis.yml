@@ -21,11 +21,11 @@ before_script:
   - psql -c 'create database questudio_test;' -U postgres
 
 script:
-- yarn test
+- yarn start
 
 deploy:
   provider: heroku
-  api_key: sm
+  api_key: f2386d6d-3350-460a-ac27-25b5421ba7f2
   on: master
   run: 
     - "sequelize db:migrate"
