@@ -1,10 +1,12 @@
 {
   "name": "template",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "index.js",
   "repository": "https://github.com/IIC2513-2019-1/template.git",
   "license": "MIT",
   "scripts": {
+      "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
+    "test": "node ./node_modules/jasmine/bin/jasmine.js",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint ./src index.js",
@@ -40,7 +42,9 @@
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
+    "jasmine": "^3.5.0",
     "koa": "^2.3.0",
     "koa-body": "^4.0.4",
     "koa-ejs": "^4.1.0",
