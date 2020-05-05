@@ -3,14 +3,10 @@ $( document ).ready(function() {
     $("#search-form").submit(function(e) {
         e.preventDefault();
         let text = $('#search-box').val();
-        console.log(text);
         $("#search-results").empty();   
         var x = $("#search-form").offset();
-        console.log("caja", x);
         var z = $("#search-box").width();
-        console.log("Ancho", z);
         var y = $(".navbar").height();
-        console.log("Alto", y);
         $("#search-results").css({top: x.top + y, left: x.left, width: Math.min(2 * z, window.innerWidth), display: 'block'});
         searchFunction(text);
     });
