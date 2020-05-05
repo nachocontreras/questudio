@@ -24,7 +24,6 @@ before_script:
 install:
   - yarn install
 
-# Aca se debe configurar el comando pa testing
 script:
   - yarn test
 
