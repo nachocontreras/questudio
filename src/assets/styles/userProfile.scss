@@ -1,0 +1,11 @@
+.profile-image-div {
+  width: 200px;
+}
+.profile-image-div:hover img {
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.profile-image>input {
+  display: none;
+}

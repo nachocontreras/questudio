@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+
+<body>
+	<div class="container">
+		<h3>Información del perfil</h3>
+		<form action="<%= submitEditUserPath %>" method="POST">
+			<input type="hidden" name="_method" value="post" />
+			<div>
+				<div class="field">
+					<label for="username">Email</label>
+					<input type="text" name="email" value="<%= user.email %>" />
+				</div>
+				<div class="field">
+					<label for="name">Nombre</label>
+					<input type="text" name="name" value="<%= user.name %>" />
+				</div>
+				<div class="field">
+					<label for="lastname">Apellido</label>
+					<input type="text" name="lastname" value="<%= user.lastname %>" />
+				</div>
+				<div class="submit">
+					<input type="submit" value="Actualizar" />
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
