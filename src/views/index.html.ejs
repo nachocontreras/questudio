@@ -1,9 +1,12 @@
 <h1>LANDING PAGE</h1>
 
 <div id="test-container" 
-    data-poll-id="1"
-    data-poll-name="Test vocacional"
-    data-poll-description="Este es un test"
+    data-poll-id="<%- poll.id %>"
+    data-poll-name="<%- poll.name %>"
+    data-poll-description="<%- poll.description %>"
+    data-send-url="<%- pollUrl %>"
+    data-questions-url="<%- questionsUrl %>"
+    data-current-user="<%= JSON.stringify(currentUser) %>"
 >
 Cargando encuesta
 </div>

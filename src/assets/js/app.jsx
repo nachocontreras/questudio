@@ -14,5 +14,8 @@ if (testContainer) {
     pollName: testContainer.dataset.pollName,
     pollId: testContainer.dataset.pollId,
     pollDescription: testContainer.dataset.pollDescription,
+    sendUrl: testContainer.dataset.sendUrl,
+    questionsUrl: testContainer.dataset.questionsUrl,
+    currentUser: testContainer.dataset.currentUser
   }}/>, testContainer);
 }

@@ -7,14 +7,35 @@ export default class Poll extends Component {
       this.state = {
         pollAnswers: {},
         questionsList: [],
+        sendUrl: this.props.sendUrl,
+        questionsUrl: this.props.questionsUrl,
+        currentUser: JSON.parse(this.props.currentUser),
+        results: null
       }
 
       this.handleVote = this.handleVote.bind(this);
       this.loadQuestions = this.loadQuestions.bind(this);
+      this.send = this.send.bind(this);
+      this.saveButton = this.saveButton.bind(this);
+      this.processResults = this.processResults.bind(this);
+      this.reloadPoll = this.reloadPoll.bind(this);
 
     }
 
     loadQuestions() {
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      };
+      fetch(this.props.questionsUrl, requestOptions)
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({
+          questionsList: data.questionsList
+        });
+      })
+      .catch(error => console.log(error));
+      return;
       this.setState({
         questionsList: [
           {
@@ -66,11 +87,12 @@ export default class Poll extends Component {
       });
     }
   
-    handleVote(voteAnswer, pollAnswers, pollNumber) {
-      let newPollAnswers = pollAnswers;
+    handleVote(voteAnswer, pollNumber) {
+      let newPollAnswers = this.state.pollAnswers;
       newPollAnswers[pollNumber] = voteAnswer;
       this.setState({
-        pollAnswers: newPollAnswers,
+      // this.state.pollAnswers = newPollAnswers;
+      pollAnswers: newPollAnswers,
       });
     }
   
@@ -78,12 +100,71 @@ export default class Poll extends Component {
       this.loadQuestions();
     }
 
+    send() {
+      if (!this.state.currentUser) {
+        console.log("Inicia sesion");
+        return;
+      }
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          pollId: this.state.pollId,
+          answers: this.state.pollAnswers,
+          user: this.state.currentUser
+        })
+      };
+      fetch(this.props.sendUrl, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          results: data.results
+        })        
+      })
+      .catch(error => console.log(error));
+    }
+
+    processResults() {
+      if (this.state.results != null) {
+        return (
+          <div>
+            <p>Se han obtenido los siguientes resultados:</p>
+            {this.state.results.map(result => {
+              return <p key={Math.floor(Math.random() * 10)}>{result}</p>
+            })}
+          </div>
+        )
+      }
+    }
+
+    reloadPoll() {
+      this.setState({
+        pollAnswers: {},
+        results: null,
+      })
+    }
+
+    saveButton() {
+      return (
+        <button onClick={() => this.send()}>Enviar</button>
+      )
+    }
+
     render () {
-      const { pollAnswers, questionsList } = this.state
+      const { pollAnswers, questionsList, results } = this.state;
+
+      if (results) {
+        return (
+          <div>
+            {this.processResults()}
+            <button onClick={this.reloadPoll}>Hacer de nuevo</button>
+          </div>
+        )
+      }
 
       let questionsDiv = <div>
       {questionsList.map(question => {
-        return <Question key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, pollAnswers, question.id)} />
+        return <Question key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, question.id)} />
       })}
       </div>;
   
@@ -95,6 +176,7 @@ export default class Poll extends Component {
           <main className='main'>
             <div>{questionsDiv}</div>
           </main>
+          {this.saveButton()}
         </div>
       )
     }

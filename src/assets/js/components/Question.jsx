@@ -14,8 +14,8 @@ export default class Question extends Component {
         this.vote = this.vote.bind(this);
     }
 
+
     vote(event) {
-        event.preventDefault();
         let nValue = event.target.value;
         if (nValue == 'true') {
             nValue = true;
@@ -26,16 +26,20 @@ export default class Question extends Component {
         this.setState({
             selected: nValue
         });
+
+    }
+    
+    componentDidUpdate() {
+        // console.log("Si");
     }
 
     render () {
         const { id, description, questionType, selected} = this.state
         let selectDiv = '';
-        console.log(id, selected==true, selected==false);
         if (questionType == 'true-false') {
             selectDiv = <p>
-                <label><input id={"option-1-" + id} onClick={this.vote} type="checkbox" value={true} checked={selected == true}/><span>Sí</span></label>
-                <label><input id={"option-2-" + id} onClick={this.vote} type="checkbox" value={false} checked={selected == false} /><span>No</span></label>
+                <label><input id={"option-1-" + id + "-" + selected} onClick={this.vote} type="checkbox" value={true} checked={selected == true}/><span>Sí</span></label>
+                <label><input id={"option-2-" + id + "-" + selected} onClick={this.vote} type="checkbox" value={false} checked={selected == false} /><span>No</span></label>
             </p>
         }
         return (
