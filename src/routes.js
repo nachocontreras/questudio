@@ -7,6 +7,7 @@ const career = require('./routes/career');
 const search = require('./routes/search');
 const user = require('./routes/user');
 const session = require('./routes/session');
+const experience = require('./routes/experience');
 
 const router = new KoaRouter();
 
@@ -35,5 +36,6 @@ router.use('/careers', career.routes());
 router.use('/search', search.routes());
 router.use('/account', session.routes());
 router.use('/users', user.routes());
+router.use('/experiences', experience.routes());
 
 module.exports = router;
