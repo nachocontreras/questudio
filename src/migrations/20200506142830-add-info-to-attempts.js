@@ -4,20 +4,15 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.addColumn(
-        'questions',
-        'allowMultiple',
-        Sequelize.BOOLEAN
+        'vocationalTestResults',
+        'additionalInfo',
+        Sequelize.TEXT
       ),
       queryInterface.addColumn(
-        'questions',
-        'questionType',
-        Sequelize.STRING
-      ),
-      queryInterface.addColumn(
-        'questions',
-        'position',
+        'vocationalTestResults',
+        'vocationalTestId',
         Sequelize.INTEGER
-      )
+      ),
     ]);
   },
 

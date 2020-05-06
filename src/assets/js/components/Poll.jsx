@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Question from '../components/Question'
+import { Redirect } from 'react-router-dom'
 
 export default class Poll extends Component {
     constructor(props) {
@@ -10,15 +11,19 @@ export default class Poll extends Component {
         sendUrl: this.props.sendUrl,
         questionsUrl: this.props.questionsUrl,
         currentUser: JSON.parse(this.props.currentUser),
-        results: null
+        results: null,
+        myResultsUrl: this.props.myResultsUrl,
+        redirect: false
       }
 
       this.handleVote = this.handleVote.bind(this);
       this.loadQuestions = this.loadQuestions.bind(this);
       this.send = this.send.bind(this);
       this.saveButton = this.saveButton.bind(this);
+      this.myResultsButton = this.myResultsButton.bind(this);
       this.processResults = this.processResults.bind(this);
       this.reloadPoll = this.reloadPoll.bind(this);
+      this.redirectTo = this.redirectTo.bind(this);
 
     }
 
@@ -45,7 +50,8 @@ export default class Poll extends Component {
             description: "¿Aceptarías trabajar escribiendo artículos en la sección económica de un diario?",
             vocationalTestId: 1,
             allowMultiple: false,
-            questionType: "true-false"
+            questionType: "true-false",
+            position: 1
           },
           {
             id: 2,
@@ -54,7 +60,8 @@ export default class Poll extends Component {
             description: "¿Te ofrecerías para organizar la despedida de soltero de uno de tus amigos?",
             vocationalTestId: 1,
             allowMultiple: false,
-            questionType: "true-false"
+            questionType: "true-false",
+            position: 2
           },
           {
             id: 3,
@@ -63,7 +70,8 @@ export default class Poll extends Component {
             description: "¿Te gustaría dirigir un proyecto de urbanización en tu provincia?",
             vocationalTestId: 1,
             allowMultiple: false,
-            questionType: "true-false"
+            questionType: "true-false",
+            position: 3
           },
           {
             id: 4,
@@ -72,7 +80,8 @@ export default class Poll extends Component {
             description: "¿A una frustración siempre opones un pensamiento positivo?",
             vocationalTestId: 1,
             allowMultiple: false,
-            questionType: "true-false"
+            questionType: "true-false",
+            position: 4
           },
           {
             id: 5,
@@ -81,7 +90,8 @@ export default class Poll extends Component {
             description: "¿Te dedicarías a socorrer a personas accidentadas o atacadas por asaltantes?",
             vocationalTestId: 1,
             allowMultiple: false,
-            questionType: "true-false"
+            questionType: "true-false",
+            position: 5
           }
         ]
       });
@@ -109,7 +119,7 @@ export default class Poll extends Component {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          pollId: this.state.pollId,
+          pollId: this.props.pollId,
           answers: this.state.pollAnswers,
           user: this.state.currentUser
         })
@@ -145,8 +155,24 @@ export default class Poll extends Component {
     }
 
     saveButton() {
+      if (Object.keys(this.state.pollAnswers).length != this.state.questionsList.length) {
+        return;
+      }
       return (
         <button onClick={() => this.send()}>Enviar</button>
+      )
+    }
+
+    redirectTo(url) {
+      this.setState({
+        redirect: true
+      })
+      window.location.href = url;
+    }
+
+    myResultsButton() {
+      return (
+        <button onClick={() => this.redirectTo(this.state.myResultsUrl)}>Mis resultados anteriores</button>
       )
     }
 
@@ -164,7 +190,7 @@ export default class Poll extends Component {
 
       let questionsDiv = <div>
       {questionsList.map(question => {
-        return <Question key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, question.id)} />
+        return <Question key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, question.position)} />
       })}
       </div>;
   
@@ -177,6 +203,7 @@ export default class Poll extends Component {
             <div>{questionsDiv}</div>
           </main>
           {this.saveButton()}
+          {this.myResultsButton()}
         </div>
       )
     }

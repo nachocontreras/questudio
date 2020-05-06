@@ -1,0 +1,9 @@
+<h1>Resultados</h1>
+
+<% if (myResults.length != 0) { %>
+    <% myResults.forEach(data => { %>
+        <p><%- data.additionalInfo %></p>
+    <% }) %>
+<% } else { %>
+    <p>No has realizado esta encuesta</p>
+<% } %>

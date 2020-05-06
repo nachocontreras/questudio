@@ -9,7 +9,8 @@ module.exports = {
         description: "¿Aceptarías trabajar escribiendo artículos en la sección económica de un diario?",
         vocationalTestId: 1,
         allowMultiple: false,
-        questionType: "true-false"
+        questionType: "true-false",
+        position: 1
       },
       {
         createdAt: new Date(),
@@ -17,7 +18,8 @@ module.exports = {
         description: "¿Te ofrecerías para organizar la despedida de soltero de uno de tus amigos?",
         vocationalTestId: 1,
         allowMultiple: false,
-        questionType: "true-false"
+        questionType: "true-false",
+        position: 2
       },
       {
         createdAt: new Date(),
@@ -25,7 +27,8 @@ module.exports = {
         description: "¿Te gustaría dirigir un proyecto de urbanización en tu provincia?",
         vocationalTestId: 1,
         allowMultiple: false,
-        questionType: "true-false"
+        questionType: "true-false",
+        position: 3
       },
       {
         createdAt: new Date(),
@@ -33,7 +36,8 @@ module.exports = {
         description: "¿A una frustración siempre opones un pensamiento positivo?",
         vocationalTestId: 1,
         allowMultiple: false,
-        questionType: "true-false"
+        questionType: "true-false",
+        position: 4
       },
       {
         createdAt: new Date(),
@@ -41,7 +45,8 @@ module.exports = {
         description: "¿Te dedicarías a socorrer a personas accidentadas o atacadas por asaltantes?",
         vocationalTestId: 1,
         allowMultiple: false,
-        questionType: "true-false"
+        questionType: "true-false",
+        position: 5
       }
     ]
     return queryInterface.bulkInsert('questions', vocationalTests);

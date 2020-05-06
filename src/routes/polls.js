@@ -23,8 +23,41 @@ router.get('polls.questions', "/:id/questions", async (ctx) => {
   }
 });
 
+router.get('polls.results', "/:id/results", async (ctx) => {
+  if (!ctx.state.currentUser) {
+    ctx.redirect(ctx.router.url('index'));
+    return;
+  }
+  const myResults = await ctx.orm.vocationalTestResult.findAll( {
+    where: {
+      userId: ctx.state.currentUser.id,
+      vocationalTestId: ctx.params.id
+    }
+  })
+  switch (ctx.accepts(['json', 'html'])) {
+    case 'json':
+      ctx.body = {
+        myResults: myResults,
+      };
+      break;
+    case 'html':
+      await ctx.render('polls/results', {
+        myResults,
+      });
+      break;
+    default:
+      break;
+  }
+});
+
 router.post('polls.save', "/id", async (ctx) => {
-  console.log(ctx.request.body);
+  const attempt = ctx.orm.vocationalTestResult.build();
+  attempt.userId = ctx.request.body.user.id;
+  attempt.vocationalTestId = ctx.request.body.pollId;
+  attempt.additionalInfo = JSON.stringify({
+    results: ["Hola", "Chao"]
+  });
+  await attempt.save({ fields: ['vocationalTestId', 'userId', 'attempt', 'additionalInfo']});;
   ctx.body = {
     results: ["Hola", "Chao"]
   }

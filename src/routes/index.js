@@ -7,6 +7,7 @@ router.get('landing', '/', async (ctx) => {
     poll,
     pollUrl: ctx.router.url('polls.save', { id: poll.id }),
     questionsUrl: ctx.router.url('polls.questions', { id: poll.id }),
+    myResults: ctx.router.url('polls.results', { id: poll.id }),
   });
 });
 
