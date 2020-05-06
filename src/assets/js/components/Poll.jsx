@@ -5,9 +5,13 @@ export default class Poll extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        pollAnswers: [],
-        questionsList: []
+        pollAnswers: {},
+        questionsList: [],
       }
+
+      this.handleVote = this.handleVote.bind(this);
+      this.loadQuestions = this.loadQuestions.bind(this);
+
     }
 
     loadQuestions() {
@@ -62,14 +66,12 @@ export default class Poll extends Component {
       });
     }
   
-    handleVote (voteAnswer, pollAnswers, pollNumber) {
-
+    handleVote(voteAnswer, pollAnswers, pollNumber) {
       let newPollAnswers = pollAnswers;
       newPollAnswers[pollNumber] = voteAnswer;
-  
       this.setState({
-        pollAnswers: newPollAnswers
-      })
+        pollAnswers: newPollAnswers,
+      });
     }
   
     componentDidMount() {
@@ -80,19 +82,18 @@ export default class Poll extends Component {
       const { pollAnswers, questionsList } = this.state
 
       let questionsDiv = <div>
-      {questionsList.forEach(question => {
-        <Question question={question} onVote={voteAnswer => this.handleVote(voteAnswer, pollAnswers, question.id)} />
+      {questionsList.map(question => {
+        return <Question key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, pollAnswers, question.id)} />
       })}
       </div>;
   
-      console.log(questionsDiv);
       return (
         <div className='app'>
           <header className='header'>
             <h1 className='name'>{this.props.pollName}</h1>
           </header>
           <main className='main'>
-            {questionsDiv}
+            <div>{questionsDiv}</div>
           </main>
         </div>
       )

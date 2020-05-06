@@ -10,7 +10,6 @@ if (reactAppContainer) {
 
 const testContainer = document.getElementById('test-container');
 if (testContainer) {
-  console.log(testContainer);
   ReactDOM.render(<Poll {...{
     pollName: testContainer.dataset.pollName,
     pollId: testContainer.dataset.pollId,
