@@ -7,7 +7,7 @@ const career = require('./routes/career');
 const search = require('./routes/search');
 const user = require('./routes/user');
 const session = require('./routes/session');
-const polls = require('./routes/polls');
+const vocacionales = require('./routes/vocacional');
 
 const router = new KoaRouter();
 
@@ -36,6 +36,6 @@ router.use('/careers', career.routes());
 router.use('/search', search.routes());
 router.use('/account', session.routes());
 router.use('/users', user.routes());
-router.use('/vocacionales', polls.routes());
+router.use('/vocacionales', vocacionales.routes());
 
 module.exports = router;

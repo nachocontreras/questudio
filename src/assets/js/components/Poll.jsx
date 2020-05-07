@@ -24,6 +24,7 @@ export default class Poll extends Component {
       this.processResults = this.processResults.bind(this);
       this.reloadPoll = this.reloadPoll.bind(this);
       this.redirectTo = this.redirectTo.bind(this);
+      this.completeTest = this.completeTest.bind(this);
 
     }
 
@@ -41,60 +42,6 @@ export default class Poll extends Component {
       })
       .catch(error => console.log(error));
       return;
-      this.setState({
-        questionsList: [
-          {
-            id: 1,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            description: "¿Aceptarías trabajar escribiendo artículos en la sección económica de un diario?",
-            vocationalTestId: 1,
-            allowMultiple: false,
-            questionType: "true-false",
-            position: 1
-          },
-          {
-            id: 2,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            description: "¿Te ofrecerías para organizar la despedida de soltero de uno de tus amigos?",
-            vocationalTestId: 1,
-            allowMultiple: false,
-            questionType: "true-false",
-            position: 2
-          },
-          {
-            id: 3,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            description: "¿Te gustaría dirigir un proyecto de urbanización en tu provincia?",
-            vocationalTestId: 1,
-            allowMultiple: false,
-            questionType: "true-false",
-            position: 3
-          },
-          {
-            id: 4,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            description: "¿A una frustración siempre opones un pensamiento positivo?",
-            vocationalTestId: 1,
-            allowMultiple: false,
-            questionType: "true-false",
-            position: 4
-          },
-          {
-            id: 5,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            description: "¿Te dedicarías a socorrer a personas accidentadas o atacadas por asaltantes?",
-            vocationalTestId: 1,
-            allowMultiple: false,
-            questionType: "true-false",
-            position: 5
-          }
-        ]
-      });
     }
   
     handleVote(voteAnswer, pollNumber) {
@@ -156,10 +103,12 @@ export default class Poll extends Component {
 
     saveButton() {
       if (Object.keys(this.state.pollAnswers).length != this.state.questionsList.length) {
-        return;
+        return (
+          <button disabled>Enviar test</button>
+        )
       }
       return (
-        <button onClick={() => this.send()}>Enviar</button>
+        <button onClick={() => this.send()}>Enviar test</button>
       )
     }
 
@@ -173,6 +122,27 @@ export default class Poll extends Component {
     myResultsButton() {
       return (
         <button onClick={() => this.redirectTo(this.state.myResultsUrl)}>Mis resultados anteriores</button>
+      )
+    }
+
+    completeTest() {
+      let newPollAnswers = {};
+      this.state.questionsList.forEach(question => {
+        let i = Math.random();
+        if (i < 0.5) {
+          newPollAnswers[question.position] = false;
+        } else {
+          newPollAnswers[question.position] = true;
+        }
+      });
+      this.setState({
+        pollAnswers: newPollAnswers,
+      });
+    }
+
+    completeTestButton() {
+      return (
+        <button onClick={() => this.completeTest()}>Completar test aleatorio</button>
       )
     }
 
@@ -190,7 +160,7 @@ export default class Poll extends Component {
 
       let questionsDiv = <div>
       {questionsList.map(question => {
-        return <Question key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, question.position)} />
+        return <Question defaultValue={pollAnswers[question.position]} key={question.id} question={{...question}} onVote={voteAnswer => this.handleVote(voteAnswer, question.position)} />
       })}
       </div>;
   
@@ -204,6 +174,7 @@ export default class Poll extends Component {
           </main>
           {this.saveButton()}
           {this.myResultsButton()}
+          {this.completeTestButton()}
         </div>
       )
     }
