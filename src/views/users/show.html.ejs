@@ -1,38 +1,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
 
 <body>
-	<div class="container">
-		<div class="card">
-		  <div class="card-content">
-		    <div class="media">
-		      <div class="media-left">
-		        <figure class="profile-image-div">
-
-							<form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
-									<div class="profile-image">
-										<label for="userImage">
-											<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
-										</label>
-										<input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
-									</div>
-							</form>
-		        </figure>
-		      </div>
-		      <div class="media-content">
-		        <p class="title is-4"><%- user.name %> <%- user.lastname %></p>
-		        <p class="subtitle is-6"><%- user.getType() %></p>
-		        <% if (user.userType == '1') { %>
-				    <p class="subtitle is-6"></p><%- user.university.name %></p>
-				<% } %>
+	<div class="profile-card">
+		<figure class="profile-image-div">
+			<form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
+					<div class="profile-image">
+						<label for="userImage">
+							<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+						</label>
+						<input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
 					</div>
-					<div>
-						<form action="<%- editUserPath %>">
-							<input type="submit" value="Editar"/>
-						</form>
-					</div>
-		    </div>
-		  </div>
-		</div>
+			</form>
+		</figure>
+				
+		<h1><%- user.name %> <%- user.lastname %></h1>
+		<p class="title"><%- user.getType() %></p>
+		<% if (user.userType == '1') { %>
+		<p class="university"><%- user.university.name %></p>
+		<% } %>
 	</div>
 </body>
 

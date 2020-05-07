@@ -73,7 +73,11 @@ router.post('users.edit', '/:id/profile/edit', async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   const { name, email, password, lastname } = ctx.request.body;
   try {
-    await user.update({ name, email, lastname });
+    if (password) {
+      await user.update({ name, email, lastname, password });
+    } else {
+      await user.update({ name, email, lastname });
+    }
     await ctx.redirect(ctx.router.url('users.profile', {
       id: user.id,
     }));

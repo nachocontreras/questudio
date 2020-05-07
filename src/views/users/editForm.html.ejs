@@ -1,25 +1,43 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
 
+<script>
+function Validate() {
+    var password = document.getElementById("1stPassword").value;
+    var confirmPassword = document.getElementById("ConfirmPassword").value;
+    if (password != confirmPassword) {
+        precent
+        return false;
+    }
+    return true;
+};
+</script>
 <body>
-	<div class="container">
-		<h3>Información del perfil</h3>
-		<form action="<%= submitEditUserPath %>" method="POST">
+	<div class="profile-card">
+		<div>
+			<p class="profile-edit-title" >Información del perfil</p>
+		</div>
+		
+		<form id="edit-user-form" action="<%= submitEditUserPath %>" method="POST">
 			<input type="hidden" name="_method" value="post" />
-			<div>
-				<div class="field">
-					<label for="username">Email</label>
-					<input type="text" name="email" value="<%= user.email %>" />
+			<div class="edit-user-fields">
+				<div class="title">
+					<input type="email" id="editEmail" name="email" value="<%= user.email %>" placeholder="Email" required/>
 				</div>
-				<div class="field">
-					<label for="name">Nombre</label>
-					<input type="text" name="name" value="<%= user.name %>" />
+				<div class="title">
+					<input type="text" id="editName" name="name" value="<%= user.name %>" placeholder="Nombre" required/>
 				</div>
-				<div class="field">
-					<label for="lastname">Apellido</label>
-					<input type="text" name="lastname" value="<%= user.lastname %>" />
+				<div class="title">
+					<input type="text" id="editLastname" name="lastname" value="<%= user.lastname %>" placeholder="Apellido" required/>
 				</div>
-				<div class="submit">
-					<input type="submit" value="Actualizar" />
+				<p id="confirm-pass">Las contraseñas no coinciden</p>
+				<div class="title">
+					<input type="password" id="firstPassword" name="password" value="" placeholder="Nueva Contraseña"/>
+				</div>
+				<div class="title">
+					<input type="password" id="confirmPassword" name="confirm-password" value="" placeholder="Confirmar Contraseña" />
+				</div>
+				<div class="edit-button">
+					<input type="submit" name="submit" value="Actualizar" />
 				</div>
 			</div>
 		</form>
