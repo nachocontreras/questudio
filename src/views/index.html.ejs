@@ -1,3 +1,72 @@
-<h1>LANDING PAGE</h1>
-<a href="<%- universitiesPath %>">Explorar universidades</a>
-<a href="<%- careersPath %>">Explorar carreras</a>
+
+<section class="hero is-medium is-light is-bold">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">
+          ¡Nos preocupamos por ti!
+        <br>
+            Por eso reunimos todas las herramientas que necesitas en un solo lugar
+          </h1>
+        
+        <h2 class="subtitle">
+          Encuentra información sobre distintas carreras y universidades. También podrás leer comentarios de propios alumnos y... si eres 
+          de los indecisos, tenemos tests vocacionales para encontrar tu área afín.
+          </h2>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <div class="tile is-ancestor">
+    <div class="tile is-vertical is-8">
+      <div class="tile">
+        <div class="tile is-parent is-vertical">
+          <article class="tile is-child notification is-primary">
+            <p class="title">Universidades</p>
+            <p class="subtitle">Lee sobre distintas universidades en Santiago y regiones</p>
+            <a href="<%- universitiesPath %>">Explorar aquí</a>
+          </article>
+          <article class="tile is-child notification is-warning">
+            <p class="title">Carreras</p>
+            <p class="subtitle">¿Quieres conocer acerca de alguna carrera en particular?</p>
+            <p class="subtitle">Encuentra aquí la información que deseas.</p>
+            <a href="<%- careersPath %>">Explorar aquí</a>
+          </article>
+        </div>
+        <div class="tile is-parent">
+          <article class="tile is-child notification is-info">
+            <p class="title">Testimonios</p>
+            <p class="subtitle">Si la información de universidades y carreras te parece muy lejana, prueba leyendo 
+                testimonios de distintos alumnos para acercar más la información.
+            </p>
+            
+          </article>
+        </div>
+      </div>
+      
+      <div class="tile is-parent">
+        <article class="tile is-child notification is-danger">
+          <p class="title">Conoce el Equipo Questudiosos </p>
+          <p class="subtitle">¿Quieres saber más de nosotros? Ven aquí a conocernos!</p>
+          <div class="content">
+            <!-- Content -->
+          </div>
+        </article>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification is-success">
+        <div class="content">
+          <p class="title">Test vocacional</p>
+          <p class="subtitle">Si estás un poco perdido o indeciso, te aconsejo entrar al test
+              para chequear qué áreas son afínes a ti.
+          </p>
+          <div class="content">
+            <!-- Content -->
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
