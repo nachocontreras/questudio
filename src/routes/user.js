@@ -28,7 +28,6 @@ router.get('users.new', '/signup', async (ctx) => {
 router.post("users.create", '/signup', async (ctx) => {
     const user = ctx.orm.user.build(ctx.request.body);
     try {
-      console.log(ctx.request.body);
       if (ctx.request.body.hasOwnProperty('universityId') && ctx.request.body['universityId'] != "empty") {
         await user.save({ fields: ['name', 'email', 'password', 'lastname', 'userType', 'universityId'] });
       } else {
@@ -69,6 +68,7 @@ router.get('users.editForm', '/:id/profile/edit', async (ctx) => {
   });
 });
 
+
 router.post('users.edit', '/:id/profile/edit', async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   const { name, email, password, lastname } = ctx.request.body;
@@ -90,11 +90,9 @@ router.post('users.edit', '/:id/profile/edit', async (ctx) => {
 
 router.post('users.addImage', '/:id/add_image', async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
-  console.log('debio llegar1');
   const response = await cloudinary.uploader.upload(ctx.request.files.userImage.path, {
     public_id: `users-images/${user.id}/${user.id}${takeOutExtension(ctx.request.files.userImage.name)}`,
   });
-  console.log('debio llegar');
   await user.update({ imageUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/users-images/${user.id}/${user.id}${takeOutExtension(ctx.request.files.userImage.name)}` });
   await ctx.redirect(ctx.router.url('users.profile', { id: user.id }));
 });
