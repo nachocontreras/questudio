@@ -86,9 +86,18 @@ export default class Poll extends Component {
         return (
           <div>
             <p>Se han obtenido los siguientes resultados:</p>
-            {this.state.results.map(result => {
-              return <p key={Math.floor(Math.random() * 10)}>{result}</p>
+            {Object.keys(this.state.results).map(tipo => {
+              console.log(tipo, this.state.results[tipo]);
+              return <div>
+                <p>{tipo}</p>
+                {this.state.results[tipo].map(result => {
+                  console.log(result);
+                  return <p key={Math.floor(Math.random() * 10)}>{result}</p>
+                })}
+              </div>
             })}
+            <p>Busca en los cuadros las Áreas con los intereses y las aptitudes más representativas de cada una, tomando en cuenta que los intereses los encuentras a la izquierda de cada cuadro y las aptitudes al lado derecho de cada grupo.</p>
+            <p>Recuerda que tus resultados te entregan las dos mejores categorías. Así, por ejemplo, si tienes una S, debes revisar la tabla de 'Medicina y Cs. De la Salud'</p>
           </div>
         )
       }

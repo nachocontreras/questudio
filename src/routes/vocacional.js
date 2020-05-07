@@ -73,6 +73,7 @@ router.post('vocacional.save', "/:id", async (ctx) => {
   attempt.userId = ctx.request.body.user.id;
   attempt.vocationalTestId = ctx.request.body.pollId;
   let data = analizeResultsPoll(ctx.params.id, ctx.request.body.answers);
+  console.log("data", data);
   attempt.additionalInfo = JSON.stringify(data);
   // await attempt.save({ fields: ['vocationalTestId', 'userId', 'attempt', 'additionalInfo']});;
   ctx.body = {
@@ -86,7 +87,7 @@ function analizeResultsPoll(id, data) {
   }
 }
 function analizeResultsPoll_1(data) {
-  console.log(data);
+  // console.log(data);
   let information = {
     "Intereses": {
       "C": [1, 2],
@@ -138,7 +139,7 @@ function analizeResultsPoll_1(data) {
     });
   });
 
-  console.log(answers);  
+  // console.log(answers);  
 
   let finalAnswers = {
     "Intereses": [],
@@ -156,42 +157,41 @@ function analizeResultsPoll_1(data) {
       "amount": 0
     }
   }
-  
-  if (answers[tipo]["C"][0] > answers[tipo]["H"][0]) {
-    finalAnswers[tipo] = ["H", "C"];
-  } else {
-    finalAnswers[tipo] = ["C", "H"];
-  }
+
+  let tipos = ["Intereses", "Aptitudes"];
+  tipos.forEach(function(tipo) {
+    // console.log("partir", answers[tipo]["C"][0], answers[tipo]["H"][0]);
+    if (answers[tipo]["C"][0] > answers[tipo]["H"][0]) {
+      finalAnswers[tipo] = ["H", "C"];
+    } else {
+      finalAnswers[tipo] = ["C", "H"];
+    }
+  });
 
   Object.keys(answers).forEach(tipo => {
     Object.keys(answers[tipo]).forEach(letra => {
+      // console.log(infoAnswers[tipo]["min"], answers[tipo][letra][0], finalAnswers[tipo], letra)
       if (infoAnswers[tipo]["amount"] < 2) {
-        // if (answers[tipo][letra][0] > infoAnswers[tipo]["min"]) {
-        //   finalAnswers[tipo].push(letra);
-        // } else {
-        //   finalAnswers[tipo].unshift(letra);
-        // }
-        // infoAnswers[tipo]["min"] = Math.min(answers[tipo][letra][0], infoAnswers[tipo]["min"]);
         infoAnswers[tipo]["amount"] += 1;
       } else if (infoAnswers[tipo]["min"] < answers[tipo][letra][0]) {
-        console.log(infoAnswers[tipo]["min"], answers[tipo][letra][0], finalAnswers[tipo], letra)
         finalAnswers[tipo].shift();
-        if (finalAnswers[tipo][0] > infoAnswers[tipo]["min"]) {
+        // console.log(finalAnswers[tipo][0], infoAnswers[tipo]["min"]);
+        let valorComparar = answers[tipo][finalAnswers[tipo][0]][0];
+        // console.log(valorComparar, answers[tipo][letra][0]);
+        if (valorComparar > answers[tipo][letra][0]) {
           finalAnswers[tipo].push(letra);
         } else {
           finalAnswers[tipo].unshift(letra);
         }
-        infoAnswers[tipo]["min"] = Math.min(finalAnswers[tipo][0], infoAnswers[tipo]["min"]);
+        infoAnswers[tipo]["min"] = Math.min(valorComparar, answers[tipo][letra][0]);
       }
-      console.log(infoAnswers, finalAnswers);
+      // console.log(infoAnswers, finalAnswers);
     });
   });
 
   console.log(finalAnswers);
 
-  return {
-    results: finalAnswers
-  }
+  return finalAnswers;
 }
 
 module.exports = router;
