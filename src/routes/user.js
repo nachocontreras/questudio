@@ -14,7 +14,6 @@ router.get('users.new', '/signup', async (ctx) => {
 router.post("users.create", '/signup', async (ctx) => {
     const user = ctx.orm.user.build(ctx.request.body);
     try {
-      console.log(ctx.request.body);
       if (ctx.request.body.hasOwnProperty('universityId') && ctx.request.body['universityId'] != "empty") {
         await user.save({ fields: ['name', 'email', 'password', 'lastname', 'userType', 'universityId'] });
       } else {
@@ -41,5 +40,5 @@ router.get('users.profile', '/:id/profile', async (ctx) => {
     user,
   });
 });
-  
+
 module.exports = router;

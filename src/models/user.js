@@ -1,5 +1,5 @@
 'use strict';
-const universityModel = require('../models/university'); 
+const universityModel = require('../models/university');
 
 const bcrypt = require('bcryptjs');
 
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
   user.associate = function(models) {
     user.hasMany(models.experience);
     user.hasMany(models.comment);
-    user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'universityId' }); // moderate
+    user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'userId' }); // moderate
     user.hasMany(models.vocationalTestResult);
     user.prototype.getUniversity = async function getUniversity() {
       if (this.universityId != null) {
