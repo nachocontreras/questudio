@@ -13,7 +13,9 @@ export default class Poll extends Component {
         currentUser: JSON.parse(this.props.currentUser),
         results: null,
         myResultsUrl: this.props.myResultsUrl,
-        redirect: false
+        redirect: false,
+        showErrorMessage: false,
+        errorMessage: '',
       }
 
       this.handleVote = this.handleVote.bind(this);
@@ -25,6 +27,7 @@ export default class Poll extends Component {
       this.reloadPoll = this.reloadPoll.bind(this);
       this.redirectTo = this.redirectTo.bind(this);
       this.completeTest = this.completeTest.bind(this);
+      this.showError = this.showError.bind(this);
 
     }
 
@@ -59,7 +62,10 @@ export default class Poll extends Component {
 
     send() {
       if (!this.state.currentUser) {
-        console.log("Inicia sesion");
+        this.setState({
+          errorMessage: '*Debes iniciar sesión',
+          showErrorMessage: true
+        });
         return;
       }
       const requestOptions = {
@@ -85,7 +91,7 @@ export default class Poll extends Component {
       if (this.state.results != null) {
         return (
           <div>
-            <p>Se han obtenido los siguientes resultados:</p>
+            <h1 className="title is-4">Se han obtenido los siguientes resultados:</h1>
             {Object.keys(this.state.results).map(tipo => {
               console.log(tipo, this.state.results[tipo]);
               return <div>
@@ -96,8 +102,11 @@ export default class Poll extends Component {
                 })}
               </div>
             })}
+            <br/>
+            <br />
             <p>Busca en los cuadros las Áreas con los intereses y las aptitudes más representativas de cada una, tomando en cuenta que los intereses los encuentras a la izquierda de cada cuadro y las aptitudes al lado derecho de cada grupo.</p>
             <p>Recuerda que tus resultados te entregan las dos mejores categorías. Así, por ejemplo, si tienes una S, debes revisar la tabla de 'Medicina y Cs. De la Salud'</p>
+            <img src="https://4.bp.blogspot.com/-Dp3sySSoELg/Vmhni-3_0II/AAAAAAAAAZ4/uNK7CUXiTx8/s1600/Captura%2Bde%2Bpantalla%2B%25281%2529.png"></img>
           </div>
         )
       }
@@ -113,11 +122,11 @@ export default class Poll extends Component {
     saveButton() {
       if (Object.keys(this.state.pollAnswers).length != this.state.questionsList.length) {
         return (
-          <button disabled>Enviar test</button>
+          <button className="button is-light" disabled>Enviar test</button>
         )
       }
       return (
-        <button onClick={() => this.send()}>Enviar test</button>
+        <button className="button is-light" onClick={() => this.send()}>Enviar test</button>
       )
     }
 
@@ -130,7 +139,7 @@ export default class Poll extends Component {
 
     myResultsButton() {
       return (
-        <button onClick={() => this.redirectTo(this.state.myResultsUrl)}>Mis resultados anteriores</button>
+        <button className="button is-light" onClick={() => this.redirectTo(this.state.myResultsUrl)}>Mis resultados anteriores</button>
       )
     }
 
@@ -151,8 +160,18 @@ export default class Poll extends Component {
 
     completeTestButton() {
       return (
-        <button onClick={() => this.completeTest()}>Completar test aleatorio</button>
+        <button className="button is-light" onClick={() => this.completeTest()}>Completar test aleatorio</button>
       )
+    }
+
+    showError() {
+      if (this.state.showErrorMessage) {
+        return (
+          <p>{this.state.errorMessage}</p>
+        )
+      } else {
+        return;
+      }
     }
 
     render () {
@@ -162,7 +181,8 @@ export default class Poll extends Component {
         return (
           <div>
             {this.processResults()}
-            <button onClick={this.reloadPoll}>Hacer de nuevo</button>
+            <br />
+            <button className="button is-light" onClick={this.reloadPoll}>Hacer test otra vez</button>
           </div>
         )
       }
@@ -176,14 +196,19 @@ export default class Poll extends Component {
       return (
         <div className='app'>
           <header className='header'>
-            <h1 className='name'>{this.props.pollName}</h1>
+            <h1 className='title'>{this.props.pollName}</h1>
           </header>
-          <main className='main'>
-            <div>{questionsDiv}</div>
-          </main>
-          {this.saveButton()}
-          {this.myResultsButton()}
-          {this.completeTestButton()}
+          <br />
+          <div>{questionsDiv}</div>
+          <br/>
+          <div className="columns">
+            {this.saveButton()}
+            {this.myResultsButton()}
+            {this.completeTestButton()}
+          </div>
+          <div>
+            {this.showError()}
+          </div>
         </div>
       )
     }

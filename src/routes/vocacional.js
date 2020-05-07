@@ -72,10 +72,11 @@ router.post('vocacional.save', "/:id", async (ctx) => {
   const attempt = ctx.orm.vocationalTestResult.build();
   attempt.userId = ctx.request.body.user.id;
   attempt.vocationalTestId = ctx.request.body.pollId;
+  // console.log(attempt, ctx.request.body);
   let data = analizeResultsPoll(ctx.params.id, ctx.request.body.answers);
   console.log("data", data);
   attempt.additionalInfo = JSON.stringify(data);
-  // await attempt.save({ fields: ['vocationalTestId', 'userId', 'attempt', 'additionalInfo']});;
+  await attempt.save({ fields: ['vocationalTestId', 'userId', 'attempt', 'additionalInfo']});;
   ctx.body = {
     results: data
   }

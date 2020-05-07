@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     careerId: DataTypes.INTEGER,
     attempt: DataTypes.INTEGER,
-    additionalInfo: DataTypes.TEXT
+    additionalInfo: DataTypes.TEXT,
+    vocationalTestId: DataTypes.INTEGER
   }, {});
   vocationalTestResult.associate = function(models) {
     // associations can be defined here

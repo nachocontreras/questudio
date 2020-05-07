@@ -15,6 +15,7 @@ router.use(async (ctx, next) => {
     data = {
         universitiesPath: ctx.router.url('universities.list'),
         careersPath: ctx.router.url('careers.list'),
+        testsVocacionalesPath: ctx.router.url('vocacional.index'),
         welcomePath: '/',
         createUserPath: ctx.router.url('users.new'),
         newSessionPath: ctx.router.url('session.new'),
