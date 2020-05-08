@@ -2,7 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
   const question = sequelize.define('question', {
     description: DataTypes.STRING,
-    vocationalTestId: DataTypes.INTEGER
+    vocationalTestId: DataTypes.INTEGER,
+    allowMultiple: DataTypes.BOOLEAN,
+    questionType: DataTypes.STRING,
+    position: DataTypes.INTEGER,
   }, {});
   question.associate = function(models) {
     // associations can be defined here

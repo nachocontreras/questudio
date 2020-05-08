@@ -1,0 +1,33 @@
+<div class="container">
+    <h1 class="title">Información</h1>
+    <p>Busca en los cuadros las Áreas con los intereses y las aptitudes más representativas de cada una, tomando en cuenta que los intereses los encuentras a la izquierda de cada cuadro y las aptitudes al lado derecho de cada grupo.</p>
+    <p>Recuerda que tus resultados te entregan las dos mejores categorías. Así, por ejemplo, si tienes una S, debes revisar la tabla de 'Medicina y Cs. De la Salud'</p>
+    <br />
+    <div class="columns">
+        <div class="column">
+            <h1 class="title">Mis resultados</h1>
+            <% number = 1 %>
+            <% if (myResults.length != 0) { %>
+                <% myResults.forEach(data => { %>
+                    <h3 class="title is-4">Intento #<%- number %></h3>
+                    <% let info = JSON.parse(data.additionalInfo) %>
+                    <% Object.keys(info).map(tipo => { %>
+                        <div>
+                          <p style="margin-left: 20px;margin-bottom: 5px;" class="title is-5"><%- tipo %></p   >
+                          <% info[tipo].map(result => { %>
+                            <p style="margin-left: 40px;"><%- result %></p>
+                          <% }) %>
+                        </div>
+                    <% }) %>
+                    <% number += 1 %>
+                <% }) %>
+            <% } else { %>
+                <p>No has realizado esta encuesta</p>
+            <% } %>
+        </div>
+        <div class="column">
+            <img src="https://4.bp.blogspot.com/-Dp3sySSoELg/Vmhni-3_0II/AAAAAAAAAZ4/uNK7CUXiTx8/s1600/Captura%2Bde%2Bpantalla%2B%25281%2529.png"></img>
+        </div>
+    </div>
+        
+</div>
