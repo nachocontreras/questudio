@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
   university.associate = function(models) {
     // associations can be defined here
     university.hasMany(models.career);  // university.getCareers() => entrega las carreras.
-    university.belongsToMany(models.user, { through: models.userModerateUniversity, foreignKey: 'userId' }); // moderate
+    university.belongsToMany(models.user, {
+      through: models.userModerateUniversity,
+      foreignKey: 'universityId',
+      as: 'staffs',
+    }); // university.findById(id, {include: 'staffs'})
   };
   return university;
 };

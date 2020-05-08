@@ -8,6 +8,7 @@ const search = require('./routes/search');
 const user = require('./routes/user');
 const session = require('./routes/session');
 const vocacionales = require('./routes/vocacional');
+const experience = require('./routes/experience');
 
 const router = new KoaRouter();
 
@@ -25,6 +26,7 @@ router.use(async (ctx, next) => {
     if (ctx.session.userId) {
         data["currentUser"] = await ctx.orm.user.findById(ctx.session.userId);
         data["profilePath"] = ctx.router.url('users.profile', { id: ctx.session.userId });
+        data["editUserPath"] = ctx.router.url('users.editForm', { id: ctx.session.userId });
     }
     Object.assign(ctx.state, data);
     return next();
@@ -38,5 +40,6 @@ router.use('/search', search.routes());
 router.use('/account', session.routes());
 router.use('/users', user.routes());
 router.use('/vocacionales', vocacionales.routes());
+router.use('/experiences', experience.routes());
 
 module.exports = router;

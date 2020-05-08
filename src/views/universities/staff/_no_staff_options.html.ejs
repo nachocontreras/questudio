@@ -1,0 +1,29 @@
+<!-- Esta vista se renderea por show.html.ejs -->
+
+<a id="claim_button" class="button is-primary">Registrarme como staff</a>
+
+<div id="claim_options" style="display:none">
+  <% if (staffs.length == 0) { %>
+      <p>Esta universidad actualmente no tiene staffs.</p>
+      <a class="button is-primary" href="<%= staffClaimPath(university) %>">Se el primero</a>
+
+  <% } else { %>
+    <p>Debes solicitar ser staff a otro staff, contacta a tu preferido.</p>
+    <tr>
+      <% staffs.forEach((staff) => { %>
+            <td><%= staff.name %> <%= staff.lastname %>
+              <form class="" action="" method="get">
+                <button class="button is-primary">Contactar</button>
+              </form>
+            </td>
+      <% }) %>
+    </tr>
+
+  <% } %>
+</div>
+
+<script type="text/javascript">
+  $("#claim_button").click(function(){
+    $("#claim_options").toggle();
+  });
+</script>

@@ -45,7 +45,8 @@
       <% if (currentUser) { %>
         <div class="navbar-end">
           <div class="navbar-item">
-            <a href="<%- profilePath %>">Perfil&nbsp;&nbsp;</a>
+            <a href="<%- profilePath %>"><img src="https://img.icons8.com/ios/50/000000/user-male-circle.png"/></a>
+            <a href="<%- editUserPath  %>"><img src="https://img.icons8.com/ios/50/000000/settings.png"/></a>
             <form id="signout-form" action="<%= destroySessionPath %>" method="post">
               <input type="hidden" name="_method" value="delete" />
               <a onclick="document.getElementById('signout-form').submit()">

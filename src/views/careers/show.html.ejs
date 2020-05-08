@@ -3,3 +3,29 @@
 <p>Tiene <%- career.vacancies %> vacantes</p>
 
 <p>Esta carrera está en <%- university.name %></p>
+<div>
+<h3> Experiencias de alumnos: </h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>Comentario</th>
+			<th>Id Estudiante</th>
+		</tr>
+	</thead>
+	<tbody>
+	  <% if (!experiencesList.length) { %>
+	    <p> Ninguna por ahora </p>
+	   <% } else { %>
+	   	<% experiencesList.forEach((exp) => { %>
+	</tbody>
+		<tr>
+			<td><%= exp.description %></td>
+			<td><%= exp.userId %></td>
+		</tr>
+		<% }) %>
+	</table>
+	<% } %>	
+</div>
+
+<a class="button is-primary" href="<%= experiencePath(career) %>">Publicar experiencia</a>
