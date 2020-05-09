@@ -1,0 +1,32 @@
+<div class="container">
+    <h1 class="title is-1">Resultados de búsqueda</h1>
+    <% if ( results.amount != 0 ) { %>
+        <% respuesta = results %>
+        <% if (respuesta.data["Universidades"].length != 0) { %>
+            <div class='title is-2'>Universidades</div>
+            <% respuesta.data["Universidades"].forEach(university => { %>
+                <a href='/universities/<%- university.id %>'>
+                    <div class='search-element'>
+                        <%- university.name %>
+                    </div>
+                </a>
+            <% }) %>
+        <% } %>
+        <%- console.log((respuesta.data["Universidades"].length != 0), (respuesta.data["Carreras"].length != 0)) %>
+        <% if ((respuesta.data["Universidades"].length != 0) && (respuesta.data["Carreras"].length != 0)) { %>
+            <br />
+        <% } %>
+        <% if (respuesta.data["Carreras"].length != 0) { %>
+            <div class='title is-2'>Carreras</div>
+           <% respuesta.data["Carreras"].forEach(career => { %>
+                <a href='/careers/<%- career.id %>'>
+                    <div class='search-element'>
+                        <%- career.name %>
+                    </div>
+                </a>
+            <% }) %>
+        <% } %>
+    <% } else { %>
+        <p>No hay resultados para tu búsqueda</p>
+    <% } %>
+</div>    
