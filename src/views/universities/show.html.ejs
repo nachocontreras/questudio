@@ -1,11 +1,10 @@
 <h1><%- university.name %></h1>
-
 <p><%- university.description %></p>
 
 <p>Tiene <%- careersList.length %> carrera(s)</p>
 
-<% if (careersList.length == 0) { %> 
-
+<% if (careersList.length == 0) { %>
+  <p>Esta universidad aun no posee carreras registradas.</p>
 <% } else { %>
     <table>
         <thead>
@@ -21,18 +20,25 @@
                 <td><%- career.name %></td>
                 <td><%- career.area %></td>
                 <td><%- career.vacancies %></td>
-                <td><a href="<%= editCareerPath(career) %>">Editar</a></td>
-                <td>
-                  <form action="<%= deleteCareerPath(career) %>" method="POST">
-                    <input type="hidden" name="_method" value="delete" />
-                    <input type="submit" value="Delete" />
-                  </form>
-                </td>
+
+                <% if (userIsStaff) { %>
+                  <td><a href="<%= editCareerPath(career) %>">Editar</a></td>
+                  <td>
+                    <form action="<%= deleteCareerPath(career) %>" method="POST">
+                      <input class="button is-light" type="hidden" name="_method" value="delete" />
+                      <input class="button is-light" type="submit" value="Delete" />
+                    </form>
+                  </td>
+                <% } %>
+
             </tr>
             <% }); %>
         </tbody>
     </table>
 <% } %>
 
-<a href="<%= universityEditPath(university) %>">Editar</a>
-<a href="<%= newCareerPath(university) %>">Añadir carrera</a>
+<% if (userIsStaff) { %>
+  <%- include('staff/_staff_options') %>
+<% } else { %>
+  <%- include('staff/_no_staff_options') %>
+<% } %>

@@ -1,39 +1,27 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
 
 <body>
-	<div class="container">
-		<div class="card">
-		  <div class="card-image">
-		    <figure class="image is-4by3">
-		      <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-		    </figure>
-		  </div>
-		  <div class="card-content">
-		    <div class="media">
-		      <div class="media-left">
-		        <figure class="image is-48x48">
-		          <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-		        </figure>
-		      </div>
-		      <div class="media-content">
-		        <p class="title is-4">Nombre: <%- user.name %></p>
-		        <p class="subtitle is-6">Apellidos: <%- user.lastname %></p>
-		        <p class="subtitle is-6">Tipo de usuario: <%- user.getType() %></p>
-		        <% if (user.userType == '1') { %>
-				    <p class="subtitle is-6">Universidad: <%- user.university.name %></p>
-				<% } %>
-		      </div>
-		    </div>
-
-		    <!-- <div class="content">
-		      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-		      <a href="#">#css</a> <a href="#">#responsive</a>
-		      <br>
-		      <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-		    </div> -->
-
-		  </div>
-		</div>
+	<div class="profile-card">
+		<figure class="profile-image-div">
+			<form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
+					<div class="profile-image">
+						<label for="userImage">
+							<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+						</label>
+						<input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
+					</div>
+			</form>
+		</figure>
+				
+		<h1><%- user.name %> <%- user.lastname %></h1>
+		<p class="title"><%- user.getType() %></p>
+		<% if (user.userType == '1') { %>
+		<p class="university"><%- user.university.name %></p>
+		<% } %>
 	</div>
 </body>
+
+
+ <!-- Add icon library -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+

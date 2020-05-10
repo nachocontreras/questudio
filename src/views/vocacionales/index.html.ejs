@@ -1,0 +1,22 @@
+<div class="container">
+<h1 class="title">Tests vocacionales</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Ir</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% testsList.forEach((poll) => { %>
+        <tr>
+            <td><%- poll.name %></td>
+            <td><%- poll.description %></td>
+            <td><a href="<%- testVocacionalPath(poll) %>">Ir a test vocacional</a></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+</div>
