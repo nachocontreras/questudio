@@ -6,7 +6,6 @@ node_js:
 # Se consideran todas las ramas 
 branches:
   only:
-  - gh-pages
   - /.*/
 
 cache: yarn
@@ -32,7 +31,9 @@ deploy:
   provider: heroku
   api_key: $HEROKU_API_KEY
   app: questudio-cl
-  on: master
+  on: 
+    - master
+    - dev
   run: 
     - "sequelize db:migrate"
     - "sequelize db:seed:all"

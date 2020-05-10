@@ -28,4 +28,15 @@
 	<% } %>	
 </div>
 
-<a class="button is-primary" href="<%= experiencePath(career) %>">Publicar experiencia</a>
+<div>
+  <form id="experience-form" method="post">
+    <div  class="field">
+      <input id="experience-comment" type="text" name="description" required>
+      <input id="experience-careerId" type="hidden" value="<%- career.id %> ">
+      <input id="experience-userId" type="hidden" value="<%- currentUser.id %> ">
+      <div  class="field">
+        <input class="button is-primary" type="submit" name="create" value="Publicar experiencia" />
+      </div>
+    </div>
+  </form>
+</div>
