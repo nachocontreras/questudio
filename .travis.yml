@@ -32,8 +32,10 @@ deploy:
   api_key: $HEROKU_API_KEY
   app: questudio-cl
   on: 
-    - master
-    - development
+    branches:
+      only:
+      - master
+      - development
   run: 
     - "sequelize db:seed:undo:all"
     - "sequelize db:migrate:undo:all"
