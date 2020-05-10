@@ -33,7 +33,7 @@ deploy:
   app: questudio-cl
   on: 
     - master
-    - dev
+    - development
   run: 
     - "sequelize db:migrate"
     - "sequelize db:seed:all"
