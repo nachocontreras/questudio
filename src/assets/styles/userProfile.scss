@@ -81,3 +81,17 @@
     color: black;
   }
 }
+
+
+#universityImage {
+  display: none;
+}
+
+.universityImageDiv {
+  max-width: 200px;
+}
+
+.universityImageDiv:hover img {
+  cursor: pointer;
+  opacity: 0.3;
+}

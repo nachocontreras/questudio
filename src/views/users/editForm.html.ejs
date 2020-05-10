@@ -42,4 +42,10 @@ function Validate() {
 			</div>
 		</form>
 	</div>
+	<div class="deleteForm">
+		<form action="<%- deleteUserPath %>" method="POST">
+			<input type="hidden" name="_method" value="delete" />
+			<input class="delete-button" type="submit" value="Eliminar Cuenta" onclick="return confirm('¿Estás seguro/a que quieres eliminar tu cuenta?');" />
+		</form>
+	</div>
 </body>
