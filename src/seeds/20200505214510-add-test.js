@@ -22,5 +22,6 @@ Esta prueba que se puede denominar -Movilizadora-Reflexiva- considero es el punt
       Example:
       return queryInterface.bulkDelete('Person', null, {});
     */
+    return queryInterface.bulkDelete('vocationalTests', null, {});
   }
 };

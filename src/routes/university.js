@@ -1,5 +1,18 @@
 const KoaRouter = require('koa-router');
+const cloudinary = require('cloudinary').v2;
+
 const router = new KoaRouter();
+
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.STORAGE_KEY,
+  api_secret: process.env.STORAGE_SECRET,
+});
+
+function takeOutExtension(name) {
+  return name.split('.').slice(0, -1).join('.');
+}
 
 // /universities
 
@@ -67,7 +80,8 @@ router.get('universities.edit', '/:id/edit', loadUniversity, async (ctx) => {
     university,
     submitUniversityPath: ctx.router.url('universities.update',
       { id: university.id }),
-    universitiesPath: ctx.router.url('universities.list')
+    universitiesPath: ctx.router.url('universities.list'),
+    addUniversityImagePath: ctx.router.url('universities.addImage', { id: university.id }),
   });
 });
 
@@ -85,6 +99,15 @@ router.patch('universities.update', '/:id', loadUniversity, async (ctx) => {
       submitUniversityPath: ctx.router.url('universities.update', { id: university.id }),
     });
   }
+});
+
+router.post('universities.addImage', '/:id/add_image', loadUniversity, async (ctx) => {
+  const { university } = ctx.state;
+  const response = await cloudinary.uploader.upload(ctx.request.files.universityImage.path, {
+    public_id: `universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}`,
+  });
+  await university.update({ imageUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}` });
+  await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
 });
 
 router.del('universities.delete', '/:id', loadUniversity, async (ctx) => {

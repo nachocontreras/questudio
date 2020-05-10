@@ -62,9 +62,11 @@ router.get('users.profile', '/:id/profile', async (ctx) => {
 router.get('users.editForm', '/:id/profile/edit', async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   const submitEditUserPath = ctx.router.url('users.edit', { id: user.id });
+  const deleteUserPath = ctx.router.url('users.delete', { id: user.id });
   await ctx.render('users/editForm', {
     user,
     submitEditUserPath,
+    deleteUserPath,
   });
 });
 
@@ -95,6 +97,13 @@ router.post('users.addImage', '/:id/add_image', async (ctx) => {
   });
   await user.update({ imageUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/users-images/${user.id}/${user.id}${takeOutExtension(ctx.request.files.userImage.name)}` });
   await ctx.redirect(ctx.router.url('users.profile', { id: user.id }));
+});
+
+router.del('users.delete', '/:id', async (ctx) => {
+  const user = await ctx.orm.user.findById(ctx.params.id);
+  await user.destroy();
+  ctx.session = {};
+  ctx.redirect('/');
 });
 
 module.exports = router;
