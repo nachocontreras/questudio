@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
   career.associate = function(models) {
     // associations can be defined here
     career.hasMany(models.vocationalTestResult);
-    career.hasMany(models.experience);
-    career.hasMany(models.comment);
+    career.hasMany(models.experience, {onDelete: 'CASCADE', hooks:true});
+    career.hasMany(models.comment, {onDelete: 'CASCADE', hooks:true});
     career.belongsTo(models.university);
   };
   return career;
