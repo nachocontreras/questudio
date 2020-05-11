@@ -14,7 +14,9 @@
 		</figure>
 				
 		<h1><%- user.name %> <%- user.lastname %></h1>
-		<p class="title"><%- user.getType() %></p>
+		<div id="user-type">
+			<p class="title"><%- user.getType() %></p>
+		</div>
 		<% if (user.userType == '1') { %>
 		<p class="university"><%- user.university.name %></p>
 		<% } %>
