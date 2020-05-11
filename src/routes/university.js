@@ -82,6 +82,7 @@ router.get('universities.edit', '/:id/edit', loadUniversity, async (ctx) => {
       { id: university.id }),
     universitiesPath: ctx.router.url('universities.list'),
     addUniversityImagePath: ctx.router.url('universities.addImage', { id: university.id }),
+    addUniversityLogoPath: ctx.router.url('universities.addLogo', { id: university.id }),
   });
 });
 
@@ -107,6 +108,21 @@ router.post('universities.addImage', '/:id/add_image', loadUniversity, async (ct
     public_id: `universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}`,
   });
   await university.update({ imageUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}` });
+  await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
+});
+
+router.del('universities.delete', '/:id', loadUniversity, async (ctx) => {
+  const { university } = ctx.state;
+  await university.destroy();
+  ctx.redirect(ctx.router.url('universities.list'));
+});
+
+router.post('universities.addLogo', '/:id/add_logo', loadUniversity, async (ctx) => {
+  const { university } = ctx.state;
+  const response = await cloudinary.uploader.upload(ctx.request.files.universityLogo.path, {
+    public_id: `universities-logos/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityLogo.name)}`,
+  });
+  await university.update({ logoUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-logos/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityLogo.name)}` });
   await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
 });
 
