@@ -1,0 +1,43 @@
+language: node_js
+
+node_js:
+  - "10"
+
+# Se consideran todas las ramas 
+branches:
+  only:
+  - /.*/
+
+cache: yarn
+
+directories:
+  - node_modules
+
+services:
+  - postgresql
+
+before_script:
+  - yarn --frozen-lockfile
+  - psql -c 'create database questudio;' -U postgres
+
+install:
+  - yarn install
+
+script:
+  - yarn test
+
+# Configuracion para heroku
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: questudio-cl
+  on: 
+    branches:
+      only:
+      - master
+      - development
+  run: 
+    - "sequelize db:seed:undo:all"
+    - "sequelize db:migrate:undo:all"
+    - "sequelize db:migrate"
+    - "sequelize db:seed:all"

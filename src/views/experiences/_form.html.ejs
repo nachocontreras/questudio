@@ -1,0 +1,28 @@
+<div>
+  <% if (locals.errors) { %>
+    <div class="errors">
+      You need to fix the following errors:
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+        <% }); %>
+      </ul>
+    </div>
+  <% } %>
+  <form action="<%= submitExperiencePath %>" method="post">
+    <% if (!experience.isNewRecord) { %>
+      <input type="hidden" name="_method" value="patch" />
+    <% } %>
+    <div  class="field">
+      <label for="description">Description: </label>
+      <input type="text" name="description" value="<%= experience.description %>" required>
+    </div>
+    <div  class="field">
+      <% if (experience.isNewRecord) { %>
+        <input class="button is-primary" type="submit" name="create" value="Create" />
+      <% } else { %>
+        <input class="button is-primary" type="submit" name="update" value="Update" />
+      <% } %>
+    </div>
+  </form>
+</div>

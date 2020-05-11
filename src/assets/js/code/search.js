@@ -3,13 +3,12 @@ $( document ).ready(function() {
     $("#search-form").submit(function(e) {
         e.preventDefault();
         let text = $('#search-box').val();
-        console.log(text);
-        $("#search-results").empty();   
-        var x = $("#search-box").position();
-        var z = $("#search-box").width();
-        var y = $(".topnav").height();
-        $("#search-results").css({top: x.top + y, left: x.left, width: Math.min(2 * z, window.innerWidth), display: 'block'});
         searchFunction(text);
+        $("#search-results").empty();   
+        var x = $("#search-form").offset();
+        var z = $("#search-box").width();
+        var y = $(".navbar").height();
+        $("#search-results").css({top: x.top + y, left: x.left, width: Math.min(2 * z, window.innerWidth), display: 'none'});
     });
 
     $(document).mouseup(function(e) {
@@ -22,17 +21,18 @@ $( document ).ready(function() {
         }
     });
 
-
 });
 
 function searchFunction(query) {
 
+    window.location.href = "/search?text=" + query;
+    return;
     let _request = $.ajax({
         url: "/search",
         method: 'GET',
         data: {
             text: query,
-        }
+        }   
     });
 
     //Este bloque se ejecutará si no hay error en la petición

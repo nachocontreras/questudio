@@ -1,0 +1,24 @@
+<!-- Este es el form que un postulante a staff llena -->
+<div style="text-align:center">
+  <p class="title is-5">Form de verificación de staff</p>
+  <br>
+  <p>Para verificar tu identidad como staff de <%= university.name %>,
+    deberás acreditar mediante un código que será enviado a la dirección de tu
+    universidad, por lo que tendrás que solicitarlo en tu casa de estudios.</p>
+  <p>Además, en caso de ser alumno, deberás subir un certificado de alumno regular
+   para acreditarte.</p>
+  <br>
+  <form class="" action="#" method="get">
+    Subir certificado<input type="file"> <br>
+  </form>
+  <br>
+  <form action="#" method="get">
+    La dirección actual de tu universidad es <%= university.address %>. <br>
+    <button type="submit" class="button is-primary">Enviar código</button>
+  </form>
+  <br>
+  <form action="<%= saveStaffPath %>" method="post">
+    Código de verificación entregado<input type="text" name="staffVerificationCode">
+    <button type="submit" class="button is-primary">Verificar</button>
+  </form>
+</div>

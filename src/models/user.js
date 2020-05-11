@@ -1,7 +1,7 @@
 'use strict';
-const universityModel = require('../models/university'); 
+const universityModel = require('../models/university');
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const PASSWORD_SALT = 10;
 
@@ -27,13 +27,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     imageUrl: DataTypes.STRING,
     universityId: DataTypes.INTEGER,
-    careerId: DataTypes.INTEGER
+    careerId: DataTypes.INTEGER,
   }, {});
   user.associate = function(models) {
-    user.hasMany(models.experience);
-    user.hasMany(models.comment);
-    user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'universityId' }); // moderate
-    user.hasMany(models.vocationalTestResult);
+    user.hasMany(models.experience, {onDelete: 'CASCADE', hooks:true});
+    user.hasMany(models.comment, {onDelete: 'CASCADE', hooks:true});
+    user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'userId' }); // moderate
+    user.hasMany(models.vocationalTestResult, {onDelete: 'CASCADE', hooks:true});
     user.prototype.getUniversity = async function getUniversity() {
       if (this.universityId != null) {
         return await models.university.findById(this.universityId);

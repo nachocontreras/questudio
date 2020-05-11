@@ -49,9 +49,13 @@ router.post('careers.create', '/:id/create', loadUniversity, async (ctx) => {
 router.get('careers.show', '/:id', loadCareer, async (ctx) => {
     const { career } = ctx.state;
     const university = await career.getUniversity();
+    const experiencesList = await ctx.orm.experience.findAll({ 
+      where: {careerId: career.id} })
+    console.log(experiencesList);
     await ctx.render('careers/show', {
-        career,
-        university
+        experiencesList,
+        university,
+        experiencePath: career => ctx.router.url('experience.new', {id: career.id})
     });
 });
 
