@@ -19,9 +19,9 @@
     </section>
     <br>
 
-    <div class="columns">
+    <div class="columns is-desktop ">
       <% universitiesList.forEach((university) => { %>
-        <div class="column">
+        <div class="column is-3">
 
           <div class="card">
 
@@ -33,6 +33,7 @@
 
             <div class="card-content">
               <div class="media">
+
                 <div class="media-left">
                   <figure class="image is-48x48">
                       <img src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
@@ -40,27 +41,20 @@
                 </div>
 
                 <div class="media-content">
-                  <p class="title is-5"><%- university.name %></p>
+                  <p class="title is-5"><a href="<%- universityShowPath(university) %>"><%- university.name %></a></p>
                   <p class="title is-6"><%- university.address %></p>
-                  
                 </div>
-
+                
               </div>
 
-              <div class="content">
-                <%- university.description %>
-                <a href="#">#css</a> <a href="#">#responsive</a>
-                <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-              </div>
 
             </div>
             <footer class="card-footer">
-              <a href="<%- universityShowPath(university) %>" class="card-footer-item">Ir a Universidad</a>
+              
               <a href="<%- universityEditPath(university) %>" class="card-footer-item">Editar universidad</a>
               <form class="card-footer-item" action="<%= universityDeletePath(university) %>" method="POST">
                 <input type="hidden" name="_method" value="delete" />
-                <input class="button is-light" type="submit" value="Delete" />
+                <input class="button is-light" type="submit" value="Borrar" />
               </form>
 
               
@@ -79,7 +73,7 @@
 </br>
 <a href="<%- newUniversityPath %>">Crear universidad</a>
 </br>
-<a href="<%- careerListPath %>">Ir a carreras</a>
+
 
 </body>
 

@@ -24,15 +24,15 @@
       <div class="tile">
         <div class="tile is-parent is-vertical">
           <article class="tile is-child notification is-primary">
-            <p class="title">Universidades</p>
+            <p class="title"><a href="<%- universitiesListPath %>">Universidades</a></p>
             <p class="subtitle">Lee sobre distintas universidades en Santiago y regiones</p>
-            <a href="<%- universitiesListPath %>">Explorar aquí</a>
+            
           </article>
           <article class="tile is-child notification is-warning">
-            <p class="title">Carreras</p>
+            <p class="title"><a href="<%- careersListPath %>">Carreras</a></p>
             <p class="subtitle">¿Quieres conocer acerca de alguna carrera en particular?</p>
-            <p class="subtitle">Encuentra aquí la información que deseas.</p>
-            <a href="<%- careersListPath %>">Explorar aquí</a>
+            <p class="subtitle">Lee sobre las carreras que desees buscando en alguna universidad en particular.</p>
+            
           </article>
         </div>
         <div class="tile is-parent">
@@ -48,23 +48,21 @@
       
       <div class="tile is-parent">
         <article class="tile is-child notification is-danger">
-          <p class="title">Conoce el Equipo Questudiosos </p>
-          <p class="subtitle">¿Quieres saber más de nosotros? Ven aquí a conocernos!</p>
+          <p class="title"><a href="<%= teamPath %>">Team Questudiosos </a></p>
+          <p class="subtitle">¿Quieres saber más de nosotros? Aquí puedes leer y conocer más del equipo responsable de esta plataforma.</p>
           <div class="content">
             <!-- Content -->
           </div>
-          <a href="<%- teamPath %>">Explorar aquí</a>
         </article>
       </div>
     </div>
     <div class="tile is-parent">
       <article class="tile is-child notification is-success">
         <div class="content">
-          <p class="title">Test vocacional</p>
+          <p class="title"><a href="<%= testsListPath %>">Test Vocacional </a></p>
           <p class="subtitle">Si estás un poco perdido o indeciso, te aconsejo entrar al test
               para chequear qué áreas son afínes a ti.
           </p>
-          <a href="<%- testsListPath %>">Explorar aquí</a>
           
           <div class="content">
             <!-- Content -->

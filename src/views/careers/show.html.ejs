@@ -1,43 +1,79 @@
-<h1><%- career.name %></h1>
+<!DOCTYPE html>
+<html>
 
-<p>Tiene <%- career.vacancies %> vacantes</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
 
-<p>Esta carrera está en <%- university.name %></p>
-<div>
-<h3> Experiencias de alumnos: </h3>
 
-<table>
-	<thead>
-		<tr>
-			<th>Comentario</th>
-			<th>Id Estudiante</th>
-		</tr>
-	</thead>
-	<tbody>
-	  <% if (!experiencesList.length) { %>
-	    <p> Ninguna por ahora </p>
-	   <% } else { %>
-	   	<% experiencesList.forEach((exp) => { %>
-	</tbody>
-		<tr>
-			<td><%= exp.description %></td>
-			<td><%= exp.userId %></td>
-		</tr>
-		<% }) %>
-	</table>
-	<% } %>	
+<body>
+
+  <div class="container">
+    <br>
+    <section class="hero is-warning">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title"> <%- career.name %> </h1>
+          </div>
+        </div>
+      </section>
+      <br>  
+  </div>  
+
+  <div class="container">
+	<p>Tiene <%- career.vacancies %> vacantes</p>
+	<p>El puntaje de corte de esta carrera es <%- career.minScore %></p>
+	<p>Tiene una duración de <%- career.duration %> semestres</p>
+	<p>Esta carrera está en <%- university.name %></p>
+  </div>
+
+<br>
+
+<div class="container">
+<p><strong>Experiencias de alumnos: </strong></p>
+<% if (!experiencesList.length) { %>
+	<p> Ninguna por ahora </p>
+   <% } else { %>
+	   <% experiencesList.forEach((exp) => { %>
+		<div class="box">
+			<article class="media">
+				<!-- Si es que el usuario tiene imagen descomentar esto
+			  <div class="media-left">
+				<figure class="image is-64x64">
+				  <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+				</figure>
+			  </div>
+			  -->
+			  <div class="media-content">
+				<div class="content">
+				  <p>
+					<strong><%= exp.userId %></strong>
+					<br>
+					<%= exp.description %>
+				  </p>
+				</div>
+			  </div>
+			</article>
+		  </div>
+		
+	<% }) %>
+
+<% } %>	
 </div>
 <% if (currentUser) { %>
-	<div>
-		<form id="experience-form" method="post">
+<div class="container">
+	<form id="experience-form" method="post">
+		<div  class="field">
+			<input class="input" id="experience-comment" type="text" name="description" required>
+			<input id="experience-careerId" type="hidden" value="<%- career.id %> ">
+			<input id="experience-userId" type="hidden" value="<%- currentUser.id %> ">
+			<br>
+			<br>
 			<div  class="field">
-				<input id="experience-comment" type="text" name="description" required>
-				<input id="experience-careerId" type="hidden" value="<%- career.id %> ">
-				<input id="experience-userId" type="hidden" value="<%- currentUser.id %> ">
-				<div  class="field">
-					<input class="button is-primary" type="submit" name="create" value="Publicar experiencia" />
-				</div>
+				<input class="button is-primary" type="submit" name="create" value="Publicar experiencia" />
 			</div>
-		</form>
-	</div>
+		</div>
+	</form>
+</div>
 <% } %>
+
+	 
+</body>
