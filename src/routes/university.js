@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
-const userLogged = require('../routes/middlewares');
+const { userLogged } = require('../routes/middlewares');
+
 const router = new KoaRouter();
 
 

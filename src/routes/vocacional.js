@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
 const router = new KoaRouter();
-const userLogged = require('../routes/middlewares');
+const { userLogged } = require('../routes/middlewares');
 
 router.get('vocacional.index', '/', async (ctx) => {
   const testsList = await ctx.orm.vocationalTest.findAll();
