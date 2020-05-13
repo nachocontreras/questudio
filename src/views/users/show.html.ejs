@@ -3,14 +3,22 @@
 <body>
 	<div class="profile-card">
 		<figure class="profile-image-div">
-			<form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
-					<div class="profile-image">
-						<label for="userImage">
-							<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
-						</label>
-						<input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
-					</div>
-			</form>
+			<% if (editableBoolean){ %>
+				<form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
+						<div class="profile-image">
+							<label for="userImage">
+								<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+							</label>
+							<input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
+						</div>
+				</form>
+			<%} else {%>
+				<div class="profile-image">
+					<label for="userImage">
+						<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+					</label>
+				</div>
+			<% } %>
 		</figure>
 				
 		<h1><%- user.name %> <%- user.lastname %></h1>

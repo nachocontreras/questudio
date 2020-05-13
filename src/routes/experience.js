@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
 const router = new KoaRouter();
-const userLogged = require('../routes/middlewares');
+const { userLogged } = require('../routes/middlewares');
 
 async function loadCareer(ctx, next) {
     ctx.state.career = await ctx.orm.career.findById(ctx.params.id);

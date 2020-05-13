@@ -1,7 +1,10 @@
 const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
 const dotenv = require('dotenv');
-const userLogged = require('../routes/middlewares');
+const { userLogged } = require('../routes/middlewares');
+const { checkProfileEditable } = require('../routes/middlewares');
+const { redirectIfNotUser } = require('../routes/middlewares');
+
 
 dotenv.config();
 const router = new KoaRouter();
@@ -45,22 +48,23 @@ router.post("users.create", '/signup', async (ctx) => {
         createUserPath: ctx.router.url('users.create'),
       });
     }
-    ctx.redirect(ctx.router.url('session.new'));
 });
 
-router.get('users.profile', '/:id/profile', userLogged, async (ctx) => {
+router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   user.university = await user.getUniversity();
-  const editUserPath = ctx.router.url('users.editForm', { id: user.id });
+  const { editableBoolean } = ctx.state;
+  const editUserPath = ctx.router.url('users.editForm', { id: ctx.session.userId });
   const addUserImagePath = ctx.router.url('users.addImage', { id: user.id });
   await ctx.render('users/show', {
     user,
     editUserPath,
     addUserImagePath,
+    editableBoolean,
   });
 });
 
-router.get('users.editForm', '/:id/profile/edit', userLogged, async (ctx) => {
+router.get('users.editForm', '/:id/profile/edit', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   const submitEditUserPath = ctx.router.url('users.edit', { id: user.id });
   const deleteUserPath = ctx.router.url('users.delete', { id: user.id });
@@ -72,7 +76,7 @@ router.get('users.editForm', '/:id/profile/edit', userLogged, async (ctx) => {
 });
 
 
-router.post('users.edit', '/:id/profile/edit', userLogged, async (ctx) => {
+router.post('users.edit', '/:id/profile/edit', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   const { name, email, password, lastname } = ctx.request.body;
   try {
@@ -91,7 +95,7 @@ router.post('users.edit', '/:id/profile/edit', userLogged, async (ctx) => {
   }
 });
 
-router.post('users.addImage', '/:id/add_image', userLogged, async (ctx) => {
+router.post('users.addImage', '/:id/add_image', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   const response = await cloudinary.uploader.upload(ctx.request.files.userImage.path, {
     public_id: `users-images/${user.id}/${user.id}${takeOutExtension(ctx.request.files.userImage.name)}`,
@@ -100,7 +104,7 @@ router.post('users.addImage', '/:id/add_image', userLogged, async (ctx) => {
   await ctx.redirect(ctx.router.url('users.profile', { id: user.id }));
 });
 
-router.del('users.delete', '/:id', userLogged, async (ctx) => {
+router.del('users.delete', '/:id', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   await user.destroy();
   ctx.session = {};
