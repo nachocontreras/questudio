@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     description: DataTypes.TEXT,
     imageUrl: DataTypes.STRING,
+    logoUrl: DataTypes.STRING,
   }, {});
   university.associate = function(models) {
     // associations can be defined here

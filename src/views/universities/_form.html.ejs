@@ -52,6 +52,7 @@
   </form>
 </div>
 
+
 <div class="container">
     <form action="<%- addUniversityImagePath %>" enctype="multipart/form-data" method="post">
         <div class="universityImageDiv">
@@ -63,3 +64,16 @@
         </div>
     </form>
   </div>
+
+<div>
+  <form action="<%- addUniversityLogoPath %>" enctype="multipart/form-data" method="post">
+      <div class="universityImageDiv">
+        Escoger Logo:
+        <label for="universityLogo">
+          <img src="<%= university.logoUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+        </label>
+        <input type="file" onchange="this.form.submit()" id="universityLogo" name="universityLogo" accept="image/*" data-type='image'/>
+      </div>
+  </form>
+</div>
+

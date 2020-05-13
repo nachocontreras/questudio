@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const router = new KoaRouter();
+const userLogged = require('../routes/middlewares');
 
 router.get('vocacional.index', '/', async (ctx) => {
   const testsList = await ctx.orm.vocationalTest.findAll();
@@ -41,7 +42,7 @@ router.get('vocacional.questions', "/:id/questions", async (ctx) => {
   }
 });
 
-router.get('vocacional.results', "/:id/results", async (ctx) => {
+router.get('vocacional.results', "/:id/results", userLogged, async (ctx) => {
   if (!ctx.state.currentUser) {
     ctx.redirect(ctx.router.url('index'));
     return;
@@ -68,7 +69,7 @@ router.get('vocacional.results', "/:id/results", async (ctx) => {
   }
 });
 
-router.post('vocacional.save', "/:id", async (ctx) => {
+router.post('vocacional.save', "/:id", userLogged, async (ctx) => {
   const attempt = ctx.orm.vocationalTestResult.build();
   attempt.userId = ctx.request.body.user.id;
   attempt.vocationalTestId = ctx.request.body.pollId;

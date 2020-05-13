@@ -1,6 +1,6 @@
 const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
-
+const userLogged = require('../routes/middlewares');
 const router = new KoaRouter();
 
 
@@ -33,7 +33,7 @@ router.get('universities.list', '/', async (ctx) => {
     });
 });
 
-router.get('universities.new', '/new', async (ctx) => {
+router.get('universities.new', '/new', userLogged, async (ctx) => {
   const university = ctx.orm.university.build();
   await ctx.render('universities/new', {
     university,
@@ -42,7 +42,7 @@ router.get('universities.new', '/new', async (ctx) => {
   });
 });
 
-router.post('universities.create', '/', async (ctx) => {
+router.post('universities.create', '/', userLogged, async (ctx) => {
   const university = ctx.orm.university.build(ctx.request.body);
   try {
     await university.save({ fields: ['name', 'address', 'description'] });
@@ -75,7 +75,7 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     });
 });
 
-router.get('universities.edit', '/:id/edit', loadUniversity, async (ctx) => {
+router.get('universities.edit', '/:id/edit', userLogged, loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   await ctx.render('universities/edit', {
     university,
@@ -83,11 +83,12 @@ router.get('universities.edit', '/:id/edit', loadUniversity, async (ctx) => {
       { id: university.id }),
     universitiesPath: ctx.router.url('universities.list'),
     addUniversityImagePath: ctx.router.url('universities.addImage', { id: university.id }),
+    addUniversityLogoPath: ctx.router.url('universities.addLogo', { id: university.id }),
   });
 });
 
 
-router.patch('universities.update', '/:id', loadUniversity, async (ctx) => {
+router.patch('universities.update', '/:id', userLogged, loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   try {
     const { name, address, description } = ctx.request.body;
@@ -102,7 +103,7 @@ router.patch('universities.update', '/:id', loadUniversity, async (ctx) => {
   }
 });
 
-router.post('universities.addImage', '/:id/add_image', loadUniversity, async (ctx) => {
+router.post('universities.addImage', '/:id/add_image', userLogged, loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   const response = await cloudinary.uploader.upload(ctx.request.files.universityImage.path, {
     public_id: `universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}`,
@@ -111,7 +112,22 @@ router.post('universities.addImage', '/:id/add_image', loadUniversity, async (ct
   await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
 });
 
-router.del('universities.delete', '/:id', loadUniversity, async (ctx) => {
+router.del('universities.delete', '/:id', userLogged, loadUniversity, async (ctx) => {
+  const { university } = ctx.state;
+  await university.destroy();
+  ctx.redirect(ctx.router.url('universities.list'));
+});
+
+router.post('universities.addLogo', '/:id/add_logo', userLogged, loadUniversity, async (ctx) => {
+  const { university } = ctx.state;
+  const response = await cloudinary.uploader.upload(ctx.request.files.universityLogo.path, {
+    public_id: `universities-logos/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityLogo.name)}`,
+  });
+  await university.update({ logoUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-logos/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityLogo.name)}` });
+  await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
+});
+
+router.del('universities.delete', '/:id', userLogged, loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   await university.destroy();
   ctx.redirect(ctx.router.url('universities.list'));
@@ -131,7 +147,7 @@ router.get('university.claim', '/:id/claim', loadUniversity, async (ctx) => {
   }
 })
 
-router.post('university.save.staff', '/:id/claim', async (ctx) => {
+router.post('university.save.staff', '/:id/claim', userLogged, async (ctx) => {
   if (ctx.request.body.staffVerificationCode == "123456789") {
     await ctx.orm.userModerateUniversity.create({
       userId: ctx.session.userId,
