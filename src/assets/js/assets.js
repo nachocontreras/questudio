@@ -1,5 +1,4 @@
 import '../images/logo.png';
-import '../images/questudio.jpeg';
 import '../images/Fer.jpeg';
 import '../images/Chio.jpeg';
 import '../images/Greg.jpeg';
