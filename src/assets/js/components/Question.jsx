@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
-import Checkbox from "../components/Checkbox";
+
+const questionStyle = {
+    width: "15%",
+    margin: "5px"
+}
 
 export default class Question extends Component {
     constructor(props) {
@@ -43,9 +47,9 @@ export default class Question extends Component {
         const { id, description, questionType, selected, position} = this.state;
         let selectDiv = '';
         if (questionType == 'true-false') {
-            selectDiv = <p>
-                <label><input id={"option-1-" + id} onClick={this.vote} type="checkbox" value={true} checked={selected == true}/><span>Sí</span></label>
-                <label><input id={"option-2-" + id} onClick={this.vote} type="checkbox" value={false} checked={selected == false} /><span>No</span></label>
+            selectDiv = <p style={questionStyle} className="columns">
+                <label className="column">&nbsp;<input id={"option-1-" + id} onClick={this.vote} type="checkbox" value={true} checked={selected == true}/><span>&nbsp;&nbsp;Sí</span></label>
+                <label className="column"><input id={"option-2-" + id} onClick={this.vote} type="checkbox" value={false} checked={selected == false} /><span>&nbsp;&nbsp;No</span></label>
             </p>
         }
         return (
