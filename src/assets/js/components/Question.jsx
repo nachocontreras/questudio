@@ -48,7 +48,7 @@ export default class Question extends Component {
         let selectDiv = '';
         if (questionType == 'true-false') {
             selectDiv = <p style={questionStyle} className="columns">
-                <label className="column">&nbsp;<input id={"option-1-" + id} onClick={this.vote} type="checkbox" value={true} checked={selected == true}/><span>&nbsp;&nbsp;Sí</span></label>
+                <label className="column"><input id={"option-1-" + id} onClick={this.vote} type="checkbox" value={true} checked={selected == true}/><span>&nbsp;&nbsp;Sí</span></label>
                 <label className="column"><input id={"option-2-" + id} onClick={this.vote} type="checkbox" value={false} checked={selected == false} /><span>&nbsp;&nbsp;No</span></label>
             </p>
         }
