@@ -1,22 +1,38 @@
 <div class="container">
-<h1 class="title">Tests vocacionales</h1>
+    <br>
+    <section class="hero is-success">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title"> Tests vocacionales </h1>
+          </div>
+        </div>
+      </section>
+      <br>  
+  </div>  
 
-<table>
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Ir</th>
-        </tr>
-    </thead>
-    <tbody>
+<div class="container">
+    <div class="columns is-desktop is-multiline">
         <% testsList.forEach((poll) => { %>
-        <tr>
-            <td><%- poll.name %></td>
-            <td><%- poll.description %></td>
-            <td><a href="<%- testVocacionalPath(poll) %>">Ir a test vocacional</a></td>
-        </tr>
+            <div class="column is-3">
+                <div class="card">
+      
+                  <div class="card-content">
+                    <div class="media">      
+                      <div class="media-content">
+                        <p class="title is-5"><a href="<%- testVocacionalPath(poll) %>"><%- poll.name %></a></p>                        
+                      </div>
+                    </div>
+      
+                  <div class="content">
+                      <%- poll.description %>
+                      <br>
+                  </div>
+                  
+                  
+                </div>
+              </div>
+            </div>
         <% }); %>
-    </tbody>
-</table>
-</div>
+    </div>  
+  </div>
+</body>

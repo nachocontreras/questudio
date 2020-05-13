@@ -68,6 +68,7 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
         userIsStaff: userIsStaff,
         universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
         newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
+        showCareerPath: career => ctx.router.url('careers.show', { id: career.id }),
         editCareerPath: career => ctx.router.url('careers.edit', { id: career.id }),
         deleteCareerPath: career => ctx.router.url('careers.delete', { id: career.id }),
         staffClaimPath: university => ctx.router.url('university.claim', { id: university.id }),
