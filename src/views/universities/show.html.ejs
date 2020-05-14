@@ -7,7 +7,7 @@
         <h1 class="title">
           <%- university.name %>
         </h1>
-        
+
       </div>
     </div>
   </section>
@@ -31,40 +31,40 @@
               <div class="card">
                 <div class="card-content">
 
-                  <div class="media">      
+                  <div class="media">
                     <div class="media-content">
                       <p class="title is-5"><a href="<%= showCareerPath(career) %>"><%- career.name %></a></p>
                       <p class="title is-6">Área: <%- career.area %></p>
                     </div>
                   </div>
-    
+
                 <div class="content">
                     <p>Vacantes: <%- career.vacancies %></p>
                     <p>Puntaje de corte: <%- career.minScore %></p>
                     <p>Duración de la carrera: <%- career.duration %></p>
                     <br>
-                </div>        
-    
+                </div>
+
+
+                <% if (userIsStaff) { %>
+                  <a class="button is-light"href="<%= editCareerPath(career) %>">Editar</a>
+
+                  <form class="is-inline" action="<%= deleteCareerPath(career) %>" method="POST">
+                    <input class="button is-light" type="hidden" name="_method" value="delete" />
+                    <input class="button is-light" type="submit" value="Delete" />
+                  </form>
+
+                  <% } %>
               </div>
             </div>
           </div>
       <% }); %>
-  </div> 
+  </div>
   <br>
-
-  <% if (userIsStaff) { %>
-    <a href="<%= editCareerPath(career) %>">Editar</a>
-    
-      <form action="<%= deleteCareerPath(career) %>" method="POST">
-        <input class="button is-light" type="hidden" name="_method" value="delete" />
-        <input class="button is-light" type="submit" value="Delete" />
-      </form>
-    
-  <% } %>
 
 </div>
 
-        
+
 <% } %>
 
 <% if (userIsStaff) { %>
