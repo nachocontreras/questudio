@@ -52,7 +52,9 @@ router.get('careers.show', '/:id', loadCareer, async (ctx) => {
     const { career } = ctx.state;
     const university = await career.getUniversity();
     const experiencesList = await ctx.orm.experience.findAll({ 
-      where: {careerId: career.id} })
+      where: {careerId: career.id},
+      include: { model: ctx.orm.user}
+    });
     console.log(experiencesList);
     await ctx.render('careers/show', {
         experiencesList,
