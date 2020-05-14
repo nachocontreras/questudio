@@ -1,16 +1,19 @@
 <div class="container">
 
     <% if (currentUser) { %>
-        <div id="test-container" 
-            data-poll-id="<%- poll.id %>"
-            data-poll-name="<%- poll.name %>"
-            data-poll-description="<%- poll.description %>"
-            data-send-url="<%- pollUrl %>"
-            data-questions-url="<%- questionsUrl %>"
-            data-current-user="<%= JSON.stringify(currentUser) %>"
-            data-my-results="<%- myResults %>"
-        >
-        Cargando encuesta
+        <br>
+        <div class="card" style="background-color:hsl(119, 44%, 89%);padding:30px;">
+            <div id="test-container" 
+                data-poll-id="<%- poll.id %>"
+                data-poll-name="<%- poll.name %>"
+                data-poll-description="<%- poll.description %>"
+                data-send-url="<%- pollUrl %>"
+                data-questions-url="<%- questionsUrl %>"
+                data-current-user="<%= JSON.stringify(currentUser) %>"
+                data-my-results="<%- myResults %>"
+            >
+            Cargando encuesta
+            </div>
         </div>
     <% } else { %>
         <h1 class="title is-2"><%- poll.name %></h1>
