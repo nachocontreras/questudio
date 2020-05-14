@@ -1,13 +1,22 @@
 <div class="container">
-    <div id="test-container" 
-        data-poll-id="<%- poll.id %>"
-        data-poll-name="<%- poll.name %>"
-        data-poll-description="<%- poll.description %>"
-        data-send-url="<%- pollUrl %>"
-        data-questions-url="<%- questionsUrl %>"
-        data-current-user="<%= JSON.stringify(currentUser) %>"
-        data-my-results="<%- myResults %>"
-    >
-    Cargando encuesta
-    </div>
+
+    <% if (currentUser) { %>
+        <div id="test-container" 
+            data-poll-id="<%- poll.id %>"
+            data-poll-name="<%- poll.name %>"
+            data-poll-description="<%- poll.description %>"
+            data-send-url="<%- pollUrl %>"
+            data-questions-url="<%- questionsUrl %>"
+            data-current-user="<%= JSON.stringify(currentUser) %>"
+            data-my-results="<%- myResults %>"
+        >
+        Cargando encuesta
+        </div>
+    <% } else { %>
+        <h1 class="title is-2"><%- poll.name %></h1>
+        <p>Para poder responder este test debes iniciar sesión.</p>
+        <br />
+        <a class="button is-primary" href="<%- newSessionPath %>"><strong>Iniciar Sesión</strong></a>
+    <% } %>
+
 </div>

@@ -3,7 +3,17 @@
     <% if ( results.amount != 0 ) { %>
         <% respuesta = results %>
         <% if (respuesta.data["Universidades"].length != 0) { %>
-            <div class='title is-2'>Universidades</div>
+            
+            <div class="container">
+                <br>
+                <section class="hero is-primary">
+                    <div class="hero-body">
+                        <div class='title is-2'>Universidades</div>
+                    </div>
+                  </section>
+                  <br>  
+            </div> 
+
             <% respuesta.data["Universidades"].forEach(university => { %>
                 <a href='/universities/<%- university.id %>'>
                     <div class='search-element'>
@@ -17,7 +27,15 @@
             <br />
         <% } %>
         <% if (respuesta.data["Carreras"].length != 0) { %>
-            <div class='title is-2'>Carreras</div>
+            <div class="container">
+                <br>
+                <section class="hero is-warning">
+                    <div class="hero-body">
+                        <div class='title is-2'>Carreras</div>
+                    </div>
+                  </section>
+                  <br>  
+            </div> 
            <% respuesta.data["Carreras"].forEach(career => { %>
                 <a href='/careers/<%- career.id %>'>
                     <div class='search-element'>

@@ -90,12 +90,15 @@ export default class Poll extends Component {
     processResults() {
       if (this.state.results != null) {
         return (
-          <div>
-            <h1 className="title is-4">Se han obtenido los siguientes resultados:</h1>
+          <div class="container"> 
+            <section class="hero is-success">
+              <h1 className="title is-4">Se han obtenido los siguientes resultados:</h1>
+            </section>
+            
             {Object.keys(this.state.results).map(tipo => {
               console.log(tipo, this.state.results[tipo]);
-              return <div>
-                <p>{tipo}</p>
+              return <div class="container">
+                <p><strong>{tipo}</strong></p>
                 {this.state.results[tipo].map(result => {
                   console.log(result);
                   return <p key={Math.floor(Math.random() * 10)}>{result}</p>

@@ -1,6 +1,7 @@
 <!-- Esta vista se renderea por show.html.ejs -->
-
-<a id="claim_button" class="button is-primary">Registrarme como staff</a>
+<% if (currentUser) { %>
+  <a id="claim_button" class="button is-primary">Registrarme como staff</a>
+<% } %>
 
 <div id="claim_options" style="display:none">
   <% if (staffs.length == 0) { %>

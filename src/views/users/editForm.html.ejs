@@ -21,23 +21,23 @@ function Validate() {
 			<input type="hidden" name="_method" value="post" />
 			<div class="edit-user-fields">
 				<div class="title">
-					<input type="email" id="editEmail" name="email" value="<%= user.email %>" placeholder="Email" required/>
+					<input class="input is-info" type="email" id="editEmail" name="email" value="<%= user.email %>" placeholder="Email" required/>
 				</div>
 				<div class="title">
-					<input type="text" id="editName" name="name" value="<%= user.name %>" placeholder="Nombre" required/>
+					<input class="input is-info" type="text" id="editName" name="name" value="<%= user.name %>" placeholder="Nombre" required/>
 				</div>
 				<div class="title">
-					<input type="text" id="editLastname" name="lastname" value="<%= user.lastname %>" placeholder="Apellido" required/>
+					<input  class="input is-info" type="text" id="editLastname" name="lastname" value="<%= user.lastname %>" placeholder="Apellido" required/>
 				</div>
 				<p id="confirm-pass">Las contraseñas no coinciden</p>
 				<div class="title">
-					<input type="password" id="firstPassword" name="password" value="" placeholder="Nueva Contraseña"/>
+					<input class="input is-info" type="password" id="firstPassword" name="password" value="" placeholder="Nueva Contraseña"/>
 				</div>
 				<div class="title">
-					<input type="password" id="confirmPassword" name="confirm-password" value="" placeholder="Confirmar Contraseña" />
+					<input class="input is-info"  type="password" id="confirmPassword" name="confirm-password" value="" placeholder="Confirmar Contraseña" />
 				</div>
 				<div class="edit-button">
-					<input type="submit" name="submit" value="Actualizar" />
+					<input class="input is-info" type="submit" name="submit" value="Actualizar" />
 				</div>
 			</div>
 		</form>
