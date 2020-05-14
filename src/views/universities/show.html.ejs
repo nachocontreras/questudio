@@ -7,7 +7,7 @@
         <h1 class="title">
           <%- university.name %>
         </h1>
-        
+
       </div>
     </div>
   </section>
@@ -34,13 +34,13 @@
               <div class="card">
                 <div class="card-content">
 
-                  <div class="media">      
+                  <div class="media">
                     <div class="media-content">
                       <p class="title is-5"><a href="<%= showCareerPath(career) %>"><%- career.name %></a></p>
                       <p class="title is-6">Área: <%- career.area %></p>
                     </div>
                   </div>
-    
+
                 <div class="content">
                     <p>Vacantes: <%- career.vacancies %></p>
                     <p>Puntaje de corte: <%- career.minScore %></p>
@@ -61,12 +61,12 @@
             </div>
           </div>
       <% }); %>
-  </div> 
+  </div>
   <br>
 
 </div>
 
-        
+
 <% } %>
 
 <% if (userIsStaff) { %>
