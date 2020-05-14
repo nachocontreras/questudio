@@ -42,25 +42,24 @@
                     <p>Vacantes: <%- career.vacancies %></p>
                     <p>Puntaje de corte: <%- career.minScore %></p>
                     <p>Duración de la carrera: <%- career.duration %></p>
-                    <br>
                 </div>        
-    
+                <% if (userIsStaff) { %>
+                  <div class="columns">
+                  <a class="button is-light" href="<%= editCareerPath(career) %>">Editar</a>
+                  &nbsp;
+                  &nbsp;
+                    <form action="<%= deleteCareerPath(career) %>" method="POST">
+                      <input type="hidden" name="_method" value="delete" />
+                      <input class="button is-light" type="submit" value="Delete" />
+                    </form>
+                  </div>
+                <% } %>
               </div>
             </div>
           </div>
       <% }); %>
   </div> 
   <br>
-
-  <!-- <%# if (userIsStaff) { %>
-    <a href="<%#= editUniversityPath(university) %>">Editar</a>
-    
-      <form action="<%#= deleteUniversityPath(university) %>" method="POST">
-        <input class="button is-light" type="hidden" name="_method" value="delete" />
-        <input class="button is-light" type="submit" value="Delete" />
-      </form>
-    
-  <%# } %> -->
 
 </div>
 
