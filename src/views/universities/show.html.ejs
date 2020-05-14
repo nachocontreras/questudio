@@ -12,9 +12,12 @@
     </div>
   </section>
 </div>
-<img src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
 
 <div class="container">
+  <div class="container" align="center">
+    <img src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+  </div>
+
   <p><%- university.description %></p>
   <br>
   <p>Tiene <%- careersList.length %> carrera(s)</p>
@@ -42,19 +45,18 @@
                     <p>Vacantes: <%- career.vacancies %></p>
                     <p>Puntaje de corte: <%- career.minScore %></p>
                     <p>Duración de la carrera: <%- career.duration %></p>
-                    <br>
-                </div>
-
-
+                </div>        
                 <% if (userIsStaff) { %>
-                  <a class="button is-light"href="<%= editCareerPath(career) %>">Editar</a>
-
-                  <form class="is-inline" action="<%= deleteCareerPath(career) %>" method="POST">
-                    <input class="button is-light" type="hidden" name="_method" value="delete" />
-                    <input class="button is-light" type="submit" value="Delete" />
-                  </form>
-
-                  <% } %>
+                  <div class="columns">
+                  <a class="button is-light" href="<%= editCareerPath(career) %>">Editar</a>
+                  &nbsp;
+                  &nbsp;
+                    <form action="<%= deleteCareerPath(career) %>" method="POST">
+                      <input type="hidden" name="_method" value="delete" />
+                      <input class="button is-light" type="submit" value="Delete" />
+                    </form>
+                  </div>
+                <% } %>
               </div>
             </div>
           </div>
