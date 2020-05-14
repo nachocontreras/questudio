@@ -35,7 +35,6 @@ deploy:
     branches:
       only:
       - master
-      - development
   run: 
     - "sequelize db:seed:undo:all"
     - "sequelize db:migrate:undo:all"
