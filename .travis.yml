@@ -28,15 +28,24 @@ script:
 
 # Configuracion para heroku
 deploy:
-  provider: heroku
-  api_key: $HEROKU_API_KEY
-  app: questudio-cl
-  on: 
-    branches:
-      only:
-      - master
-  run: 
-    - "sequelize db:seed:undo:all"
-    - "sequelize db:migrate:undo:all"
-    - "sequelize db:migrate"
-    - "sequelize db:seed:all"
+  - provider: heroku
+    api_key: $HEROKU_API_KEY
+    app: questudio-cl
+    run: 
+      - "sequelize db:seed:undo:all"
+      - "sequelize db:migrate:undo:all"
+      - "sequelize db:migrate"
+      - "sequelize db:seed:all"
+    on: 
+      branch: master
+
+  - provider: heroku
+    api_key: $HEROKU_API_KEY
+    app: questudio-cl
+    run: 
+      - "sequelize db:seed:undo:all"
+      - "sequelize db:migrate:undo:all"
+      - "sequelize db:migrate"
+      - "sequelize db:seed:all"
+    on: 
+      branch: development
