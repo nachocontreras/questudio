@@ -56,7 +56,7 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
   user.university = await user.getUniversity();
   testsResults = await vocationalResults(1, ctx);
   const { editableBoolean } = ctx.state;
-  const editUserPath = ctx.router.url('users.editForm', { id: ctx.session.userId });
+  const editUserPath = ctx.router.url('users.editForm', { id: user.id });
   const addUserImagePath = ctx.router.url('users.addImage', { id: user.id });
   const submitEditUserPath = ctx.router.url('users.edit', { id: user.id });
   const submitPasswordUserPath = ctx.router.url('users.editPassword', { id: user.id });

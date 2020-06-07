@@ -1,6 +1,7 @@
 const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
 const { userLogged } = require('../routes/middlewares');
+const { sessionDecoder } = require('./functions');
 
 const router = new KoaRouter();
 
@@ -61,7 +62,7 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     const { university } = ctx.state;
     const staffs = await university.getStaffs();
     const careersList = await university.getCareers();
-    const userIsStaff = staffs.map((staff) => staff.id).includes(ctx.session.userId)
+    const userIsStaff = staffs.map((staff) => staff.id).includes(sessionDecoder(ctx.session.userId))
     await ctx.render('universities/show', {
         university,
         careersList,
@@ -151,7 +152,7 @@ router.get('university.claim', '/:id/claim', loadUniversity, async (ctx) => {
 router.post('university.save.staff', '/:id/claim', userLogged, async (ctx) => {
   if (ctx.request.body.staffVerificationCode == "123456789") {
     await ctx.orm.userModerateUniversity.create({
-      userId: ctx.session.userId,
+      userId: sessionDecoder(ctx.session.userId),
       universityId: ctx.params.id,
     });
   }

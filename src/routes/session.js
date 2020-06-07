@@ -1,4 +1,5 @@
 const KoaRouter = require('koa-router');
+const { sessionEncoder } = require('./functions')
 
 const router = new KoaRouter();
 
@@ -15,7 +16,7 @@ router.put('session.create', '/signin', async (ctx) => {
   const user = await ctx.orm.user.find({ where: { email } });
   const isPasswordCorrect = user && await user.checkPassword(password);
   if (isPasswordCorrect) {
-    ctx.session.userId = user.id;
+    ctx.session.userId = sessionEncoder(user.id.toString());
     // ctx.session.userType = "student"; // podemos usar esto
     return ctx.redirect(ctx.router.url('universities.list'));
   }
