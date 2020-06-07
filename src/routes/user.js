@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const { userLogged } = require('../routes/middlewares');
 const { checkProfileEditable } = require('../routes/middlewares');
 const { redirectIfNotUser } = require('../routes/middlewares');
+const { vocationalResults } = require('../routes/functions');
 
 
 dotenv.config();
@@ -53,6 +54,7 @@ router.post("users.create", '/signup', async (ctx) => {
 router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   user.university = await user.getUniversity();
+  testsResults = await vocationalResults(1, ctx);
   const { editableBoolean } = ctx.state;
   const editUserPath = ctx.router.url('users.editForm', { id: ctx.session.userId });
   const addUserImagePath = ctx.router.url('users.addImage', { id: user.id });
@@ -61,6 +63,7 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     editUserPath,
     addUserImagePath,
     editableBoolean,
+    testsResults: testsResults
   });
 });
 
