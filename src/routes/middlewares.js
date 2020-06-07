@@ -2,7 +2,7 @@ async function userLogged(ctx, next) {
   if (ctx.state.currentUser) {
     return next();
   }
-  ctx.redirect(ctx.router.url('session.new'));
+  return ctx.redirect(ctx.router.url('session.new'));
 }
 
 async function checkProfileEditable(ctx, next) {
@@ -10,8 +10,7 @@ async function checkProfileEditable(ctx, next) {
     ctx.state.editableBoolean = true;
     return next();
   }
-  ctx.state.editableBoolean = false;
-  return next();
+  return ctx.redirect('/');
 }
 
 async function redirectIfNotUser(ctx, next) {

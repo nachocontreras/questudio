@@ -58,12 +58,18 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
   const { editableBoolean } = ctx.state;
   const editUserPath = ctx.router.url('users.editForm', { id: ctx.session.userId });
   const addUserImagePath = ctx.router.url('users.addImage', { id: user.id });
+  const submitEditUserPath = ctx.router.url('users.edit', { id: user.id });
+  const submitPasswordUserPath = ctx.router.url('users.editPassword', { id: user.id });
+  const deleteUserPath = ctx.router.url('users.delete', { id: user.id });
   await ctx.render('users/show', {
     user,
     editUserPath,
     addUserImagePath,
     editableBoolean,
-    testsResults: testsResults
+    testsResults: testsResults,
+    submitEditUserPath,
+    submitPasswordUserPath,
+    deleteUserPath,
   });
 });
 
@@ -81,18 +87,32 @@ router.get('users.editForm', '/:id/profile/edit', userLogged, checkProfileEditab
 
 router.post('users.edit', '/:id/profile/edit', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
-  const { name, email, password, lastname } = ctx.request.body;
+  const { name, email, lastname } = ctx.request.body;
   try {
-    if (password) {
-      await user.update({ name, email, lastname, password });
-    } else {
-      await user.update({ name, email, lastname });
-    }
+    await user.update({ name, email, lastname, });
     await ctx.redirect(ctx.router.url('users.profile', {
       id: user.id,
     }));
   } catch (e) {
     await ctx.redirect(ctx.router.url('users.editForm', {
+      id: user.id,
+    }));
+  }
+});
+
+router.post('users.editPassword', '/:id/profile/password', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
+  const user = await ctx.orm.user.findById(ctx.params.id);
+  const { password, confirmPassword} = ctx.request.body;
+  try {
+    if ( password && password == confirmPassword ) {
+      await user.update({ password });
+    } else {
+    }
+    await ctx.redirect(ctx.router.url('users.profile', {
+      id: user.id,
+    }));
+  } catch (e) {
+    await ctx.redirect(ctx.router.url('users.profile', {
       id: user.id,
     }));
   }
