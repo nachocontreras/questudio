@@ -1,22 +1,165 @@
-<canvas id="myChart" width="400" height="400"></canvas>
+<input class="button" id="update-users" value="Actualizar" />
+<canvas id="usersByDate" width="200" height="100"></canvas>
+<canvas id="usersByType" width="200" height="100"></canvas>
 <script>
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'line',
 
-    // The data for our dataset
-    data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45]
-        }]
-    },
+$("#update-users").on("click", function() {
+    let req = $.ajax({
+        url: `/users`,
+        method: "GET",
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    req.done(function(response) {
+        let users = response["data"];
+        const groupsByDate = users.reduce((groups, user) => {
+            const date = user.createdAt.split('T')[0];
+            if (!groups[date]) {
+                groups[date] = {
+                    "users": [],
+                    "amount": 0,
+                };
+            }
+            groups[date]["users"].push(user);
+            groups[date]["amount"] += 1;
+            return groups;
+        }, {});
 
-    // Configuration options go here
-    options: {}
+        function minmax_date(all_dates) {
+            var min_dt = all_dates[0];
+            var max_dt = all_dates[0];
+            var min_dtObj = new Date(all_dates[0]);
+            var max_dtObj = new Date(all_dates[0]);
+            all_dates.forEach(function(dt, index) {
+                if ( new Date( dt ) < min_dtObj) {
+                    min_dt = dt;
+                    min_dtObj = new Date(dt);
+                }
+                if ( new Date( dt ) > max_dtObj) {
+                    max_dt = dt;
+                    max_dtObj = new Date(dt);
+                }
+                
+            });
+            return [min_dt, max_dt];
+        }
+
+        let data = minmax_date(Object.keys(groupsByDate));
+        groupsByDate["minDate"] = data[0];
+        groupsByDate["maxDate"] = data[1];
+
+        function addDays(date, days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        function getDates(startDate, stopDate) {
+            var dateArray = new Array();
+            var currentDate = startDate;
+            console.log(startDate, stopDate);
+            while (currentDate <= stopDate) {
+                dateArray.push(new Date (currentDate));
+                currentDate = addDays(currentDate, 1);
+            }
+            return dateArray;
+        }
+
+        function getOrElse(map, key, value) {
+            return map.hasOwnProperty(key) ? map[key] : value
+        }
+
+        // let allDates = getDates(Date(groups["minDate"]), Date(groups["maxDate"]));
+        // console.log(allDates);
+        let allDates = Object.keys(groupsByDate).filter((dat) => {
+            return dat !== 'maxDate' && dat !== 'minDate';   
+        });
+
+        var ctx = document.getElementById('usersByDate').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: allDates,
+                datasets: [{
+                    label: "Usuarios",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: allDates.map(date => getOrElse(groupsByDate, date, {"amount": 0})["amount"])
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Usuarios creados por fecha',
+                    fontSize: 20
+                }
+            }
+        });
+
+        var userTypes = ["Enseñanza media", "Universitario"];
+
+        const groupsByType = users.reduce((groups, user) => {
+            const type = (user.userType == 0) ? "Enseñanza media" : "Universitario";
+            if (!groups[type]) {
+                groups[type] = {
+                    "users": [],
+                    "amount": 0,
+                };
+            }
+            groups[type]["users"].push(user);
+            groups[type]["amount"] += 1;
+            return groups;
+        }, {});
+
+        var ctx = document.getElementById('usersByType').getContext('2d');
+
+        var chart2 = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: userTypes,
+                datasets: [{
+                    backgroundColor: [
+                        'rgb(112, 240, 94)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    borderColor: [
+                        'rgb(112, 240, 94)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    data: userTypes.map(type => getOrElse(groupsByType, type, {"amount": 0})["amount"])
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Usuarios por tipo',
+                    fontSize: 20
+                }
+            }
+        });
+    })
+    req.fail(function(jqXHR, textStatus) {
+        alert("Hubo un error: " + textStatus);
+    });
 });
 </script>

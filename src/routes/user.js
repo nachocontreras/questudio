@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const { userLogged } = require('../routes/middlewares');
 const { checkProfileEditable } = require('../routes/middlewares');
 const { redirectIfNotUser } = require('../routes/middlewares');
+const { isAdmin } = require('../routes/middlewares');
 const { vocationalResults } = require('../routes/functions');
 
 
@@ -19,6 +20,27 @@ cloudinary.config({
 function takeOutExtension(name) {
   return name.split('.').slice(0, -1).join('.');
 }
+
+router.get('users.index', '/', isAdmin, async (ctx) => {
+  const usersList = await ctx.orm.user.findAll({
+    attributes: {exclude: ['password']}
+  });
+  switch (ctx.accepts(['json', 'html'])) {
+    case 'json':
+      ctx.body = {
+        data: usersList,
+      };
+      ctx.status = 200;
+      break;
+    case 'html':
+      await ctx.render('users/index', {
+        usersList,
+      });
+      break;
+    default:
+      break;
+  }  
+});
 
 router.get('users.new', '/signup', async (ctx) => {
   const user = ctx.orm.user.build();

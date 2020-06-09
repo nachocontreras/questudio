@@ -20,6 +20,14 @@ async function redirectIfNotUser(ctx, next) {
   return ctx.redirect('/');
 }
 
+
+async function isAdmin(ctx, next) {
+  if (ctx.state.currentUser.admin === true) {
+    return next();
+  }
+  return ctx.redirect('/');
+}
+
 async function experienceGuard(ctx, next) {
   const career = await ctx.orm.career.findById(ctx.params.id);
   const currentUser = ctx.state.currentUser;
@@ -31,5 +39,5 @@ async function experienceGuard(ctx, next) {
 }
 
 module.exports = {
-  userLogged, checkProfileEditable, redirectIfNotUser, experienceGuard,
+  userLogged, checkProfileEditable, redirectIfNotUser, experienceGuard, isAdmin
 };

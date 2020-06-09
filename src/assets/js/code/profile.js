@@ -4,4 +4,5 @@ $("a.item").on('click', function() {
     let name = $(this).attr("id").split("-item")[0];
     $('[id^="page-"]').hide();
     $("#page-" + name).css('display', 'block');
+    $("#update-" + name).click();
 })
