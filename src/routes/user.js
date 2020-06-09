@@ -86,6 +86,7 @@ router.get('users.editForm', '/:id/profile/edit', userLogged, checkProfileEditab
 
 
 router.post('users.edit', '/:id/profile/edit', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
+  console.log(ctx.request.body);
   const user = await ctx.orm.user.findById(ctx.params.id);
   const { name, email, lastname } = ctx.request.body;
   try {
