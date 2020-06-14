@@ -2,8 +2,8 @@
 <table class="table" id="users-table">
     <thead>
         <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
+            <th>Nombre completo</th>
+            <th>Correo</th>
             <th>Tipo de usuario</th>
             <th>Rol</th>
             <th>Editar</th>
@@ -63,8 +63,8 @@ $("#update-users").on("click", function() {
         users.forEach((us) => {
             let htmlData = `
                 <tr>
-                    <td>${us.name}</td>
-                    <td>${us.lastname}</td>
+                    <td>${us.name + " " + us.lastname}</td>
+                    <td>${us.email}</td>
                     <td>${(us.userType == 0) ? "Enseñanza media": "Universitario"}</td>
                     <td>${(us.admin) ? "Administrador" : ((us.isStaff) ? "Staff" : "Común")}</td>
                     <td style="text-align:center;cursor:pointer"><i class="fas fa-edit"></i></td>

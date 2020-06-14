@@ -22,17 +22,19 @@
 		<div id="page-password">
 			<%- include('_password_page') %>
 		</div>
-		
+	
+		<% if (staffUniversities && staffUniversities.length > 0) { %>
 		<div id="page-staff-universities">
 			<%- include('_universities_page', { universitiesList: staffUniversities }) %>
 		</div>
+		<% } %>
 
-
+		<% if (currentUser && currentUser.admin) { %>
 		<div id="page-users">
 			<%- include('_users_page') %>
  		</div>
 		<div id="page-universities">
-			<p>Aca se debe cargar con ajax la info de las universidades, solo si se entra esta sección</p>
+			<%- include('_universities_admin_page', { universitiesList: universitiesList })%>
 		</div>
 		<div id="page-careers">
 			<p>Aca se debe cargar con ajax la info de las carreras, solo si se entra esta sección</p>
@@ -40,6 +42,7 @@
 		<div id="page-staff">
 			<p>Aca se debe cargar con ajax la info de los staff, solo si se entra esta sección</p>
 		</div>
+		<% } %>
 	</div>
 </div>
 

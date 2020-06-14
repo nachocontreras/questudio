@@ -35,6 +35,7 @@ router.get('universities.list', '/', async (ctx) => {
     });
 });
 
+
 router.get('universities.new', '/new', userLogged, async (ctx) => {
   const university = ctx.orm.university.build();
   await ctx.render('universities/new', {
@@ -58,11 +59,24 @@ router.post('universities.create', '/', userLogged, async (ctx) => {
   };
 });
 
+
+router.get('universities.stats', '/stats', async (ctx) => {
+  let universitiesList = await ctx.orm.university.findAll();
+  for (i=0; i < universitiesList.length; i++) {
+    universitiesList[i]["dataValues"].careers = await universitiesList[i].getCareers();
+  }
+  ctx.status = 200;
+  ctx.body = {
+    data: universitiesList,
+  }
+});
+
+
 router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     const { university } = ctx.state;
     const staffs = await university.getStaffs();
     const careersList = await university.getCareers();
-    const userIsStaff = staffs.map((staff) => staff.id).includes(sessionDecoder(ctx.session.userId))
+    const userIsStaff = staffs.map((staff) => staff.id).includes(parseInt(sessionDecoder(ctx.session.userId)))
     await ctx.render('universities/show', {
         university,
         careersList,

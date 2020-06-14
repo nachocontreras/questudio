@@ -94,6 +94,10 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
   const submitEditUserPath = ctx.router.url('users.edit', { id: user.id });
   const submitPasswordUserPath = ctx.router.url('users.editPassword', { id: user.id });
   const deleteUserPath = ctx.router.url('users.delete', { id: user.id });
+  let universitiesList = []
+  if (ctx.state.currentUser.admin) {
+    universitiesList = await ctx.orm.university.findAll(); 
+  }
   await ctx.render('users/show', {
     user,
     editUserPath,
@@ -109,6 +113,8 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
     careerListPath: ctx.router.url('careers.list'),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
+    // admin
+    universitiesList
   });
 });
 
