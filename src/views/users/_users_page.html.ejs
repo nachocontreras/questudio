@@ -1,7 +1,53 @@
-<input class="button" id="update-users" value="Actualizar" />
-<canvas id="usersByDate" width="200" height="100"></canvas>
-<canvas id="usersByType" width="200" height="100"></canvas>
+<p class="title is-3">Información de usuario</p>
+<table class="table" id="users-table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Tipo de usuario</th>
+            <th>Rol</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<hr>
+
+<input class="button" id="update-users" value="Actualizar estadísticas" />
+<div class="columns">
+    <div class="column">
+        <canvas id="usersByDate" width="200" height="100"></canvas>
+    </div>
+    <div class="column">
+        <canvas id="usersByType" width="200" height="100"></canvas>
+    </div>
+</div>
 <script>
+
+function onDelete(id, name) {
+    let res = confirm(`¿Está seguro de eliminar al usuario ${id} - ${name}`);
+    if (res == true) {
+        // let req = $.ajax({
+        //     url: `/users/${id}`,
+        //     method: "DELETE",
+        //     headers: {
+        //         'Accept': 'application/json'
+        //     }
+        // })
+        // req.done(function(response) {
+        //     alert("Usuario eliminado correctamente (ESTA COMENTADA LA FUNCION)");
+        // });
+        // req.fail(function(jqXHR, textStatus) {
+        //     alert("Hubo un error: " + textStatus);
+        // });
+        alert("Usuario eliminado correctamente (ESTA COMENTADA LA FUNCION)");
+        
+    } else {
+
+    }
+}
 
 $("#update-users").on("click", function() {
     let req = $.ajax({
@@ -13,6 +59,22 @@ $("#update-users").on("click", function() {
     })
     req.done(function(response) {
         let users = response["data"];
+        $("#users-table tbody").empty();
+        users.forEach((us) => {
+            let htmlData = `
+                <tr>
+                    <td>${us.name}</td>
+                    <td>${us.lastname}</td>
+                    <td>${(us.userType == 0) ? "Enseñanza media": "Universitario"}</td>
+                    <td>${(us.admin) ? "Administrador" : ((us.isStaff) ? "Staff" : "Común")}</td>
+                    <td style="text-align:center;cursor:pointer"><i class="fas fa-edit"></i></td>
+                    <td style="text-align:center;cursor:pointer"><i onclick="onDelete(${us.id}, '${us.name}')" class="fas fa-trash"></i></td>
+                </tr>
+            `;
+            console.log(htmlData);
+            $("#users-table tbody").append(htmlData);
+        });
+
         const groupsByDate = users.reduce((groups, user) => {
             const date = user.createdAt.split('T')[0];
             if (!groups[date]) {

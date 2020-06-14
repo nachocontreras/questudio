@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+    <div class="columns is-desktop ">
+      <% universitiesList.forEach((university) => { %>
+        <div class="column is-3">
+
+          <div class="card">
+
+            <div class="card-image">
+              <figure class="image is-4by3">
+                  <img src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+              </figure>
+            </div>
+
+            <div class="card-content">
+              <div class="media">
+
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                      <img src="<%= university.logoUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+                  </figure>
+                </div>
+
+                <div class="media-content">
+                  <p class="title is-5"><a href="<%= universityShowPath(university) %>"><%- university.name %></a></p>
+                  <p class="title is-6"><%- university.address %></p>
+                </div>
+                
+              </div>
+
+
+            </div>
+            <div class="columns">
+                <div class="column" style="margin-left: 20px;margin-bottom: 10px;">
+                    <a class="button is-light" href="<%= universityEditPath(university) %>">Editar</a>
+                </div>
+                <div class="column" style="margin-right: 20px;margin-bottom: 10px;">
+                    <a class="button is-light" href="<%= newCareerPath(university) %>">Añadir carrera</a>
+                </div>
+            </div>
+          </div>
+
+        </div>
+        <% }); %>
+
+    </div>
+
+

@@ -65,7 +65,11 @@ module.exports = (sequelize, DataTypes) => {
   user.associate = function(models) {
     user.hasMany(models.experience, {onDelete: 'CASCADE', hooks:true});
     user.hasMany(models.comment, {onDelete: 'CASCADE', hooks:true});
-    user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'userId' }); // moderate
+    user.belongsToMany(models.university, {
+      through: models.userModerateUniversity,
+      foreignKey: 'userId',
+      as: 'staffUniversities',
+    }); // moderate
     user.hasMany(models.vocationalTestResult, {onDelete: 'CASCADE', hooks:true});
     user.prototype.getUniversity = async function getUniversity() {
       if (this.universityId != null) {

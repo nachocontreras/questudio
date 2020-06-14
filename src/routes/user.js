@@ -6,6 +6,7 @@ const { checkProfileEditable } = require('../routes/middlewares');
 const { redirectIfNotUser } = require('../routes/middlewares');
 const { isAdmin } = require('../routes/middlewares');
 const { vocationalResults } = require('../routes/functions');
+const { NamedChunksPlugin } = require('webpack');
 
 
 dotenv.config();
@@ -25,21 +26,30 @@ router.get('users.index', '/', isAdmin, async (ctx) => {
   const usersList = await ctx.orm.user.findAll({
     attributes: {exclude: ['password']}
   });
-  switch (ctx.accepts(['json', 'html'])) {
-    case 'json':
-      ctx.body = {
-        data: usersList,
-      };
-      ctx.status = 200;
-      break;
-    case 'html':
-      await ctx.render('users/index', {
-        usersList,
-      });
-      break;
-    default:
-      break;
-  }  
+  let users = [];
+  let newUsers = usersList.map(async function(us){
+    us.isStaff = (await us.getStaffUniversities().length != 0) ? true : false;
+    console.log(us.id, us.isStaff);
+    users.push(us);
+    return us;
+  });
+  return Promise.all(newUsers).then(async function(){
+    switch (ctx.accepts(['json', 'html'])) {
+      case 'json':
+        ctx.body = {
+          data: usersList,
+        };
+        ctx.status = 200;
+        break;
+      case 'html':
+        await ctx.render('users/index', {
+          usersList,
+        });
+        break;
+      default:
+        break;
+    }  
+  });
 });
 
 router.get('users.new', '/signup', async (ctx) => {
@@ -76,6 +86,7 @@ router.post("users.create", '/signup', async (ctx) => {
 router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
   user.university = await user.getUniversity();
+  const staffUniversities = await user.getStaffUniversities();
   testsResults = await vocationalResults(1, ctx);
   const { editableBoolean } = ctx.state;
   const editUserPath = ctx.router.url('users.editForm', { id: user.id });
@@ -92,6 +103,12 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     submitEditUserPath,
     submitPasswordUserPath,
     deleteUserPath,
+    // staff
+    staffUniversities,
+    universityShowPath: university => ctx.router.url('universities.show', { id: university.id }),
+    universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
+    careerListPath: ctx.router.url('careers.list'),
+    newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
   });
 });
 
