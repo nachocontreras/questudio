@@ -1,19 +1,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
 <body>
-  <div class="container">
-    <div id='passRecoveryTitle'>
-      <p>Reestablecer Contraseña</p>
-    </div>
-    <form action="<%= passwordRecoverySendPath %>" method="POST">
-      <% if (message) {%>
-        <p> <%=message%></p>
-      <%}%>
-      <div class="field">
-          <input type="text" name="email" value="">
+  <div id="recoveryForm">
+    <div id="recoveryItems">
+        <div id="passRecoveryTitle">
+          <h3 class="title is-3">Restablecer Contraseña</h3>
+        </div>
+        <form action="<%= passwordRecoverySendPath %>" method="POST">
+          <% if (message) {%>
+            <p class="error-message"> <%=message%></p>
+          <%}%>
+          <div class="field">
+              <input type="text" name="email" value="" placeholder="Email">
+          </div>
+          <div class="field-submit">
+              <input type="submit" value="Enviar correo">
+          </div>
+        </form>
       </div>
-      <div class="field">
-          <input type="submit" value="Enviar correo">
-      </div>
-    </form>
   </div>
+  
 </body>
