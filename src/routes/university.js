@@ -2,6 +2,7 @@ const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
 const { Op } = require('sequelize');
 const { userLogged } = require('../routes/middlewares');
+const { sessionDecoder } = require('./functions');
 
 const router = new KoaRouter();
 
@@ -35,6 +36,7 @@ router.get('universities.list', '/', async (ctx) => {
   });
 });
 
+
 router.get('universities.new', '/new', userLogged, async (ctx) => {
   const university = ctx.orm.university.build();
   await ctx.render('universities/new', {
@@ -57,6 +59,19 @@ router.post('universities.create', '/', userLogged, async (ctx) => {
     });
   };
 });
+
+
+router.get('universities.stats', '/stats', async (ctx) => {
+  let universitiesList = await ctx.orm.university.findAll();
+  for (i=0; i < universitiesList.length; i++) {
+    universitiesList[i]["dataValues"].careers = await universitiesList[i].getCareers();
+  }
+  ctx.status = 200;
+  ctx.body = {
+    data: universitiesList,
+  }
+});
+
 
 router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
   const { university } = ctx.state;
@@ -152,7 +167,7 @@ router.get('university.claim', '/:id/claim', loadUniversity, async (ctx) => {
 router.post('university.save.staff', '/:id/claim', userLogged, async (ctx) => {
   if (ctx.request.body.staffVerificationCode == "123456789") {
     await ctx.orm.userModerateUniversity.create({
-      userId: ctx.session.userId,
+      userId: sessionDecoder(ctx.session.userId),
       universityId: ctx.params.id,
     });
   }

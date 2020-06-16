@@ -1,0 +1,97 @@
+<div class="columns is-desktop">
+  <% universitiesList.forEach((university) => { %>
+    <div class="column is-3">
+
+      <div class="card">
+
+        <div class="card-image">
+          <figure class="image is-4by3">
+              <img src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+          </figure>
+        </div>
+
+        <div class="card-content">
+          <div class="media">
+
+            <div class="media-left">
+              <figure class="image is-48x48">
+                  <img src="<%= university.logoUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+              </figure>
+            </div>
+
+            <div class="media-content">
+              <p class="title is-5"><a href="<%= universityShowPath(university) %>"><%- university.name %></a></p>
+              <p class="title is-6"><%- university.address %></p>
+            </div>
+            
+          </div>
+
+
+        </div>
+        <div class="columns">
+            <div class="column" style="margin-left: 10px;margin-bottom: 10px;">
+                <a class="button is-light" href="<%= universityEditPath(university) %>">Editar</a>
+            </div>
+            <div class="column" style="margin-right: 10px;margin-bottom: 10px;">
+                <a class="button is-light" href="<%= newCareerPath(university) %>">Añadir carrera</a>
+            </div>
+            <!-- <div class="column" style="margin-right: 10px;">
+              <a class="button is-light is-danger">Eliminar carrera</a>
+            </div> -->
+        </div>
+      </div>
+
+    </div>
+    <% }); %>
+
+</div>
+<br />
+<a class="button is-light" id="update-universities" value="Actualizar estadísticas">Actualizar estadísticas</a>
+<canvas id="careersByUniversity" width="200" height="100"></canvas>
+
+<script>
+
+  $("#update-universities").on("click", function() {
+    let req = $.ajax({
+        url: `/universities/stats`,
+        method: "GET",
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    req.done(function(response) {
+      let universities = response["data"];
+      var ctx = document.getElementById('careersByUniversity').getContext('2d');
+      let data = universities.map(un => un.careers.length);
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: universities.map(un => un.name),
+              datasets: [{
+                backgroundColor: 'rgb(255, 99, 132)',
+                label: "Carreras",
+                data: universities.map(un => un.careers.length)
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              },
+              title: {
+                  display: true,
+                  text: 'Carreras por universidad',
+                  fontSize: 20
+              }
+          }
+      });
+    });
+
+  });
+
+</script>

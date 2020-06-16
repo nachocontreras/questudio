@@ -78,8 +78,12 @@
 
 <% } %>
 
-<% if (userIsStaff) { %>
-<%- include('staff/_staff_options') %>
+<% if (userIsStaff || (currentUser && currentUser.admin)) { %>
+  <%- include('staff/_staff_options') %>
 <% } else { %>
-<%- include('staff/_no_staff_options') %>
+  <%- include('staff/_no_staff_options') %>
 <% } %>
+<br />
+<br />
+<br />
+

@@ -106,6 +106,17 @@
   opacity: 0.3;
 }
 
+.menu {
+  background:floralwhite;
+  width: 20%;
+  border: 1px solid black;
+  padding: 5px;
+  padding-top:20px;
+  height: 100%;
+  position: fixed;
+
+}
+
 #recoveryForm {
   text-align: center;
   .field input {

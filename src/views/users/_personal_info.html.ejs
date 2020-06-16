@@ -1,0 +1,68 @@
+<div class="profile-card">
+    <figure class="profile-image-div">
+        <% if (editableBoolean){ %>
+            <form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
+                    <div class="profile-image">
+                        <label for="userImage">
+                            <img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+                        </label>
+                        <input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
+                    </div>
+            </form>
+        <%} else {%>
+            <div class="profile-image">
+                <label for="userImage">
+                    <img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+                </label>
+            </div>
+        <% } %>
+    </figure>
+            
+    <h1><%- user.name %> <%- user.lastname %></h1>
+    <div id="user-type">
+        <p class="title"><%- user.getType() %></p>
+    </div>
+    <% if (user.userType == '1') { %>
+    <p class="university"><%- user.university.name %></p>
+    <% } %>
+</div>
+
+<br />
+<br />
+<br />
+
+<div class="profile-card">
+    <div>
+        <p class="profile-edit-title" >Información del perfil</p>
+    </div>
+    
+    <form id="edit-user-form" action="<%= submitEditUserPath %>" method="POST">
+        <input type="hidden" name="_method" value="post" />
+        <div class="edit-user-fields">
+            <div class="title">
+                <input class="input is-info" type="email" id="editEmail" name="email" value="<%= user.email %>" placeholder="Email" required/>
+            </div>
+            <div class="title">
+                <input class="input is-info" type="text" id="editName" name="name" value="<%= user.name %>" placeholder="Nombre" required/>
+            </div>
+            <div class="title">
+                <input  class="input is-info" type="text" id="editLastname" name="lastname" value="<%= user.lastname %>" placeholder="Apellido" required/>
+            </div>
+            <div class="edit-button">
+                <input class="input is-info" type="submit" name="submit" value="Actualizar" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<br />
+<br />
+<br />
+
+<p class="title is-5">Eliminar cuenta</p>
+<div class="deleteForm">
+    <form action="<%- deleteUserPath %>" method="POST">
+        <input type="hidden" name="_method" value="delete" />
+        <input class="button is-danger" type="submit" value="Eliminar Cuenta" onclick="return confirm('¿Estás seguro/a que quieres eliminar tu cuenta?');" />
+    </form>
+</div>

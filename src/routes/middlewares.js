@@ -2,20 +2,27 @@ async function userLogged(ctx, next) {
   if (ctx.state.currentUser) {
     return next();
   }
-  ctx.redirect(ctx.router.url('session.new'));
+  return ctx.redirect(ctx.router.url('session.new'));
 }
 
 async function checkProfileEditable(ctx, next) {
-  if (ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
+  if (ctx.state.currentUser.admin || ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
     ctx.state.editableBoolean = true;
     return next();
   }
-  ctx.state.editableBoolean = false;
-  return next();
+  return ctx.redirect('/');
 }
 
 async function redirectIfNotUser(ctx, next) {
-  if (ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
+  if (ctx.state.currentUser.admin || ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
+    return next();
+  }
+  return ctx.redirect('/');
+}
+
+
+async function isAdmin(ctx, next) {
+  if (ctx.state.currentUser.admin === true) {
     return next();
   }
   return ctx.redirect('/');
@@ -32,5 +39,5 @@ async function experienceGuard(ctx, next) {
 }
 
 module.exports = {
-  userLogged, checkProfileEditable, redirectIfNotUser, experienceGuard,
+  userLogged, checkProfileEditable, redirectIfNotUser, experienceGuard, isAdmin
 };

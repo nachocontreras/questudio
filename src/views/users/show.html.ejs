@@ -1,37 +1,64 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-<body>
-	<div class="profile-card">
-		<figure class="profile-image-div">
-			<% if (editableBoolean){ %>
-				<form action="<%- addUserImagePath %>" enctype="multipart/form-data" method="post">
-						<div class="profile-image">
-							<label for="userImage">
-								<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
-							</label>
-							<input type="file" onchange="this.form.submit()" id="userImage" name="userImage" accept="image/*" data-type='image'/>
-						</div>
-				</form>
-			<%} else {%>
-				<div class="profile-image">
-					<label for="userImage">
-						<img src="<%= user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
-					</label>
-				</div>
-			<% } %>
-		</figure>
-				
-		<h1><%- user.name %> <%- user.lastname %></h1>
-		<div id="user-type">
-			<p class="title"><%- user.getType() %></p>
+<style>
+	[id^="page-"] {
+		display: none;
+	}
+</style>
+
+<% let actual = 'personal' %>
+<div class="columns" style="height: 90%;">
+    <div class="column is-one-fifth">
+        <%- include('menu', {actual: actual}) %>
+	</div>
+	<div class="column" style="margin-top: 4%; padding-left: 30px;padding-right: 30px;">
+		<div id="page-personal" style="display: block;">
+			<%- include('_personal_info') %>
 		</div>
-		<% if (user.userType == '1') { %>
-		<p class="university"><%- user.university.name %></p>
+		<div id="page-tests">
+			<%- include('_tests_page') %>
+		</div>
+		<div id="page-password">
+			<%- include('_password_page') %>
+		</div>
+	
+		<% if (staffUniversities && staffUniversities.length > 0) { %>
+		<div id="page-staff-universities">
+			<%- include('_universities_page', { universitiesList: staffUniversities }) %>
+		</div>
+		<% } %>
+
+		<% if (currentUser && currentUser.admin) { %>
+		<div id="page-users">
+			<%- include('_users_page') %>
+ 		</div>
+		<div id="page-universities">
+			<%- include('_universities_admin_page', { universitiesList: universitiesList })%>
+		</div>
+		<div id="page-careers">
+			<%- include('_careers_admin_page', { careersList: careersList })%>
+		</div>
+		<div id="page-staff">
+			<p>Aca se debe cargar con ajax la info de los staff, solo si se entra esta sección</p>
+		</div>
 		<% } %>
 	</div>
-</body>
+</div>
 
+<script>
+var urlParams;
+(window.onpopstate = function () {
+	var match,
+		pl     = /\+/g,  // Regex for replacing addition symbol with a space
+		search = /([^&=]+)=?([^&]*)/g,
+		decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+		query  = window.location.search.substring(1);
 
- <!-- Add icon library -->
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+	urlParams = {};
+	while (match = search.exec(query))
+	urlParams[decode(match[1])] = decode(match[2]);
+})();
+console.log(urlParams);
+  
+</script>
