@@ -1,4 +1,3 @@
-
 <div class="container">
   <br>
   <section class="hero is-primary">
@@ -7,7 +6,12 @@
         <h1 class="title">
           <%- university.name %>
         </h1>
-
+        <div class="searcher">
+          <form id="search-career-form">
+            <input type="text" id="career-input" placeholder="Busca una carrera..." />
+          </form>
+          <div class="career-result" id="<%= university.id %>"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -15,52 +19,57 @@
 
 <div class="container">
   <div class="container" align="center">
-    <img src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>" alt="Placeholder image">
+    <img
+      src="<%= university.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1589142071/universities-images/university_placeholder_sxcvn0.png'%>"
+      alt="Placeholder image">
   </div>
+
+  <div id=""></div>
 
   <p><%- university.description %></p>
   <br>
   <p>Tiene <%- careersList.length %> carrera(s)</p>
   <% if (careersList.length == 0) { %>
-    <p>Esta universidad aun no posee carreras registradas.</p>
+  <p>Esta universidad aun no posee carreras registradas.</p>
 </div>
+
 
 
 <% } else { %>
 <div class="container">
   <div class="columns is-desktop is-multiline">
-      <% careersList.forEach((career) => { %>
-          <div class="column is-4">
-              <div class="card">
-                <div class="card-content">
+    <% careersList.forEach((career) => { %>
+    <div class="column is-4">
+      <div class="card">
+        <div class="card-content">
 
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-5"><a href="<%= showCareerPath(career) %>"><%- career.name %></a></p>
-                      <p class="title is-6">Área: <%- career.area %></p>
-                    </div>
-                  </div>
-
-                <div class="content">
-                    <p>Vacantes: <%- career.vacancies %></p>
-                    <p>Puntaje de corte: <%- career.minScore %></p>
-                    <p>Duración de la carrera: <%- career.duration %></p>
-                </div>        
-                <% if (userIsStaff) { %>
-                  <div class="columns">
-                  <a class="button is-light" href="<%= editCareerPath(career) %>">Editar</a>
-                  &nbsp;
-                  &nbsp;
-                    <form action="<%= deleteCareerPath(career) %>" method="POST">
-                      <input type="hidden" name="_method" value="delete" />
-                      <input class="button is-light" type="submit" value="Delete" />
-                    </form>
-                  </div>
-                <% } %>
-              </div>
+          <div class="media">
+            <div class="media-content">
+              <p class="title is-5"><a href="<%= showCareerPath(career) %>"><%- career.name %></a></p>
+              <p class="title is-6">Área: <%- career.area %></p>
             </div>
           </div>
-      <% }); %>
+
+          <div class="content">
+            <p>Vacantes: <%- career.vacancies %></p>
+            <p>Puntaje de corte: <%- career.minScore %></p>
+            <p>Duración de la carrera: <%- career.duration %></p>
+          </div>
+          <% if (userIsStaff) { %>
+          <div class="columns">
+            <a class="button is-light" href="<%= editCareerPath(career) %>">Editar</a>
+            &nbsp;
+            &nbsp;
+            <form action="<%= deleteCareerPath(career) %>" method="POST">
+              <input type="hidden" name="_method" value="delete" />
+              <input class="button is-light" type="submit" value="Delete" />
+            </form>
+          </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <% }); %>
   </div>
   <br>
 
@@ -70,7 +79,7 @@
 <% } %>
 
 <% if (userIsStaff) { %>
-  <%- include('staff/_staff_options') %>
+<%- include('staff/_staff_options') %>
 <% } else { %>
-  <%- include('staff/_no_staff_options') %>
+<%- include('staff/_no_staff_options') %>
 <% } %>
