@@ -67,12 +67,32 @@ $("#update-users").on("click", function() {
                     <td>${us.email}</td>
                     <td>${(us.userType == 0) ? "Enseñanza media": "Universitario"}</td>
                     <td>${(us.admin) ? "Administrador" : ((us.isStaff) ? "Staff" : "Común")}</td>
-                    <td style="text-align:center;cursor:pointer">${(us.verificated) ? '<i class="fas fa-check"></i>': '<i class="fas fa-times"></i>'}</td>
+                    <td style="text-align:center;cursor:pointer">${(us.verificated) ? '<i class="fas fa-check"></i>': '<a id="verificate-' + us.id + '">Verificar</a>'}</td>
                     <td style="text-align:center;cursor:pointer"><i onclick="onDelete(${us.id}, '${us.name}')" class="fas fa-trash"></i></td>
                 </tr>
             `;
-            console.log(htmlData);
             $("#users-table tbody").append(htmlData);
+            $("#verificate-" + us.id).on('click', function() {
+                let req = $.ajax({
+                    url: `/users/${us.id}/verify`,
+                    method: "PUT",
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                req.done(function(response) {
+                    if (response["data"] == true) {
+                        alert("Usuario verificado correctamente");
+                        window.location.reload();
+                        us.verificated = true;
+                    } else {
+                        alert("No se pudo verificar a este usuario");
+                    }
+                });
+                req.fail(function(jqXHR, textStatus) {
+                    alert("Hubo un error: " + textStatus);
+                });
+            })
         });
 
         const groupsByDate = users.reduce((groups, user) => {

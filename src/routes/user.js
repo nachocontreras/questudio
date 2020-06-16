@@ -179,6 +179,23 @@ router.post('users.addImage', '/:id/add_image', userLogged, checkProfileEditable
   await ctx.redirect(ctx.router.url('users.profile', { id: user.id }));
 });
 
+router.put('users.verifiy', '/:id/verify', userLogged, isAdmin, async (ctx) => {
+  try {
+    const user = await ctx.orm.user.findById(ctx.params.id);
+    await user.update({verificated: true});
+    ctx.status = 200;
+    ctx.body = {
+      "data": true
+    }
+  } catch (e) {
+    console.log(e);
+    ctx.status = 200;
+    ctx.body = {
+      "data": false
+    }
+  }
+});
+
 router.del('users.delete', '/:id', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   let isUser = parseInt(ctx.params.id) == parseInt(ctx.state.currentUser.id);
   try {

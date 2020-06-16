@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: DataTypes.STRING,
     universityId: DataTypes.INTEGER,
     careerId: DataTypes.INTEGER,
+    verificated: DataTypes.BOOLEAN,
   }, {
     indexes: [
       {
