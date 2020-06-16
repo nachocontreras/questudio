@@ -1,5 +1,6 @@
 const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
+const { Op } = require('sequelize');
 const { userLogged } = require('../routes/middlewares');
 const { sessionDecoder } = require('./functions');
 
@@ -19,20 +20,20 @@ function takeOutExtension(name) {
 // /universities
 
 async function loadUniversity(ctx, next) {
-    ctx.state.university = await ctx.orm.university.findById(ctx.params.id); // 1
-    return next();
+  ctx.state.university = await ctx.orm.university.findById(ctx.params.id); // 1
+  return next();
 }
 
 router.get('universities.list', '/', async (ctx) => {
-    const universitiesList = await ctx.orm.university.findAll();
-    await ctx.render('universities/index', {
-        universitiesList,
-        newUniversityPath: ctx.router.url('universities.new'),
-        universityShowPath: university => ctx.router.url('universities.show', { id: university.id }),
-        universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
-        universityDeletePath: university => ctx.router.url('universities.delete', { id: university.id }),
-        careerListPath: ctx.router.url('careers.list'),
-    });
+  const universitiesList = await ctx.orm.university.findAll();
+  await ctx.render('universities/index', {
+    universitiesList,
+    newUniversityPath: ctx.router.url('universities.new'),
+    universityShowPath: university => ctx.router.url('universities.show', { id: university.id }),
+    universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
+    universityDeletePath: university => ctx.router.url('universities.delete', { id: university.id }),
+    careerListPath: ctx.router.url('careers.list'),
+  });
 });
 
 
@@ -73,22 +74,22 @@ router.get('universities.stats', '/stats', async (ctx) => {
 
 
 router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
-    const { university } = ctx.state;
-    const staffs = await university.getStaffs();
-    const careersList = await university.getCareers();
-    const userIsStaff = staffs.map((staff) => staff.id).includes(parseInt(sessionDecoder(ctx.session.userId)))
-    await ctx.render('universities/show', {
-        university,
-        careersList,
-        staffs,
-        userIsStaff: userIsStaff,
-        universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
-        newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
-        showCareerPath: career => ctx.router.url('careers.show', { id: career.id }),
-        editCareerPath: career => ctx.router.url('careers.edit', { id: career.id }),
-        deleteCareerPath: career => ctx.router.url('careers.delete', { id: career.id }),
-        staffClaimPath: university => ctx.router.url('university.claim', { id: university.id }),
-    });
+  const { university } = ctx.state;
+  const staffs = await university.getStaffs();
+  const careersList = await university.getCareers();
+  const userIsStaff = staffs.map((staff) => staff.id).includes(ctx.session.userId)
+  await ctx.render('universities/show', {
+    university,
+    careersList,
+    staffs,
+    userIsStaff: userIsStaff,
+    universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
+    newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
+    showCareerPath: career => ctx.router.url('careers.show', { id: career.id }),
+    editCareerPath: career => ctx.router.url('careers.edit', { id: career.id }),
+    deleteCareerPath: career => ctx.router.url('careers.delete', { id: career.id }),
+    staffClaimPath: university => ctx.router.url('university.claim', { id: university.id }),
+  });
 });
 
 router.get('universities.edit', '/:id/edit', userLogged, loadUniversity, async (ctx) => {
@@ -171,6 +172,21 @@ router.post('university.save.staff', '/:id/claim', userLogged, async (ctx) => {
     });
   }
   ctx.redirect(ctx.router.url('universities.show', { id: ctx.params.id }));
+})
+
+router.get('university.search.career', '/:id/search', loadUniversity, async (ctx) => {
+  const { university } = ctx.state;
+  const req = ctx.query;
+  if (req.text) {
+    const careerInput = req.text;
+    var results = {
+      careers: null
+    };
+    results.careers = await university.getCareers({
+      where: { name: { [Op.iLike]: `%${careerInput}%` } }
+    });
+  }
+  ctx.body = results;
 })
 
 module.exports = router;

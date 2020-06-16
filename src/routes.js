@@ -12,6 +12,8 @@ const experience = require('./routes/experience');
 const team = require('./routes/team');
 const admin = require('./routes/admin');
 const { sessionDecoder } = require('./routes/functions');
+const passwordRecovery = require('./routes/passwordRecovery');
+const verificateEmail = require('./routes/verificateEmail');
 
 const router = new KoaRouter();
 
@@ -46,5 +48,7 @@ router.use('/vocacionales', vocacionales.routes());
 router.use('/experiences', experience.routes());
 router.use('/team', team.routes());
 router.use('/admin', admin.routes());
+router.use('/passwordRecovery', passwordRecovery.routes());
+router.use('/verificateEmail', verificateEmail.routes());
 
 module.exports = router;
