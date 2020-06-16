@@ -1,0 +1,93 @@
+<section class="hero is-warning">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Carreras</h1>
+      </div>
+    </div>
+  </section>
+  <br>  
+</div>  
+
+<div class="columns is-desktop is-multiline">
+    <% careersList.forEach((career) => { %>
+        <div class="column is-3">
+            <div class="card">
+                    
+              <div class="card-content">
+                <div class="media">      
+                  <div class="media-content">
+                    <p class="title is-5"><%- career.name %></p>
+                    <p class="title is-6"><%- career.area %></p>
+                    
+                  </div>
+              </div>
+  
+              <div class="content">
+                  Vacantes: <%- career.vacancies %>
+                  <br>
+              </div>
+              
+              <div class="content">
+                    Universidad: <%- career.universityId %>
+                    <br>
+              </div>
+              <a href="<%- careerShowPath(career) %>">Ir a carrera</a>
+    
+  
+            </div>
+          </div>
+  
+        </div>
+    <% }); %>
+</div>  
+
+<br />
+<input class="button" id="update-careers" value="Actualizar estadísticas" />
+<canvas id="careersByVacancies" width="200" height="100"></canvas>
+<canvas id="careersByArea" width="200" height="100"></canvas>
+
+<script>
+
+  $("#update-careers").on("click", function() {
+    let req = $.ajax({
+        url: `/careers/stats`,
+        method: "GET",
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    req.done(function(response) {
+      let careers = response["data"];
+      var ctx = document.getElementById('careersByVacancies').getContext('2d');
+      let data = universities.map(un => un.careers.length);
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: careers.map(ca => ca.name),
+              datasets: [{
+                label: "Cupos por carrera",
+                data: careers.map(ca => ca.vacancies)
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              },
+              title: {
+                  display: true,
+                  text: 'Cupos por carrera',
+                  fontSize: 20
+              }
+          }
+      });
+    });
+
+  });
+
+</script>

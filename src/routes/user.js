@@ -95,7 +95,9 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
   const submitPasswordUserPath = ctx.router.url('users.editPassword', { id: user.id });
   const deleteUserPath = ctx.router.url('users.delete', { id: user.id });
   let universitiesList = []
+  let careersList = []
   if (ctx.state.currentUser.admin) {
+    careersList = await ctx.orm.career.findAll();
     universitiesList = await ctx.orm.university.findAll(); 
   }
   await ctx.render('users/show', {
@@ -114,7 +116,8 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     careerListPath: ctx.router.url('careers.list'),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
     // admin
-    universitiesList
+    universitiesList,
+    careersList
   });
 });
 
@@ -174,10 +177,21 @@ router.post('users.addImage', '/:id/add_image', userLogged, checkProfileEditable
 });
 
 router.del('users.delete', '/:id', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
-  const user = await ctx.orm.user.findById(ctx.params.id);
-  await user.destroy();
-  ctx.session = {};
-  ctx.redirect('/');
+  let isUser = parseInt(ctx.params.id) == parseInt(ctx.state.currentUser.id);
+  try {
+    const user = await ctx.orm.user.findById(ctx.params.id);
+    await user.destroy();
+  } catch (e) {
+    return ctx.redirect('/');
+  }
+  if (isUser) {
+    ctx.session = {};
+    ctx.redirect('/');
+  } else {
+    ctx.body = {
+      "data": true
+    }
+  }
 });
 
 module.exports = router;

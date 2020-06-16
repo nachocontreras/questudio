@@ -6,7 +6,7 @@
             <th>Correo</th>
             <th>Tipo de usuario</th>
             <th>Rol</th>
-            <th>Editar</th>
+            <th>¿Validado?</th>
             <th>Eliminar</th>
         </tr>
     </thead>
@@ -29,20 +29,20 @@
 function onDelete(id, name) {
     let res = confirm(`¿Está seguro de eliminar al usuario ${id} - ${name}`);
     if (res == true) {
-        // let req = $.ajax({
-        //     url: `/users/${id}`,
-        //     method: "DELETE",
-        //     headers: {
-        //         'Accept': 'application/json'
-        //     }
-        // })
-        // req.done(function(response) {
-        //     alert("Usuario eliminado correctamente (ESTA COMENTADA LA FUNCION)");
-        // });
-        // req.fail(function(jqXHR, textStatus) {
-        //     alert("Hubo un error: " + textStatus);
-        // });
-        alert("Usuario eliminado correctamente (ESTA COMENTADA LA FUNCION)");
+        let req = $.ajax({
+            url: `/users/${id}`,
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        req.done(function(response) {
+            alert("Usuario eliminado correctamente");
+            window.location.reload();
+        });
+        req.fail(function(jqXHR, textStatus) {
+            alert("Hubo un error: " + textStatus);
+        });
         
     } else {
 
@@ -67,7 +67,7 @@ $("#update-users").on("click", function() {
                     <td>${us.email}</td>
                     <td>${(us.userType == 0) ? "Enseñanza media": "Universitario"}</td>
                     <td>${(us.admin) ? "Administrador" : ((us.isStaff) ? "Staff" : "Común")}</td>
-                    <td style="text-align:center;cursor:pointer"><i class="fas fa-edit"></i></td>
+                    <td style="text-align:center;cursor:pointer"><i class="fas fa-check"></i>/<i class="fas fa-times"></i></td>
                     <td style="text-align:center;cursor:pointer"><i onclick="onDelete(${us.id}, '${us.name}')" class="fas fa-trash"></i></td>
                 </tr>
             `;

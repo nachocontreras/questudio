@@ -6,7 +6,7 @@ async function userLogged(ctx, next) {
 }
 
 async function checkProfileEditable(ctx, next) {
-  if (ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
+  if (ctx.state.currentUser.admin || ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
     ctx.state.editableBoolean = true;
     return next();
   }
@@ -14,7 +14,7 @@ async function checkProfileEditable(ctx, next) {
 }
 
 async function redirectIfNotUser(ctx, next) {
-  if (ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
+  if (ctx.state.currentUser.admin || ctx.state.currentUser.id === parseInt(ctx.params.id, 10)) {
     return next();
   }
   return ctx.redirect('/');
