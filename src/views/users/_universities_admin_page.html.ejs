@@ -46,7 +46,7 @@
 
 </div>
 <br />
-<input class="button" id="update-universities" value="Actualizar estadísticas" />
+<a class="button is-light" id="update-universities" value="Actualizar estadísticas">Actualizar estadísticas</a>
 <canvas id="careersByUniversity" width="200" height="100"></canvas>
 
 <script>
@@ -68,6 +68,7 @@
           data: {
               labels: universities.map(un => un.name),
               datasets: [{
+                backgroundColor: 'rgb(255, 99, 132)',
                 label: "Carreras",
                 data: universities.map(un => un.careers.length)
               }]

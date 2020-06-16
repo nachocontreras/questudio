@@ -117,7 +117,10 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
     // admin
     universitiesList,
-    careersList
+    careersList,
+    careerShowPath: career => ctx.router.url('careers.show', { id: career.id }),
+    editCareerPath: career => ctx.router.url('careers.edit', { id: career.id }),
+    deleteCareerPath: career => ctx.router.url('careers.delete', { id: career.id }),
   });
 });
 

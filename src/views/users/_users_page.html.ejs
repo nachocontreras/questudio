@@ -15,7 +15,7 @@
 
 <hr>
 
-<input class="button" id="update-users" value="Actualizar estadísticas" />
+<a class="button is-light" id="update-users" value="Actualizar estadísticas">Actualizar estadísticas</a>
 <div class="columns">
     <div class="column">
         <canvas id="usersByDate" width="200" height="100"></canvas>
@@ -67,7 +67,7 @@ $("#update-users").on("click", function() {
                     <td>${us.email}</td>
                     <td>${(us.userType == 0) ? "Enseñanza media": "Universitario"}</td>
                     <td>${(us.admin) ? "Administrador" : ((us.isStaff) ? "Staff" : "Común")}</td>
-                    <td style="text-align:center;cursor:pointer"><i class="fas fa-check"></i>/<i class="fas fa-times"></i></td>
+                    <td style="text-align:center;cursor:pointer">${(us.verificated) ? '<i class="fas fa-check"></i>': '<i class="fas fa-times"></i>'}</td>
                     <td style="text-align:center;cursor:pointer"><i onclick="onDelete(${us.id}, '${us.name}')" class="fas fa-trash"></i></td>
                 </tr>
             `;
