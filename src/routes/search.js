@@ -34,7 +34,10 @@ router.get('/', async (ctx) => {
                     name: {
                         [Op.iLike]: `%${text}%`
                     }
-                }
+                },
+                include: [{
+                    model: ctx.orm.university
+                }]
             });
             new_dict["amount"] += careers.length;
             new_dict["data"]['Carreras'] = careers;
