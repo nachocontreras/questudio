@@ -6,7 +6,12 @@ module.exports = (sequelize, DataTypes) => {
     vacancies: DataTypes.INTEGER,
     minScore: DataTypes.INTEGER,
     duration: DataTypes.INTEGER,
-    universityId: DataTypes.INTEGER
+    universityId: DataTypes.INTEGER,
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 500,
+    }
   }, {});
   career.associate = function(models) {
     // associations can be defined here
