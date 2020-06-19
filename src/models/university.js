@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: DataTypes.STRING,
     logoUrl: DataTypes.STRING,
   }, {});
+
   university.associate = function(models) {
     // associations can be defined here
     university.hasMany(models.career, {onDelete: 'CASCADE', hooks:true});  // university.getCareers() => entrega las carreras.
