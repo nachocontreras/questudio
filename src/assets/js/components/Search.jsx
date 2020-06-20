@@ -32,8 +32,9 @@ export default class Search extends Component {
         },
         removeFilterButton: true,
         abcAsc: false,
-        attributeFilterName: "",
-        attributeAsc: false
+        selectedUniversity: "all",
+        attributeFilterName: "none",
+        attributeAsc: false,
       }
 
       this.loadQuestions = this.loadQuestions.bind(this);
@@ -42,10 +43,13 @@ export default class Search extends Component {
       this.filterBar = this.filterBar.bind(this);
       this.filterAttribute = this.filterAttribute.bind(this);
       this.onAttributeSelect = this.onAttributeSelect.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      this.submitSearch = this.submitSearch.bind(this);
 
     }
 
     loadQuestions() {
+      console.log(234234);
       const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -62,6 +66,9 @@ export default class Search extends Component {
           "universitiesNames": {}
         }
         universidades.forEach(un => {
+          un.vacancies = -100000;
+          un.minScore = -1000000;
+          un.price = 0;
           resu["all"].push({
             type: "university",
             data: un,
@@ -149,12 +156,46 @@ export default class Search extends Component {
       })
     }
 
-    filterAttribute() {
-      let value = !this.state.attributeAsc;
-      this.setState({
-        attributeAsc: value,
+    filterAttribute(actualAsc=null, actualName=null) {
+      let _attributeAsc;
+      if (actualAsc == null) {
+        _attributeAsc = !this.state.attributeAsc;
+      } else {
+        _attributeAsc = actualAsc;
+      }
+      let _name;
+      if (actualName == null) {
+        _name = this.state.attributeFilterName;
+      } else {
+        _name = actualName;
+      }
+      let orderResults = this.state.results;
+      orderResults["all"].sort((a, b) => {
+        if (_name == 'vacante') {
+            if (_attributeAsc) {
+              return a.data.vacancies > b.data.vacancies;
+            } else {
+              return a.data.vacancies < b.data.vacancies;
+            }
+        } else if (_name == 'corte') {
+          if (_attributeAsc) {
+            return a.data.minScore > b.data.minScore;
+          } else {
+            return a.data.minScore < b.data.minScore;
+          }
+        } else if (_name == 'precio') {
+          if (_attributeAsc) {
+            return a.data.price > b.data.price;
+          } else {
+            return a.data.price < b.data.price;
+          }
+        }
+        return false;
       })
-      this.attributeFilter(this.state.attributeFilterName, value);
+      this.setState({
+        attributeAsc: _attributeAsc,
+        results: orderResults
+      })
     }
 
     onAttributeSelect(e) {
@@ -162,68 +203,25 @@ export default class Search extends Component {
       this.setState({
         attributeFilterName: _attributeFilterName
       })
-      this.attributeFilter(_attributeFilterName, this.state.attributeAsc);
+      this.filterAttribute(this.state.attributeAsc, _attributeFilterName);
     }
 
-    attributeFilter(attributeFilterName, attributeAsc) {
-      let orderResults = this.state.results;
-      if (attributeFilterName == "none") {
-        orderResults["all"].forEach(obj => {
-          obj.show = true;
-        });
-        // this.abcFilter();
-      } else if (attributeFilterName == "vacante") {
-        orderResults["all"].forEach(obj => {
-          if (obj.data.vacancies != undefined && obj.data.vacancies != -1000000) {
-            obj.show = true;
-          } else {
-            obj.vacancies = -1000000;
-            obj.show = false;
-          }
-        })
-        orderResults["all"].sort((a, b) => {
-          if (attributeAsc) {
-            return a.data.vacancies > b.data.vacancies;
-          } else {
-            return a.data.vacancies < b.data.vacancies;
-          }
-        })
-      } else if (attributeFilterName == "corte") {
-        orderResults["all"].forEach(obj => {
-          if (obj.data.minScore != undefined && obj.data.minScore != -1000000) {
-            obj.show = true;
-          } else {
-            obj.minScore = -1000000;
-            obj.show = false;
-          }
-        })
-        orderResults["all"].sort((a, b) => {
-          if (attributeAsc) {
-            return a.data.minScore > b.data.minScore;
-          } else {
-            return a.data.minScore < b.data.minScore;
-          }
-        })
-      } else if (attributeFilterName == "precio") {
-        orderResults["all"].forEach(obj => {
-          if (obj.data.price != undefined && obj.data.price != -1000000) {
-            obj.show = true;
-          } else {
-            obj.price = 0;
-            obj.show = false;
-          }
-        })
-        orderResults["all"].sort((a, b) => {
-          if (attributeAsc) {
-            return a.data.price > b.data.price;
-          } else {
-            return a.data.price < b.data.price;
-          }
+    submitSearch(e) {
+      e.preventDefault();
+      this.loadQuestions();
+      // this.filterAttribute(this.state.attributeAsc, this.state.attributeFilterName);
+    }
+
+    handleSearch(e) {
+      let text = e.target.value;
+      if (text != this.state.searchText) {
+        this.setState({
+          searchText: text
         })
       }
-      this.setState({
-        results: orderResults
-      })
+      if (window.history.replaceState) {
+        window.history.replaceState({}, "search", "search?text=" + text);
+      }
     }
 
     filterBar() {
@@ -260,6 +258,15 @@ export default class Search extends Component {
             <button onClick={() => this.filterAttribute()}>
               {(this.state.attributeAsc) ? "Menor a mayor": "Mayor a menor"}
             </button>
+          </div>
+          &nbsp;
+          &nbsp;
+          <div>
+            <div className="control">
+              <form onSubmit={this.submitSearch}>
+                <input className="input" type="text" onChange={this.handleSearch} placeholder="Esribe aquí" style={{width: "370px"}}/>
+              </form>
+            </div>
           </div>
         </div>
       )
