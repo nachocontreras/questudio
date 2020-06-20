@@ -17,7 +17,7 @@
             </div>
         <% } %>
     </figure>
-            
+
     <h1><%- user.name %> <%- user.lastname %></h1>
     <div id="user-type">
         <p class="title"><%- user.getType() %></p>
@@ -35,7 +35,7 @@
     <div>
         <p class="profile-edit-title" >Información del perfil</p>
     </div>
-    
+
     <form id="edit-user-form" action="<%= submitEditUserPath %>" method="POST">
         <input type="hidden" name="_method" value="post" />
         <div class="edit-user-fields">
