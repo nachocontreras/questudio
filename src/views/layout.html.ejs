@@ -62,6 +62,28 @@
       margin-top: 50px;
     }
 
+    .navbar-logo {
+      padding: 0 5px;
+    }
+
+    .moveImagen {
+      position: relative;
+      top: 10%;
+      left: 30%;
+    }
+    .navbar-item {
+        margin: 0 7px;
+    }
+
+    .has-background-white-bis{
+      border-bottom: solid grey 1px;
+    }
+
+    .avatar {
+      height: 100%;
+      border-radius: 50%;
+      float: left;
+    }
   </style>
 
   <body>
@@ -72,7 +94,7 @@
         <div></div>
         <div></div>
     </div>
-  
+
   <nav class="navbar has-background-white-bis is-fixed-top" role="navigation" aria-label="main navigation" style="height: 0px;">
     <span></span>
     <div class="navbar-brand">
@@ -88,16 +110,11 @@
 
           <div class="navbar-item field">
             <p class="control has-icons-right">
-
-
-              <form id="search-form" style="margin-top: 20px;">
-
-              <input id="search-box" class="input" type="search" placeholder="Busca una universidad...">
-
-
-              <span class="icon is-small is-right">
-                <icon />
-              </span>
+              <form id="search-form" style="margin-top: 25px;display:inline-block">
+                <input id="search-box" class="input" type="search" placeholder="Busca una universidad..."/>
+                <span class="icon is-small is-right">
+                  <icon />
+                </span>
               </form>
             </p>
           </div>
@@ -107,8 +124,9 @@
       <% if (currentUser) { %>
         <div class="navbar-end">
           <div class="navbar-item">
-            <a href="<%- profilePath %>"><img src="https://img.icons8.com/ios/50/000000/user-male-circle.png"/></a>
-            <!-- <a href="<%#- editUserPath  %>"><img src="https://img.icons8.com/ios/50/000000/settings.png"/></a> -->
+            <a href="<%- profilePath %>"><img class="avatar" src="<%= currentUser.imageUrl || 'https://img.icons8.com/ios/50/000000/user-male-circle.png'%>"/></a>
+          </div>
+          <div class="navbar-item">
             <form id="signout-form" action="<%= destroySessionPath %>" method="post">
               <input type="hidden" name="_method" value="delete" />
               <a onclick="document.getElementById('signout-form').submit()">
@@ -146,4 +164,3 @@
   </script>
 
 </html>
-
