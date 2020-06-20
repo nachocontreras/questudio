@@ -1,0 +1,34 @@
+<div class="box">
+  <article class="media">
+    <div class="media-left">
+      <figure class="image is-64x64">
+        <img src="<%= exp.user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+      </figure>
+    </div>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <strong><%= exp.user.name %></strong>
+          <br>
+          <%= exp.description %>
+        </p>
+      </div>
+      <nav class="level is-mobile">
+        <div class="level-left">
+          <a class="level-item" aria-label="like">
+            <span class="icon is-small">
+              <i id="icono" class="fas fa-heart" aria-hidden="true" onclick="myFunction()"></i>
+              <script>
+        function myFunction() {
+          document.getElementById("icono").style.color = "red";;
+        }
+
+        </script> <!-- No supe como dislikear  -->
+
+            </span>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </article>
+</div>
