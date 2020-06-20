@@ -1,11 +1,16 @@
 const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
-const { userLogged } = require('../routes/middlewares');
+const {
+  userLogged,
+  isAdmin,
+  isStaffOrAdmin,
+  carrerIsStaffOrAdmin,
+} = require('../routes/middlewares');
 
 async function loadCareer(ctx, next) {
     ctx.state.career = await ctx.orm.career.findById(ctx.params.id); // 1
-    return next(); 
+    return next();
 }
 
 async function loadUniversity(ctx, next) {
@@ -29,7 +34,9 @@ router.get('careers.stats', '/stats', async (ctx) => {
   }
 });
 
-router.get('careers.new', '/:id/new', userLogged, loadUniversity, async (ctx) => {
+router.get('careers.new', '/:id/new', userLogged,
+                                      isStaffOrAdmin,
+                                      loadUniversity, async (ctx) => {
   const university = ctx.state.university;
   const career = ctx.orm.career.build()
   await ctx.render('careers/new', {
@@ -40,7 +47,10 @@ router.get('careers.new', '/:id/new', userLogged, loadUniversity, async (ctx) =>
   });
 });
 
-router.post('careers.create', '/:id/create', userLogged, loadUniversity, async (ctx) => {
+router.post('careers.create', '/:id/create',
+                                      userLogged,
+                                      isStaffOrAdmin,
+                                      loadUniversity, async (ctx) => {
     const university = ctx.state.university;
     const career = ctx.orm.career.build(ctx.request.body);
     try {
@@ -59,11 +69,10 @@ router.post('careers.create', '/:id/create', userLogged, loadUniversity, async (
 router.get('careers.show', '/:id', loadCareer, async (ctx) => {
     const { career } = ctx.state;
     const university = await career.getUniversity();
-    const experiencesList = await ctx.orm.experience.findAll({ 
+    const experiencesList = await ctx.orm.experience.findAll({
       where: {careerId: career.id},
       include: { model: ctx.orm.user}
     });
-    console.log(experiencesList);
     await ctx.render('careers/show', {
         experiencesList,
         university,
@@ -71,7 +80,9 @@ router.get('careers.show', '/:id', loadCareer, async (ctx) => {
     });
 });
 
-router.get('careers.edit', '/:id/edit', userLogged, loadCareer, async (ctx) => {
+router.get('careers.edit', '/:id/edit', userLogged,
+                                        carrerIsStaffOrAdmin,
+                                        loadCareer, async (ctx) => {
   const { career } = ctx.state;
   await ctx.render('careers/edit', {
     career,
@@ -80,8 +91,9 @@ router.get('careers.edit', '/:id/edit', userLogged, loadCareer, async (ctx) => {
   });
 });
 
-
-router.patch('careers.update', '/:id', userLogged, loadCareer, async (ctx) => {
+router.patch('careers.update', '/:id', userLogged,
+                                       carrerIsStaffOrAdmin,
+                                       loadCareer, async (ctx) => {
   const { career } = ctx.state;
   try {
     const { name, area, vacancies, minScore, duration } = ctx.request.body;
@@ -96,7 +108,9 @@ router.patch('careers.update', '/:id', userLogged, loadCareer, async (ctx) => {
   }
 });
 
-router.delete('careers.delete', '/:id', userLogged, loadCareer, async (ctx) => {
+router.delete('careers.delete', '/:id', userLogged,
+                                        carrerIsStaffOrAdmin,
+                                        loadCareer, async (ctx) => {
   const { career } = ctx.state;
   let universityId = career.universityId;
   await career.destroy();

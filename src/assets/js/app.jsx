@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import App from './components/App';
 import Poll from './components/Poll';
+import Search from './components/Search';
 
 const reactAppContainer = document.getElementById('react-app');
 if (reactAppContainer) {
@@ -19,4 +21,9 @@ if (testContainer) {
     myResultsUrl: testContainer.dataset.myResults,
     currentUser: testContainer.dataset.currentUser
   }}/>, testContainer);
+}
+
+const searchContainer = document.getElementById('search-component');
+if (searchContainer) {
+  ReactDOM.render(<BrowserRouter> <Route path="/search" component={Search} /> </BrowserRouter>, searchContainer);
 }
