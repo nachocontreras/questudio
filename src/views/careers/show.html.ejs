@@ -19,10 +19,39 @@
 	</div>
 
 	<div class="container">
-		<p>Tiene <%- career.vacancies %> vacantes</p>
+		<section class="info-tiles">
+                    <div class="tile is-ancestor has-text-centered">
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p class="title"><%- career.vacancies %></p>
+                                <p class="subtitle">Vacantes</p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p class="title"><%- career.minScore %></p>
+                                <p class="subtitle">Puntaje de corte</p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p class="title"><%- career.duration %></p>
+                                <p class="subtitle">Semestres de duración</p>
+                            </article>
+                        </div>
+                        <div class="tile is-parent">
+                            <article class="tile is-child box">
+                                <p class="title is-5"><%- university.name %></p>
+                                <p class="subtitle">Está en</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+	<!-- 	<p>Tiene <%- career.vacancies %> vacantes</p>
 		<p>El puntaje de corte de esta carrera es <%- career.minScore %></p>
 		<p>Tiene una duración de <%- career.duration %> semestres</p>
-		<p>Esta carrera está en <%- university.name %></p>
+		<p>Esta carrera está en <%- university.name %></p> -->
 	</div>
 
 	<br>
