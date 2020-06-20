@@ -20,12 +20,34 @@ async function redirectIfNotUser(ctx, next) {
   return ctx.redirect('/');
 }
 
-
 async function isAdmin(ctx, next) {
   if (ctx.state.currentUser.admin === true) {
     return next();
   }
   return ctx.redirect('/');
+}
+
+// Este mw esta preparado para recibir un id de UNIVERSIDAD
+async function isStaffOrAdmin(ctx, next) {
+  const university = await ctx.orm.university.findById(ctx.params.id);
+  const staffs = await university.getStaffs();
+  const isStaff = staffs.map(staff => staff.id)
+                        .includes(ctx.state.currentUser.id);
+  const isAdmin = ctx.state.currentUser.admin === true;
+
+  return (isStaff || isAdmin) ? next() : ctx.redirect('/');
+}
+
+// Este mw esta preparado para recibir un id de CARRERA
+async function carrerIsStaffOrAdmin(ctx, next) {
+  const carrer = ctx.orm.career.findById(ctx.params.id);
+  const university = await carrer.getUniversity();
+  const staffs = await university.getStaffs();
+  const isStaff = staffs.map(staff => staff.id)
+                        .includes(ctx.state.currentUser.id);
+  const isAdmin = ctx.state.currentUser.admin === true;
+
+  return (isStaff || isAdmin) ? next() : ctx.redirect('/');
 }
 
 async function experienceGuard(ctx, next) {
@@ -39,5 +61,11 @@ async function experienceGuard(ctx, next) {
 }
 
 module.exports = {
-  userLogged, checkProfileEditable, redirectIfNotUser, experienceGuard, isAdmin
+  userLogged,
+  checkProfileEditable,
+  redirectIfNotUser,
+  experienceGuard,
+  isAdmin,
+  isStaffOrAdmin,
+  carrerIsStaffOrAdmin,
 };
