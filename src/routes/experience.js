@@ -26,4 +26,21 @@ router.post('experience.create', '/:id/create',
     }
   });
 
+router.get('experience.list', '/', async (ctx) => {
+
+  const experiences = await ctx.orm.experience.findAll({
+    include: [
+      ctx.orm.user,
+      {
+        model: ctx.orm.career,
+        include: ctx.orm.university,
+      },
+    ],
+  })
+
+  await ctx.render('experiences/index', {
+    experiences,
+  })
+})
+
 module.exports = router;

@@ -1,0 +1,13 @@
+<div class="container">
+
+  <% if (!experiences.length) { %>
+    <p> Ninguna por ahora </p>
+  <% } else { %>
+  <% experiences.forEach((exp) => { %>
+    <br>
+    <p class="subtitle is-5">Sobre <%= exp.career.name %> en la <%= exp.career.university.name %></p>
+    <%- include('../experiences/_show', { exp }) %><br>
+    <% }) %>
+  <% } %>
+  
+</div>
