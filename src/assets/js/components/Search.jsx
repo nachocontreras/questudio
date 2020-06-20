@@ -49,7 +49,6 @@ export default class Search extends Component {
     }
 
     loadQuestions() {
-      console.log(234234);
       const requestOptions = {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
