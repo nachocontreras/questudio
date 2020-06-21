@@ -15,6 +15,28 @@
           <div class="level-right" >
             <p style="color: rgb(165,165,165);"><%= comment.createdAt %></p>
           </div>
+          
+          <% if (currentUser) { %>
+          <div id="reply-button"><i class="fa fa-reply" style="color: #797c82;"></i></div>
+          <div id="reply">
+            <form id="reply-form" method="post">
+							<div class="field">
+								<input class="input is-light" id="comment-description" type="text" placeholder="Escribe tu respuesta aquí.." name="description" required >
+								<input id="comment-careerId" type="hidden" value="<%- career.id %> ">
+								<input id="comment-userId" type="hidden" value="<%- currentUser.id %> ">
+								<input id="comment-previousCommentId" type="hidden" value="<%- comment.id %> ">
+								<br>
+								<br>
+								<div class="field">
+									<input class="button is-primary" type="submit" name="create" value="Responder" />
+								</div>
+							</div>
+            </form>
+          </div>
+            
+            
+          
+            <% } %>
   
       </div>
     </article>

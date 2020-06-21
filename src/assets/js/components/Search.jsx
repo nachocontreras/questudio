@@ -277,18 +277,20 @@ export default class Search extends Component {
       {results["all"].map((obj) => {
         if (obj.type == 'career' && obj.show) {
           return (<a key={`careers-${obj.data.id}`} href={`/careers/${obj.data.id}`}>
+          
           <div className='search-element columns'>
-            <div className="column is-11">
-              {obj.data.name}
-              &nbsp;
-              {obj.data.vacancies}
-              &nbsp;
-              {obj.data.minScore}
-              &nbsp;
-              {obj.data.university.name}
-              &nbsp;
-              {obj.data.price}
+          <div className="column is-11">
+              <strong>{obj.data.name}</strong>
+              <div className="container">
+              <p>{obj.data.vacancies} vacantes</p>
+              <p>Puntaje de corte es {obj.data.minScore} </p>
+              <p>En {obj.data.university.name} </p>
+              <p>Valor arancel es {obj.data.price} </p>
+                      
             </div>
+            </div>
+            
+            
             <div className="column is-1">
               <p className="hero is-warning">
                 Carrera
@@ -301,7 +303,7 @@ export default class Search extends Component {
           return (<a key={`universities-${obj.data.id}`} href={`/universities/${obj.data.id}`}>
           <div className='search-element columns'>
             <div className="column is-11">
-              {obj.data.name}
+              <strong>{obj.data.name}</strong>
             </div>
             <div className="column is-1">
               <p className="hero is-primary">
