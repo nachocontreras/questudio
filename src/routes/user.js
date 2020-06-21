@@ -125,6 +125,7 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
     careerListPath: ctx.router.url('careers.list'),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
+    simulationsPath: (user) => ctx.router.url('simulator.show', { userId: user.id }),
     // admin
     universitiesList,
     careersList,

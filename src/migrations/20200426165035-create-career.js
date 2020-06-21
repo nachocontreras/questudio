@@ -20,6 +20,34 @@ module.exports = {
       minScore: {
         type: Sequelize.INTEGER
       },
+      mathScore: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      lengScore: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      scienceScore: {
+        type: Sequelize.FLOAT,
+        allowNull: true
+      },
+      histScore: {
+        type: Sequelize.FLOAT,
+        allowNull: true,
+      },
+      nemScore: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      rankScore: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
+      corte: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+      },
       duration: {
         type: Sequelize.INTEGER
       },

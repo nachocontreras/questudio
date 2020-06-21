@@ -25,28 +25,28 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isEmail: true,
-        isUnique: function(value, next) {
+        isUnique: function (value, next) {
 
-            user.find({
-                where: {email: value},
-                attributes: ['id']
-            })
-                .done(function(error, user) {
+          user.find({
+            where: { email: value },
+            attributes: ['id']
+          })
+            .done(function (error, user) {
 
-                    if (error)
-                        // Some unexpected error occured with the find method.
-                        return next(error);
+              if (error)
+                // Some unexpected error occured with the find method.
+                return next(error);
 
-                    if (user)
-                        // We found a user with this email address.
-                        // Pass the error to the next method.
-                        return next('Email address already in use!');
+              if (user)
+                // We found a user with this email address.
+                // Pass the error to the next method.
+                return next('Email address already in use!');
 
-                    // If we got this far, the email address hasn't been used yet.
-                    // Call next with no arguments when validation is successful.
-                    next();
+              // If we got this far, the email address hasn't been used yet.
+              // Call next with no arguments when validation is successful.
+              next();
 
-                });
+            });
 
         }
       }
@@ -72,6 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'staffUniversities',
     }); // moderate
     user.hasMany(models.vocationalTestResult, {onDelete: 'CASCADE', hooks:true});
+    user.belongsToMany(models.career, { through: models.simulation, as: 'simulations' });
     user.prototype.getUniversity = async function getUniversity() {
       if (this.universityId != null) {
         return await models.university.findById(this.universityId);

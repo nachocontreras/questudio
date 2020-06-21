@@ -49,7 +49,7 @@
                 </section>
 
 	<!-- 	<p>Tiene <%- career.vacancies %> vacantes</p>
-		<p>El puntaje de corte de esta carrera es <%- career.minScore %></p>
+		<p>El puntaje de corte de esta carrera es <%- career.corte %></p>
 		<p>Tiene una duración de <%- career.duration %> semestres</p>
 		<p>Esta carrera está en <%- university.name %></p> -->
 	</div>
@@ -70,7 +70,8 @@
 	<div class="container">
 		<form id="experience-form" method="post">
 			<div class="field">
-				<input class="input is-warning" id="experience-comment" type="text" placeholder="Escribe tu experiencia aquí.." name="description" required >
+				<input class="input is-warning" id="experience-comment" type="text"
+					placeholder="Escribe tu experiencia aquí.." name="description" required>
 				<input id="experience-careerId" type="hidden" value="<%- career.id %> ">
 				<input id="experience-userId" type="hidden" value="<%- currentUser.id %> ">
 				<br>

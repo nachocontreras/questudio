@@ -107,7 +107,9 @@
       <div class="navbar-start">
         <a class="navbar-item" href="<%- universitiesPath %>">Universidades</a>
         <a class="navbar-item" href="<%- testsVocacionalesPath %>">Tests Vocacionales</a>
-
+        <% if (currentUser) { %>
+        <a class="navbar-item" href="<%- simulationPath(currentUser) %>">¡Simula tu puntaje!</a>
+        <% } %>
           <div class="navbar-item field">
             <p class="control has-icons-right">
               <form id="search-form" style="margin-top: 25px;display:inline-block">
@@ -120,6 +122,7 @@
           </div>
         </div>
       </div>
+    </div>
 
       <% if (currentUser) { %>
         <div class="navbar-end">
@@ -136,12 +139,12 @@
           </div>
 
       <% } else { %>
-         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-primary" href="<%- newSessionPath %>"><strong>Iniciar Sesión</strong></a>
-            <a class="button is-light" href="<%- createUserPath %>">Registrarse</a>
-          </div>
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-primary" href="<%- newSessionPath %>"><strong>Iniciar Sesión</strong></a>
+          <a class="button is-light" href="<%- createUserPath %>">Registrarse</a>
         </div>
+      </div>
       <% } %>
 
       <div class="navbar-end">
