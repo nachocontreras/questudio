@@ -84,6 +84,7 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     careersList,
     staffs,
     userIsStaff: userIsStaff,
+    showGalleryPath: ctx.router.url('universitymedia.gallery', { id: university.id }),
     universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
     showCareerPath: career => ctx.router.url('careers.show', { id: career.id }),
@@ -100,6 +101,7 @@ router.get('universities.edit', '/:id/edit',
   const { university } = ctx.state;
   await ctx.render('universities/edit', {
     university,
+    editGalleryPath: ctx.router.url('universitymedia.add', { id: university.id }),
     submitUniversityPath: ctx.router.url('universities.update',
       { id: university.id }),
     universitiesPath: ctx.router.url('universities.list'),

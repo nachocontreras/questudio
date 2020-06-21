@@ -1,0 +1,33 @@
+<div>
+  <div>
+    Imagenes
+    <div id="galleryImages">
+      <% imagesUrls.forEach(url => {%>
+        <div id="galleryImage">
+          <img src="<%= url %>" alt="">
+        </div>
+      <%})%>
+    </div>
+  </div>
+  <div>
+    Videos en Youtube
+    <div id="galleryVideos">
+      <% youtubeUrls.forEach(url => {%>
+        <iframe width="300" height="167"
+          src="<%= url %>">
+        </iframe> 
+      <%})%>
+    </div>
+  </div>
+  <div>
+    Link a páginas de memes
+    <% instagramUrls.forEach(url => {%>
+      <div>
+        <a href="<%= url %>" target="_blank"><%= url.split("/")[url.split("/").length - 2]%></a>
+      </div>
+    <%})%>
+  </div>
+</div>
+
+
+

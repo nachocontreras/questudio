@@ -148,3 +148,18 @@
 #forgotPassword:hover {
   opacity: 0.7;
 }
+
+
+#galleryImage {
+  max-width: 20%;
+  height: 100%;
+  border: 1px solid rgb(185, 183, 183);
+}
+
+#galleryImages {
+  display: flex;
+}
+
+#galleryVideos {
+  display: flex;
+}

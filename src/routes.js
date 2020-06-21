@@ -14,6 +14,7 @@ const admin = require('./routes/admin');
 const { sessionDecoder } = require('./routes/functions');
 const passwordRecovery = require('./routes/passwordRecovery');
 const verificateEmail = require('./routes/verificateEmail');
+const universitymedia = require('./routes/universitymedia');
 
 const router = new KoaRouter();
 
@@ -50,5 +51,6 @@ router.use('/team', team.routes());
 router.use('/admin', admin.routes());
 router.use('/passwordRecovery', passwordRecovery.routes());
 router.use('/verificateEmail', verificateEmail.routes());
+router.use('/universitymedia', universitymedia.routes());
 
 module.exports = router;
