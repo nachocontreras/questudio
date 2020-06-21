@@ -13,7 +13,12 @@ module.exports = (sequelize, DataTypes) => {
     rankScore: DataTypes.FLOAT,
     corte: DataTypes.FLOAT,
     duration: DataTypes.INTEGER,
-    universityId: DataTypes.INTEGER
+    universityId: DataTypes.INTEGER,
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 500,
+    }
   }, {});
   career.associate = function (models) {
     // associations can be defined here

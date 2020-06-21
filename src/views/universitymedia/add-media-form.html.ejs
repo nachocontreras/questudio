@@ -1,0 +1,73 @@
+<div class="container">
+  <section class="hero is-primary">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title"> Editar Galería de la Universidad </h1>
+      </div>
+    </div>
+  </section>
+  <form id="addMediaForm" action="<%= postUniversityMediaPath %>" enctype="multipart/form-data" method="post">
+    <div class="selector">
+      <label for="mediaType">Elige un tipo de multimedia a subir</label>
+      <select name="mediaType" id="selectMediaType">
+        <option value=1>Imagen</option>
+        <option value=2>Video de youtube</option>
+        <option value=3>Página de Memes</option>
+      </select>
+    </div>
+    <div class="media-inputs">
+      <p id="youtubeInputAlert">Para agregar videos se debe ir al link de youtube, seleccionar "Compartir", luego copiar el link desplegado</p>
+      <input id="imageInput" type="file" name="image" accept="image/*" data-type='image'/>
+      <input id="youtubeInput" type="text" name="youtubeLink" placeholder="Copia el link de Youtube aquí">
+      <input id="memeInput" type="text" name="memeLink" placeholder="Copia el link de Instagram aquí">
+    </div>
+    <div>
+      <input type="submit" class="button is-primary" value="Agregar">
+    </div>
+    </form>      
+</div>
+
+
+<div class="container">
+<p class="titlep">Medias</p>
+<%universityMedias.forEach(media => {%>
+  <%if (media.mediaType === 1) {%>
+    <div style="display: flex;">
+      <img style="width: 20%" src="<%= media.url %>" alt="gallery">
+      <div style="position: absolute">
+        <form action="<%=deleteUniversityMediaPath(media.universityId)%>" method="POST">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="hidden" name="mediaId" value=<%= media.id%>>
+          <input type="submit" value="Eliminar">
+        </form>
+      </div>
+    </div>
+    
+  <%} else if (media.mediaType === 2) {%>
+    <div style="display: flex;">
+      <iframe width="300" height="167"
+        src="<%= media.url %>">
+      </iframe> 
+      <div style="position: absolute">
+        <form action="<%=deleteUniversityMediaPath(media.universityId)%>" method="POST">
+          <input type="hidden" name="_method" value="delete" />
+          <input type="hidden" name="mediaId" value=<%= media.id%>>
+          <input type="submit" value="Eliminar">
+        </form>
+      </div>
+    </div>
+  <%} else if (media.mediaType === 3) {%>
+    <div style="display: flex;">
+      <a class="linka" href="<%= media.url %>" target="_blank"><%= media.url.split("/")[media.url.split("/").length - 2]%></a>
+      <form action="<%=deleteUniversityMediaPath(media.universityId)%>" method="POST">
+        <input type="hidden" name="_method" value="delete" />
+        <input type="hidden" name="mediaId" value=<%= media.id%>>
+        <input type="submit" value="Eliminar">
+      </form>
+    </div>
+  <%}%>
+<%});%>
+</div>
+
+
+

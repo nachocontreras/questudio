@@ -1,0 +1,36 @@
+<style>
+  .menu-label {
+    color: black;
+    font-weight: 700;
+    font-size: 20;
+  }
+</style>
+<aside class="menu">
+  <p class="menu-label">
+      Perfil
+  </p>
+  <ul class="menu-list">
+    <li><a id="personal-item" class="is-active item">Información personal</a></li>
+    <li><a id="tests-item" class="item">Tests</a></li>
+    <li><a id="password-item" class="item">Contraseña y seguridad</a></li>
+  </ul>
+  <% if (staffUniversities && staffUniversities.length > 0) { %>
+  <p class="menu-label">
+    Staff
+  </p>
+  <ul class="menu-list">
+    <li><a class="item" id="staff-universities-item">Universidades</a></li>
+  </ul>
+  <% } %>
+  <% if (currentUser && currentUser.admin) { %>
+    <p class="menu-label">
+        Administrador
+    </p>
+    <ul class="menu-list">
+      <li><a id="users-item" class="item">Usuarios</a></li>
+      <li><a id="universities-item"class="item">Universidades</a></li>
+      <li><a id="careers-item" class="item">Carreras</a></li>
+      <li><a id="staff-item" class="item">Staffs</a></li>
+    </ul>
+  <% } %>
+</aside>

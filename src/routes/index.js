@@ -7,6 +7,7 @@ router.get('landing', '/', async (ctx) => {
         careersListPath: ctx.router.url('careers.list'),
         testsListPath: ctx.router.url('vocacional.index'),
         teamPath: ctx.router.url('team.index'),
+        experiencePath: ctx.router.url('experience.list'),
   });
 });
 

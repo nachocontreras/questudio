@@ -1,0 +1,38 @@
+<div class="container">
+  <br>
+  <section>
+    <section class="hero is-info">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Testimonios
+          </h1>
+        </div>
+      </div>
+    </section>
+  </div>
+
+     <div class="container">
+
+	  <% if (!experiences.length) { %>
+	    <p> Ninguna por ahora </p>
+	  <% } else { %>
+	  <% experiences.forEach((exp) => { %>
+	    <br>
+	    <article class="message is-light">
+		  <div class="message-header">
+		    <p class="subtitle is-5" >Sobre <%= exp.career.name %> en la <%= exp.career.university.name %></p>
+		  </div>
+		</article>
+		<%- include('../experiences/_show', { exp }) %><br>
+	    <% }) %>
+	  <% } %>
+	  
+	</div>
+
+	
+
+
+	
+
+	

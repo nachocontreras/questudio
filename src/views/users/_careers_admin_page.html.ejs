@@ -1,0 +1,146 @@
+<div class="columns is-desktop is-multiline">
+    <% careersList.forEach((career) => { %>
+        <div class="column is-3">
+            <div class="card">
+                    
+              <div class="card-content">
+                <div class="media">      
+                  <div class="media-content">
+                    <p class="title is-5"><%- career.name %></p>
+                    <p class="title is-6"><%- career.area %></p>
+                    
+                  </div>
+              </div>
+  
+              <div class="content">
+                  Vacantes: <%- career.vacancies %>
+                  <br>
+              </div>
+              
+              <div class="content">
+                    Universidad: <%- career.universityId %>
+                    <br>
+              </div>
+              <div class="columns">
+                <a class="button is-light" href="<%- careerShowPath(career) %>">Ver</a>
+                &nbsp;
+                &nbsp;
+                <a class="button is-light" href="<%= editCareerPath(career) %>">Editar</a>
+                &nbsp;
+                &nbsp;
+                  <form action="<%= deleteCareerPath(career) %>" method="POST">
+                    <input type="hidden" name="_method" value="delete" />
+                    <input class="button is-light" type="submit" value="Delete" />
+                  </form>
+              </div>
+  
+            </div>
+          </div>
+  
+        </div>
+    <% }); %>
+</div>  
+
+<br />
+<a class="button is-light" id="update-careers" value="Actualizar estadísticas">Actualizar estadísticas</a>
+<div class="columns">
+  <div class="column">
+      <canvas id="careersByVacancies" width="200" height="100"></canvas>
+  </div>
+  <div class="column">
+      <canvas id="careersByArea" width="200" height="100"></canvas>
+  </div>
+</div>
+
+<script>
+
+  function getOrElse(map, key, value) {
+    return map.hasOwnProperty(key) ? map[key] : value
+  }
+
+  $("#update-careers").on("click", function() {
+    let req = $.ajax({
+        url: `/careers/stats`,
+        method: "GET",
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    req.done(function(response) {
+      let careers = response["data"];
+      const groupsByArea = careers.reduce((groups, career) => {
+        const area = career.area;
+        if (!groups[area]) {
+            groups[area] = {
+                "careers": [],
+                "amount": 0,
+            };
+        }
+        groups[area]["careers"].push(career);
+        groups[area]["amount"] += 1;
+        return groups;
+      }, {});
+
+      var ctx = document.getElementById('careersByVacancies').getContext('2d');
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: careers.map(ca => ca.name),
+              datasets: [{
+                backgroundColor: 'rgb(255, 99, 132)',
+                label: "Cupos por carrera",
+                data: careers.map(ca => ca.vacancies)
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              },
+              title: {
+                  display: true,
+                  text: 'Cupos por carrera',
+                  fontSize: 20
+              }
+          }
+      });
+
+      var ctx = document.getElementById('careersByArea').getContext('2d');
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: Object.keys(groupsByArea),
+              datasets: [{
+                  label: "Área",
+                  backgroundColor: 'rgb(255, 99, 132)',
+                  borderColor: 'rgb(255, 99, 132)',
+                  data: Object.keys(groupsByArea).map(area => getOrElse(groupsByArea, area, {"amount": 0})["amount"])
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero:true
+                      }
+                  }]
+              },
+              title: {
+                  display: true,
+                  text: 'Carreras por área',
+                  fontSize: 20
+              }
+          }
+      });
+
+    });
+  });
+
+</script>

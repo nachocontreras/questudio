@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     lastname: DataTypes.STRING,
     userType: DataTypes.INTEGER,
     password: DataTypes.STRING,
+    admin: DataTypes.BOOLEAN,
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -53,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: DataTypes.STRING,
     universityId: DataTypes.INTEGER,
     careerId: DataTypes.INTEGER,
+    verificated: DataTypes.BOOLEAN,
   }, {
     indexes: [
       {
@@ -61,11 +63,15 @@ module.exports = (sequelize, DataTypes) => {
       }
     ]
   });
-  user.associate = function (models) {
-    user.hasMany(models.experience, { onDelete: 'CASCADE', hooks: true });
-    user.hasMany(models.comment, { onDelete: 'CASCADE', hooks: true });
-    user.belongsToMany(models.university, { through: models.userModerateUniversity, foreignKey: 'userId' }); // moderate
-    user.hasMany(models.vocationalTestResult, { onDelete: 'CASCADE', hooks: true });
+  user.associate = function(models) {
+    user.hasMany(models.experience, {onDelete: 'CASCADE', hooks:true});
+    user.hasMany(models.comment, {onDelete: 'CASCADE', hooks:true});
+    user.belongsToMany(models.university, {
+      through: models.userModerateUniversity,
+      foreignKey: 'userId',
+      as: 'staffUniversities',
+    }); // moderate
+    user.hasMany(models.vocationalTestResult, {onDelete: 'CASCADE', hooks:true});
     user.belongsToMany(models.career, { through: models.simulation, as: 'simulations' });
     user.prototype.getUniversity = async function getUniversity() {
       if (this.universityId != null) {

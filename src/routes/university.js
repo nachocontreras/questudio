@@ -1,10 +1,14 @@
 const KoaRouter = require('koa-router');
 const cloudinary = require('cloudinary').v2;
 const { Op } = require('sequelize');
-const { userLogged } = require('../routes/middlewares');
+const {
+  userLogged,
+  isAdmin,
+  isStaffOrAdmin
+} = require('../routes/middlewares');
+const { sessionDecoder } = require('./functions');
 
 const router = new KoaRouter();
-
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -15,8 +19,6 @@ cloudinary.config({
 function takeOutExtension(name) {
   return name.split('.').slice(0, -1).join('.');
 }
-
-// /universities
 
 async function loadUniversity(ctx, next) {
   ctx.state.university = await ctx.orm.university.findById(ctx.params.id); // 1
@@ -35,7 +37,8 @@ router.get('universities.list', '/', async (ctx) => {
   });
 });
 
-router.get('universities.new', '/new', userLogged, async (ctx) => {
+
+router.get('universities.new', '/new', userLogged, isAdmin, async (ctx) => {
   const university = ctx.orm.university.build();
   await ctx.render('universities/new', {
     university,
@@ -44,7 +47,7 @@ router.get('universities.new', '/new', userLogged, async (ctx) => {
   });
 });
 
-router.post('universities.create', '/', userLogged, async (ctx) => {
+router.post('universities.create', '/', userLogged, isAdmin, async (ctx) => {
   const university = ctx.orm.university.build(ctx.request.body);
   try {
     await university.save({ fields: ['name', 'address', 'description'] });
@@ -58,6 +61,19 @@ router.post('universities.create', '/', userLogged, async (ctx) => {
   };
 });
 
+
+router.get('universities.stats', '/stats', async (ctx) => {
+  let universitiesList = await ctx.orm.university.findAll();
+  for (i=0; i < universitiesList.length; i++) {
+    universitiesList[i]["dataValues"].careers = await universitiesList[i].getCareers();
+  }
+  ctx.status = 200;
+  ctx.body = {
+    data: universitiesList,
+  }
+});
+
+
 router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   const staffs = await university.getStaffs();
@@ -68,6 +84,7 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
     careersList,
     staffs,
     userIsStaff: userIsStaff,
+    showGalleryPath: ctx.router.url('universitymedia.gallery', { id: university.id }),
     universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
     showCareerPath: career => ctx.router.url('careers.show', { id: career.id }),
@@ -77,10 +94,14 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
   });
 });
 
-router.get('universities.edit', '/:id/edit', userLogged, loadUniversity, async (ctx) => {
+router.get('universities.edit', '/:id/edit',
+                                      userLogged,
+                                      isStaffOrAdmin,
+                                      loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   await ctx.render('universities/edit', {
     university,
+    editGalleryPath: ctx.router.url('universitymedia.add', { id: university.id }),
     submitUniversityPath: ctx.router.url('universities.update',
       { id: university.id }),
     universitiesPath: ctx.router.url('universities.list'),
@@ -90,7 +111,10 @@ router.get('universities.edit', '/:id/edit', userLogged, loadUniversity, async (
 });
 
 
-router.patch('universities.update', '/:id', userLogged, loadUniversity, async (ctx) => {
+router.patch('universities.update', '/:id',
+                                      userLogged,
+                                      isStaffOrAdmin,
+                                      loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   try {
     const { name, address, description } = ctx.request.body;
@@ -105,7 +129,10 @@ router.patch('universities.update', '/:id', userLogged, loadUniversity, async (c
   }
 });
 
-router.post('universities.addImage', '/:id/add_image', userLogged, loadUniversity, async (ctx) => {
+router.post('universities.addImage', '/:id/add_image',
+                                      userLogged,
+                                      isStaffOrAdmin,
+                                      loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   const response = await cloudinary.uploader.upload(ctx.request.files.universityImage.path, {
     public_id: `universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}`,
@@ -114,25 +141,25 @@ router.post('universities.addImage', '/:id/add_image', userLogged, loadUniversit
   await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
 });
 
-router.del('universities.delete', '/:id', userLogged, loadUniversity, async (ctx) => {
+router.del('universities.delete', '/:id',
+                                  userLogged,
+                                  isAdmin,
+                                  loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   await university.destroy();
   ctx.redirect(ctx.router.url('universities.list'));
 });
 
-router.post('universities.addLogo', '/:id/add_logo', userLogged, loadUniversity, async (ctx) => {
+router.post('universities.addLogo', '/:id/add_logo',
+                                            userLogged,
+                                            isStaffOrAdmin,
+                                            loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   const response = await cloudinary.uploader.upload(ctx.request.files.universityLogo.path, {
     public_id: `universities-logos/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityLogo.name)}`,
   });
   await university.update({ logoUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-logos/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityLogo.name)}` });
   await ctx.redirect(ctx.router.url('universities.show', { id: university.id }));
-});
-
-router.del('universities.delete', '/:id', userLogged, loadUniversity, async (ctx) => {
-  const { university } = ctx.state;
-  await university.destroy();
-  ctx.redirect(ctx.router.url('universities.list'));
 });
 
 router.get('university.claim', '/:id/claim', loadUniversity, async (ctx) => {
@@ -152,7 +179,7 @@ router.get('university.claim', '/:id/claim', loadUniversity, async (ctx) => {
 router.post('university.save.staff', '/:id/claim', userLogged, async (ctx) => {
   if (ctx.request.body.staffVerificationCode == "123456789") {
     await ctx.orm.userModerateUniversity.create({
-      userId: ctx.session.userId,
+      userId: sessionDecoder(ctx.session.userId),
       universityId: ctx.params.id,
     });
   }

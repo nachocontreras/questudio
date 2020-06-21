@@ -11,6 +11,11 @@ const vocacionales = require('./routes/vocacional');
 const experience = require('./routes/experience');
 const simulation = require('./routes/simulation');
 const team = require('./routes/team');
+const admin = require('./routes/admin');
+const { sessionDecoder } = require('./routes/functions');
+const passwordRecovery = require('./routes/passwordRecovery');
+const verificateEmail = require('./routes/verificateEmail');
+const universitymedia = require('./routes/universitymedia');
 
 const router = new KoaRouter();
 
@@ -27,9 +32,9 @@ router.use(async (ctx, next) => {
         currentUser: null,
     }
     if (ctx.session.userId) {
-        data["currentUser"] = await ctx.orm.user.findById(ctx.session.userId);
-        data["profilePath"] = ctx.router.url('users.profile', { id: ctx.session.userId });
-        data["editUserPath"] = ctx.router.url('users.editForm', { id: ctx.session.userId });
+        data["currentUser"] = await ctx.orm.user.findById(sessionDecoder(ctx.session.userId));
+        data["profilePath"] = ctx.router.url('users.profile', { id: sessionDecoder(ctx.session.userId) });
+        data["editUserPath"] = ctx.router.url('users.editForm', { id: sessionDecoder(ctx.session.userId) });
     }
     Object.assign(ctx.state, data);
     return next();
@@ -46,5 +51,9 @@ router.use('/users', user.routes());
 router.use('/vocacionales', vocacionales.routes());
 router.use('/experiences', experience.routes());
 router.use('/team', team.routes());
+router.use('/admin', admin.routes());
+router.use('/passwordRecovery', passwordRecovery.routes());
+router.use('/verificateEmail', verificateEmail.routes());
+router.use('/universitymedia', universitymedia.routes());
 
 module.exports = router;

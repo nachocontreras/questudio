@@ -1,0 +1,247 @@
+<p class="title is-3">Información de usuario</p>
+<table class="table" id="users-table">
+    <thead>
+        <tr>
+            <th>Nombre completo</th>
+            <th>Correo</th>
+            <th>Tipo de usuario</th>
+            <th>Rol</th>
+            <th>¿Validado?</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<hr>
+
+<a class="button is-light" id="update-users" value="Actualizar estadísticas">Actualizar estadísticas</a>
+<div class="columns">
+    <div class="column">
+        <canvas id="usersByDate" width="200" height="100"></canvas>
+    </div>
+    <div class="column">
+        <canvas id="usersByType" width="200" height="100"></canvas>
+    </div>
+</div>
+<script>
+
+function onDelete(id, name) {
+    let res = confirm(`¿Está seguro de eliminar al usuario ${id} - ${name}`);
+    if (res == true) {
+        let req = $.ajax({
+            url: `/users/${id}`,
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        req.done(function(response) {
+            alert("Usuario eliminado correctamente");
+            window.location.reload();
+        });
+        req.fail(function(jqXHR, textStatus) {
+            alert("Hubo un error: " + textStatus);
+        });
+        
+    } else {
+
+    }
+}
+
+$("#update-users").on("click", function() {
+    let req = $.ajax({
+        url: `/users`,
+        method: "GET",
+        headers: {
+            'Accept': 'application/json'
+        }
+    })
+    req.done(function(response) {
+        let users = response["data"];
+        $("#users-table tbody").empty();
+        users.forEach((us) => {
+            let htmlData = `
+                <tr>
+                    <td>${us.name + " " + us.lastname}</td>
+                    <td>${us.email}</td>
+                    <td>${(us.userType == 0) ? "Enseñanza media": "Universitario"}</td>
+                    <td>${(us.admin) ? "Administrador" : ((us.isStaff) ? "Staff" : "Común")}</td>
+                    <td style="text-align:center;cursor:pointer">${(us.verificated) ? '<i class="fas fa-check"></i>': '<a id="verificate-' + us.id + '">Verificar</a>'}</td>
+                    <td style="text-align:center;cursor:pointer"><i onclick="onDelete(${us.id}, '${us.name}')" class="fas fa-trash"></i></td>
+                </tr>
+            `;
+            $("#users-table tbody").append(htmlData);
+            $("#verificate-" + us.id).on('click', function() {
+                let req = $.ajax({
+                    url: `/users/${us.id}/verify`,
+                    method: "PUT",
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                })
+                req.done(function(response) {
+                    if (response["data"] == true) {
+                        alert("Usuario verificado correctamente");
+                        window.location.reload();
+                        us.verificated = true;
+                    } else {
+                        alert("No se pudo verificar a este usuario");
+                    }
+                });
+                req.fail(function(jqXHR, textStatus) {
+                    alert("Hubo un error: " + textStatus);
+                });
+            })
+        });
+
+        const groupsByDate = users.reduce((groups, user) => {
+            const date = user.createdAt.split('T')[0];
+            if (!groups[date]) {
+                groups[date] = {
+                    "users": [],
+                    "amount": 0,
+                };
+            }
+            groups[date]["users"].push(user);
+            groups[date]["amount"] += 1;
+            return groups;
+        }, {});
+
+        function minmax_date(all_dates) {
+            var min_dt = all_dates[0];
+            var max_dt = all_dates[0];
+            var min_dtObj = new Date(all_dates[0]);
+            var max_dtObj = new Date(all_dates[0]);
+            all_dates.forEach(function(dt, index) {
+                if ( new Date( dt ) < min_dtObj) {
+                    min_dt = dt;
+                    min_dtObj = new Date(dt);
+                }
+                if ( new Date( dt ) > max_dtObj) {
+                    max_dt = dt;
+                    max_dtObj = new Date(dt);
+                }
+                
+            });
+            return [min_dt, max_dt];
+        }
+
+        let data = minmax_date(Object.keys(groupsByDate));
+        groupsByDate["minDate"] = data[0];
+        groupsByDate["maxDate"] = data[1];
+
+        function addDays(date, days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        function getDates(startDate, stopDate) {
+            var dateArray = new Array();
+            var currentDate = startDate;
+            console.log(startDate, stopDate);
+            while (currentDate <= stopDate) {
+                dateArray.push(new Date (currentDate));
+                currentDate = addDays(currentDate, 1);
+            }
+            return dateArray;
+        }
+
+        function getOrElse(map, key, value) {
+            return map.hasOwnProperty(key) ? map[key] : value
+        }
+
+        // let allDates = getDates(Date(groups["minDate"]), Date(groups["maxDate"]));
+        // console.log(allDates);
+        let allDates = Object.keys(groupsByDate).filter((dat) => {
+            return dat !== 'maxDate' && dat !== 'minDate';   
+        });
+
+        var ctx = document.getElementById('usersByDate').getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: allDates,
+                datasets: [{
+                    label: "Usuarios",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: allDates.map(date => getOrElse(groupsByDate, date, {"amount": 0})["amount"])
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Usuarios creados por fecha',
+                    fontSize: 20
+                }
+            }
+        });
+
+        var userTypes = ["Enseñanza media", "Universitario"];
+
+        const groupsByType = users.reduce((groups, user) => {
+            const type = (user.userType == 0) ? "Enseñanza media" : "Universitario";
+            if (!groups[type]) {
+                groups[type] = {
+                    "users": [],
+                    "amount": 0,
+                };
+            }
+            groups[type]["users"].push(user);
+            groups[type]["amount"] += 1;
+            return groups;
+        }, {});
+
+        var ctx = document.getElementById('usersByType').getContext('2d');
+
+        var chart2 = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: userTypes,
+                datasets: [{
+                    backgroundColor: [
+                        'rgb(112, 240, 94)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    borderColor: [
+                        'rgb(112, 240, 94)',
+                        'rgb(255, 99, 132)'
+                    ],
+                    data: userTypes.map(type => getOrElse(groupsByType, type, {"amount": 0})["amount"])
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Usuarios por tipo',
+                    fontSize: 20
+                }
+            }
+        });
+    })
+    req.fail(function(jqXHR, textStatus) {
+        alert("Hubo un error: " + textStatus);
+    });
+});
+</script>
