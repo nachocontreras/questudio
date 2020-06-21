@@ -1,0 +1,22 @@
+<div class="box">
+    <article class="media">
+      <div class="media-left">
+        <figure class="image is-64x64">
+          <img src="<%= comment.user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= comment.user.name %></strong>
+            <br>
+            <%= comment.description %> 
+          </p>
+          <div class="level-right" >
+            <p style="color: rgb(165,165,165);"><%= comment.createdAt %></p>
+          </div>
+  
+      </div>
+    </article>
+  </div>
+  

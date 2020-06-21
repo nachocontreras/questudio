@@ -1,0 +1,32 @@
+<div class="container">
+    <br>
+    <section>
+      <section class="hero is-info">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              Preguntas
+            </h1>
+          </div>
+        </div>
+      </section>
+    </div>
+  
+       <div class="container">
+  
+        <% if (!comments.length) { %>
+          <p> Ninguna por ahora </p>
+        <% } else { %>
+        <% comments.forEach((comment) => { %>
+          <br>
+          <article class="message is-light">
+            <div class="message-header">
+              <p class="subtitle is-5" >Sobre <%= comment.career.name %> en la <%= comment.career.university.name %></p>
+            </div>
+          </article>
+          <%- include('../comments/_show', { comment }) %><br>
+          <% }) %>
+        <% } %>
+        
+      </div>
+  

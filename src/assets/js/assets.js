@@ -9,6 +9,7 @@ import '../images/questudio.png';
 import '../js/code/search.js';
 import '../js/code/confirm-password.js';
 import '../js/code/publish-experience.js';
+import '../js/code/publish-comment';
 import '../js/code/profile.js';
 import '../js/code/search-career.js';
 import '../js/code/change-media-type-form.js';

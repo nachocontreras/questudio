@@ -66,6 +66,7 @@ module.exports = (sequelize, DataTypes) => {
   user.associate = function(models) {
     user.hasMany(models.experience, {onDelete: 'CASCADE', hooks:true});
     user.hasMany(models.comment, {onDelete: 'CASCADE', hooks:true});
+    user.hasMany(models.comment, {onDelete: 'CASCADE', hooks:true});
     user.belongsToMany(models.university, {
       through: models.userModerateUniversity,
       foreignKey: 'userId',
