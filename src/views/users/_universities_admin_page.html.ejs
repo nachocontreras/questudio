@@ -1,4 +1,4 @@
-<div class="columns is-desktop">
+<div class="columns is-desktop" style="overflow-x: auto;width: 55%;">
   <% universitiesList.forEach((university) => { %>
     <div class="column is-3">
 
@@ -47,7 +47,11 @@
 </div>
 <br />
 <a class="button is-light" id="update-universities" value="Actualizar estadísticas">Actualizar estadísticas</a>
-<canvas id="careersByUniversity" width="200" height="100"></canvas>
+<div class="columns">
+  <div class="column is-5">
+    <canvas id="careersByUniversity" width="200px" height="100"></canvas>
+  </div>
+</div>
 
 <script>
 
