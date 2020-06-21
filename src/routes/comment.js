@@ -14,6 +14,9 @@ router.post('comments.create', '/:id/create',
     const career = ctx.state.career;
     const comment = ctx.orm.comment.build(ctx.request.body);
     try {
+      console.log(ctx.request.body)
+        
+  
       await comment.save({ fields: ['description', 'userId', 'careerId', 'previousCommentId'] });
       ctx.redirect(ctx.router.url('careers.show', { id: career.id }));
     } catch (validationError) {
