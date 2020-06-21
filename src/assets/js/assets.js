@@ -12,3 +12,4 @@ import '../js/code/publish-experience.js';
 import '../js/code/profile.js';
 import '../js/code/search-career.js';
 import '../js/code/change-media-type-form.js';
+import '../js/code/gallery.js';
