@@ -1,0 +1,22 @@
+<div>
+  <form id="addMediaForm" action="<%= postUniversityMediaPath %>" enctype="multipart/form-data" method="post">
+    <div>
+      <label for="mediaType">Elige un tipo de multimedia:</label>
+      <select name="mediaType" id="selectMediaType">
+        <option value=1>Imagen</option>
+        <option value=2>Video de youtube</option>
+        <option value=3>Página de Memes</option>
+      </select>
+    </div>
+    <div>
+      <p id="youtubeInputAlert">Para agregar videos se debe ir al link de youtube, seleccionar "Compartir", luego copiar el link desplegado</p>
+      <input id="imageInput" type="file" name="image" accept="image/*" data-type='image'/>
+      <input id="youtubeInput" type="text" name="youtubeLink" placeholder="Youtube Url">
+      <input id="memeInput" type="text" name="memeLink" placeholder="Instagram Url">
+      <input type="submit" value="Agregar">
+    </div>
+    </form>      
+</div>
+
+
+
