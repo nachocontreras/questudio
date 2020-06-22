@@ -8,6 +8,7 @@ const cruds = [
     'experiences',
     'team']
 
+
 cruds.forEach((crud) => {
     var status;
     if (crud == 'users') {
@@ -21,8 +22,10 @@ cruds.forEach((crud) => {
         if (host == 'localhost') {
             const port = process.env.PORT;
             response = await fetch(`http://${host}:${port}/${crud}`)
-        } else {
+        } else if ((host).includes('heroku')) {
             response = await fetch(`http://${host}/${crud}`)
+        } else {
+            response = await fetch(`http://questudio-cl:${port}/${crud}`)
         }
         expect(response.status).toEqual(status);
         done();
