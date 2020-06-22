@@ -5,6 +5,7 @@
   "repository": "https://github.com/IIC2513-2019-1/template.git",
   "license": "MIT",
   "scripts": {
+    "test-selenium": "mocha selenium-testing/test",
     "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
     "test": "node ./node_modules/jasmine/bin/jasmine.js",
     "start": "node index.js",
@@ -43,6 +44,8 @@
     "@babel/polyfill": "^7.0.0",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "cloudinary": "^1.21.0",
     "dotenv": "^8.2.0",
     "jasmine": "^3.5.0",
@@ -55,6 +58,7 @@
     "koa-router": "^7.2.1",
     "koa-session": "^5.5.0",
     "koa-static": "^5.0.0",
+    "mocha": "^8.0.1",
     "nodemailer": "^6.4.8",
     "pg": "^7.1.2",
     "pg-hstore": "^2.3.2",
@@ -64,6 +68,7 @@
     "react-dom": "^16.0.0",
     "react-hot-loader": "^4.3.4",
     "react-router-dom": "^5.1.2",
+    "selenium-webdriver": "^4.0.0-alpha.7",
     "sequelize": "^4.6.0",
     "sequelize-cli": "^5.5.1"
   },
