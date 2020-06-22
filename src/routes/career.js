@@ -168,7 +168,7 @@ router.get('careers.show', '/:id', loadCareer, async (ctx) => {
   });
 });
 
-<
+
 router.get('careers.edit', '/:id/edit', userLogged,
   carrerIsStaffOrAdmin,
   loadCareer, async (ctx) => {
