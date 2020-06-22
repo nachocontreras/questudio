@@ -37,7 +37,7 @@ async function addSimulationData(user, interests, data, models) {
     })
 }
 
-router.get('simulator', '/:userId', userLogged, async (ctx) => {
+router.get('simulator.show', '/:userId', userLogged, async (ctx) => {
     const careers = await ctx.orm.career.findAll();
     const universities = await Promise.all(careers.map(async (career) => await career.getUniversity()));
     for (let i = 0; i < careers.length; i++) {
