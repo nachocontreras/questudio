@@ -12,7 +12,7 @@ cache: yarn
 
 directories:
   - node_modules
-  
+
 env:
   - NODE_ENV=test
 
@@ -22,6 +22,7 @@ services:
 before_script:
   - yarn --frozen-lockfile
   - psql -c 'create database questudio_db;' -U postgres
+
 
 install:
   - yarn install
