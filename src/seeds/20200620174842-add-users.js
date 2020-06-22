@@ -62,6 +62,18 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        name: "Cristobal",
+        lastname: "Perez",
+        userType: 1,
+        password: "$2y$10$HYatNljbRWvAjlKwyK.c8easwrjUsZR0UwWE6nm3wEQEM1MzH9paC",
+        email: "cperez@uc.cl",
+        universityId: 1,
+        admin: true,
+        verificated: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]
 
     return queryInterface.bulkInsert('users', usersData);
