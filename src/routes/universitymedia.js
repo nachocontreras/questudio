@@ -109,6 +109,8 @@ router.get('universitymedia.gallery', '/:id/gallery', async (ctx) => {
       imagesUrls,
       youtubeUrls,
       instagramUrls,
+      university,
+      universityShowPath: university => ctx.router.url('universities.show', { id: university.id }),
     });
   } else {
     return ctx.redirect("/");
