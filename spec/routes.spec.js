@@ -21,8 +21,8 @@ cruds.forEach((crud) => {
         if (host == 'localhost') {
             const port = process.env.PORT;
             response = await fetch(`http://${host}:${port}/${crud}`)
-        } else {
-            response = await fetch(`http://questudio-cl.herokuapp.com/${crud}`)
+        } else if {
+            response = await fetch(`http://${host}/${crud}`)
         }
         expect(response.status).toEqual(status);
         done();

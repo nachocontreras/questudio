@@ -13,6 +13,9 @@ cache: yarn
 directories:
   - node_modules
 
+addons:
+  hostname: questudio-cl
+
 services:
   - postgresql
 
