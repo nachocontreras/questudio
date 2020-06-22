@@ -9,21 +9,22 @@ const {
 } = require('../routes/middlewares');
 
 async function loadCareer(ctx, next) {
-    ctx.state.career = await ctx.orm.career.findById(ctx.params.id); // 1
-    return next();
+
+  ctx.state.career = await ctx.orm.career.findById(ctx.params.id); // 1
+  return next();
 }
 
 async function loadUniversity(ctx, next) {
-    ctx.state.university = await ctx.orm.university.findById(ctx.params.id);
-    return next()
+  ctx.state.university = await ctx.orm.university.findById(ctx.params.id);
+  return next()
 }
 
 router.get('careers.list', '/', async (ctx) => {
-    const careersList = await ctx.orm.career.findAll();
-    await ctx.render('careers/index', {
-        careersList,
-        careerShowPath: career => ctx.router.url('careers.show', { id: career.id }),
-    });
+  const careersList = await ctx.orm.career.findAll();
+  await ctx.render('careers/index', {
+    careersList,
+    careerShowPath: career => ctx.router.url('careers.show', { id: career.id }),
+  });
 });
 
 router.get('careers.stats', '/stats', async (ctx) => {
@@ -47,17 +48,30 @@ router.get('careers.new', '/:id/new', userLogged,
   });
 });
 
-router.post('careers.create', '/:id/create',
-                                      userLogged,
-                                      isStaffOrAdmin,
-                                      loadUniversity, async (ctx) => {
-    const university = ctx.state.university;
-    const career = ctx.orm.career.build(ctx.request.body);
-    try {
-        await career.save({ fields: ['name', 'area', 'vacancies', 'minScore', 'duration']});
-        await career.update({ universityId: university.id })
-        ctx.redirect(ctx.router.url('universities.show', {id: career.universityId}));
-    } catch (validationError) {
+router.post('careers.create', '/:id/create', 
+            userLogged, 
+            isStaffOrAdmin,
+            loadUniversity, async (ctx) => {
+  const university = ctx.state.university;
+  const career = ctx.orm.career.build(ctx.request.body);
+  try {
+    await career.save({
+      fields: ['name',
+        'area',
+        'vacancies',
+        'minScore',
+        'mathScore',
+        'lengScore',
+        'scienceScore',
+        'histScore',
+        'nemScore',
+        'rankScore',
+        'corte',
+        'duration']
+    });
+    await career.update({ universityId: university.id })
+    ctx.redirect(ctx.router.url('universities.show', { id: career.universityId }));
+  } catch (validationError) {
     await ctx.render('careers/new', {
       university,
       errors: validationError.errors,
@@ -150,8 +164,8 @@ router.get('careers.edit', '/:id/edit', userLogged,
   const { career } = ctx.state;
   await ctx.render('careers/edit', {
     career,
-    submitCareerPath: ctx.router.url('careers.update', {id: career.id} ),
-    showUniversityPath: ctx.router.url('universities.show', {id: career.universityId})
+    submitCareerPath: ctx.router.url('careers.update', { id: career.id }),
+    showUniversityPath: ctx.router.url('universities.show', { id: career.universityId })
   });
 });
 
@@ -162,7 +176,7 @@ router.patch('careers.update', '/:id', userLogged,
   try {
     const { name, area, vacancies, minScore, duration } = ctx.request.body;
     await career.update({ name, area, vacancies, minScore, duration });
-    ctx.redirect(ctx.router.url('universities.show', {id: career.universityId}));
+    ctx.redirect(ctx.router.url('universities.show', { id: career.universityId }));
   } catch (validationError) {
     await ctx.render('careers/edit', {
       career,
@@ -178,7 +192,7 @@ router.delete('careers.delete', '/:id', userLogged,
   const { career } = ctx.state;
   let universityId = career.universityId;
   await career.destroy();
-  ctx.redirect(ctx.router.url('universities.show', {id: universityId}));
+  ctx.redirect(ctx.router.url('universities.show', { id: universityId }));
 });
 
 

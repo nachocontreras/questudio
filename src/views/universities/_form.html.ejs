@@ -9,6 +9,7 @@
       </ul>
     </div>
   <% } %>
+  <p class="titlep">Información Básica</p>
   <div class="container">
       <form action="<%- addUniversityImagePath %>" enctype="multipart/form-data" method="post">
           <div class="universityImageDiv">
@@ -60,6 +61,12 @@
       <% } else { %>
         <input type="submit" class="button is-primary" name="update" value="Editar" />
       <% } %>
+    </div>
+  </form>
+  <form action="<%= editGalleryPath %>">
+    <p class="titlep"> Editar Galería de la Universidad</p>
+    <div class="field">
+      <input type="submit" class="button is-primary" value="Editar la Galería">   
     </div>
   </form>
 </div>

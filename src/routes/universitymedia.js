@@ -26,9 +26,12 @@ const router = new KoaRouter();
 router.get('universitymedia.form', '/:id', userLogged, isStaffOrAdmin, async (ctx) => {
   const { id } = ctx.params;
   const university = await ctx.orm.university.findById(id);
+  const universityMedias = await ctx.orm.universitymedia.findAll({ where: { universityId: university.id } });
   if (university) {
     return ctx.render('universitymedia/add-media-form', {
       postUniversityMediaPath: ctx.router.url('universitymedia.add', { id: university.id }),
+      universityMedias,
+      deleteUniversityMediaPath: mediaId => ctx.router.url('universitymedia.delete', { id: mediaId }),
     });
   } else {
     return ctx.redirect("/");
@@ -42,31 +45,42 @@ router.post('universitymedia.add', '/:id', userLogged, isStaffOrAdmin, async (ct
   const file = ctx.request.files.image;
   const universitymedia = await ctx.orm.universitymedia.build();
   const random = randtoken.generate(30);
-  console.log(file);
   if (mediaType === '1') {
     // Image
-    const response = await cloudinary.uploader.upload(file.path, {
-      public_id: `universities-media/${university.id}/${university.id}${random}${takeOutExtension(file.name)}`,
-    });
-    universitymedia.mediaType = 1;
-    universitymedia.url = `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-media/${university.id}/${university.id}${random}${takeOutExtension(file.name)}`
-    universitymedia.universityId = university.id;
-    await universitymedia.save();
-    await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    if (file.name) {
+      const response = await cloudinary.uploader.upload(file.path, {
+        public_id: `universities-media/${university.id}/${university.id}${random}${takeOutExtension(file.name)}`,
+      });
+      universitymedia.mediaType = 1;
+      universitymedia.url = `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-media/${university.id}/${university.id}${random}${takeOutExtension(file.name)}`
+      universitymedia.universityId = university.id;
+      await universitymedia.save();
+      await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    } else {
+      await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    }
   } else if (mediaType === '2') {
     // Youtube
-    universitymedia.mediaType = 2;
-    universitymedia.url = makeYoutubeLink(youtubeLink);
-    universitymedia.universityId = university.id;
-    await universitymedia.save();
-    await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    if (youtubeLink) {
+      universitymedia.mediaType = 2;
+      universitymedia.url = makeYoutubeLink(youtubeLink);
+      universitymedia.universityId = university.id;
+      await universitymedia.save();
+      await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    } else {
+      await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    }
   } else if (mediaType === '3') {
     // Meme
-    universitymedia.mediaType = 3;
-    universitymedia.url = memeLink;
-    universitymedia.universityId = university.id;
-    await universitymedia.save();
-    await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    if (memeLink) {
+      universitymedia.mediaType = 3;
+      universitymedia.url = memeLink;
+      universitymedia.universityId = university.id;
+      await universitymedia.save();
+      await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    } else {
+      await ctx.redirect(ctx.router.url('universitymedia.gallery', { id: university.id }));
+    }
   } else {
     return ctx.redirect('/');
   }
@@ -101,10 +115,12 @@ router.get('universitymedia.gallery', '/:id/gallery', async (ctx) => {
   }
 });
 
+router.del('universitymedia.delete', '/:id', userLogged, isStaffOrAdmin, async (ctx) => {
+  const { id } = ctx.params;
+  const { mediaId } = ctx.request.body;
+  const universityMedia = await ctx.orm.universitymedia.findById(mediaId);
+  await universityMedia.destroy();
+  return ctx.redirect(ctx.router.url('universitymedia.form', { id }));
+});
+
 module.exports = router;
-
-
-// const response = await cloudinary.uploader.upload(ctx.request.files.universityImage.path, {
-//   public_id: `universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}`,
-// });
-// await university.update({ imageUrl: `http://res.cloudinary.com/${process.env.CLOUD_NAME}/image/upload/v${response.version}/universities-images/${university.id}/${university.id}${takeOutExtension(ctx.request.files.universityImage.name)}` });
