@@ -1,6 +1,7 @@
 const request = require('supertest')
 const app = require('../src/app')
 
+
 const cruds = [
     'universities',
     'careers',
@@ -8,10 +9,13 @@ const cruds = [
     'experiences',
     'team']
 
-cruds.forEach(async (crud) => {
-    var status = 200;
-    it(`${crud} route works`, async () => {
-        const response = await request(app.callback()).get(`/${crud}`);
-        expect(response.status).toBe(status);
-    });
+
+describe('unitary testing', function () {
+    const status = 200;
+    cruds.forEach((crud) => {
+        it(`${crud} route works`, async () => {
+            const response = await request(app.callback()).get(`/${crud}`);
+            expect(response.status).toBe(status);
+        });
+    })
 })

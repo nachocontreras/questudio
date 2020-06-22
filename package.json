@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
-    "test": "node ./node_modules/jasmine/bin/jasmine.js",
+    "test": "node_modules/.bin/sequelize db:create && sequelize db:migrate && sequelize db:seed:all && node node_modules/jasmine/bin/jasmine.js",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint ./src index.js",
