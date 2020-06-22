@@ -40,7 +40,7 @@ async function isStaffOrAdmin(ctx, next) {
 
 // Este mw esta preparado para recibir un id de CARRERA
 async function carrerIsStaffOrAdmin(ctx, next) {
-  const carrer = ctx.orm.career.findById(ctx.params.id);
+  const carrer = await ctx.orm.career.findById(ctx.params.id);
   const university = await carrer.getUniversity();
   const staffs = await university.getStaffs();
   const isStaff = staffs.map(staff => staff.id)

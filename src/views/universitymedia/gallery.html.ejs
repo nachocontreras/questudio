@@ -1,0 +1,65 @@
+<div class="container">
+  <br>
+  <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title"> Galería de la Universidad </h1>
+        </div>
+
+        <form action="<%=universityShowPath(university)%>">
+          <input class="button is-primary is-inverted is-outlined is-pulled-right" type="submit" value="Volver a <%=university.name %>">
+        </form>
+
+      </div>
+    </section>
+  <div>
+    <section class="gallery">
+      <div class="gallery-container">
+        <br>
+        <p class="titlep"> Imágenes </p>
+        <div class="gallery-items">
+            <div class="pagination-buttons">
+                <button id="go-left"><<</button>
+                <p class="titlep" id="pagination-number">1</p>
+                <button id="go-right">>></button>
+              </div>
+            <% imagesUrls.forEach(url => {%>
+              <div class="item">
+                <img src="<%= url %>" alt="gallery">
+              </div>
+            <%})%>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div>
+    <br>
+    <p class="titlep"> Videos en Youtube </p>
+    <br>
+    <div id="galleryVideos">
+      <div id="video-container">
+        <div id="video-item">
+          <% youtubeUrls.forEach(url => {%>
+            <iframe width="300" height="167"
+              src="<%= url %>">
+            </iframe> 
+          <%})%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <br>
+    <p class="titlep"> Páginas de memes en Instagram </p>
+    <br>
+    <% instagramUrls.forEach(url => {%>
+      <div>
+        <a class="linka" href="<%= url %>" target="_blank"><%= url.split("/")[url.split("/").length - 2]%></a>
+      </div>
+    <%})%>
+  </div>
+  </div>
+</div>
+
+
+

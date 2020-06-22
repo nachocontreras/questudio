@@ -1,5 +1,4 @@
 
-
 <div class="container">
   <br>
   <section>
@@ -9,6 +8,10 @@
           <h1 class="title">
             <%- university.name %>
           </h1>
+          <form action="<%=showGalleryPath%>">
+            <input id="go-to-gallery-button" class="button is-primary is-inverted is-outlined" type="submit" value="Ir a la Galería">
+          </form>
+
           <div class="searcher">
             <form id="search-career-form">
               <input type="text" id="career-input" placeholder="Busca una carrera..." />
@@ -56,7 +59,7 @@
 
           <div class="content">
             <p>Vacantes: <%- career.vacancies %></p>
-            <p>Puntaje de corte: <%- career.minScore %></p>
+            <p>Puntaje de corte: <%- career.corte %></p>
             <p>Duración de la carrera: <%- career.duration %></p>
           </div>
           <% if (userIsStaff) { %>
@@ -85,7 +88,7 @@
 
 <div class="container">
   <br>
-
+  <% console.log(userIsStaff) %>
   <% if (userIsStaff || (currentUser && currentUser.admin)) { %>
     <%- include('staff/_staff_options') %>
   <% } else { %>

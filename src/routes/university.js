@@ -43,7 +43,7 @@ router.get('universities.new', '/new', userLogged, isAdmin, async (ctx) => {
   await ctx.render('universities/new', {
     university,
     submitUniversityPath: ctx.router.url('universities.create'),
-    universitiesPath: ctx.router.url('universities.list')
+    universitiesPath: ctx.router.url('universities.list'),
   });
 });
 
@@ -62,7 +62,7 @@ router.post('universities.create', '/', userLogged, isAdmin, async (ctx) => {
 });
 
 
-router.get('universities.stats', '/stats', async (ctx) => {
+router.get('universities.stats', '/stats', userLogged, isAdmin, async (ctx) => {
   let universitiesList = await ctx.orm.university.findAll();
   for (i=0; i < universitiesList.length; i++) {
     universitiesList[i]["dataValues"].careers = await universitiesList[i].getCareers();
@@ -78,12 +78,16 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   const staffs = await university.getStaffs();
   const careersList = await university.getCareers();
-  const userIsStaff = staffs.map((staff) => staff.id).includes(ctx.session.userId)
+  let userIsStaff = false;
+  if (ctx.state.currentUser != null) {
+    userIsStaff = staffs.map((staff) => parseInt(staff.dataValues.id)).includes(parseInt(sessionDecoder(ctx.session.userId)))
+  }
   await ctx.render('universities/show', {
     university,
     careersList,
     staffs,
     userIsStaff: userIsStaff,
+    showGalleryPath: ctx.router.url('universitymedia.gallery', { id: university.id }),
     universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
     showCareerPath: career => ctx.router.url('careers.show', { id: career.id }),
@@ -100,6 +104,7 @@ router.get('universities.edit', '/:id/edit',
   const { university } = ctx.state;
   await ctx.render('universities/edit', {
     university,
+    editGalleryPath: ctx.router.url('universitymedia.add', { id: university.id }),
     submitUniversityPath: ctx.router.url('universities.update',
       { id: university.id }),
     universitiesPath: ctx.router.url('universities.list'),

@@ -1,0 +1,66 @@
+<br>
+<div class="container" id="simulation">
+
+    <div id="sim-title">
+        <h1> ¡Simula tu puntaje para saber tus posibles carreras!</h1>
+    </div>
+
+    <div id="subtitle">
+        <h3>Consulta los resultados en tu perfil</h3>
+    </div>
+
+    <form class="simulator-form" action="<%= createSimulationPath(currentUser) %>" method="post">
+
+        <div class="field">
+            <label for="mathScore">Puntaje en matemática: </label>
+            <input class="input is-warning" type="number" id="mathScore" name="mathScore" max=850 min=150 required>
+        </div>
+
+        <div class="field">
+            <label for="lengScore">Puntaje en lenguaje: </label>
+            <input class="input is-warning" type="number" id="lengScore" name="lengScore" max=850 min=150 required>
+        </div>
+
+        <div class="field">
+            <label for="scienceScore">Puntaje en ciencias: </label>
+            <input class="input is-warning" type="number" id="scienceScore" name="scienceScore" max=850 min=150
+                required>
+        </div>
+
+        <div class="field">
+            <label for="histScore">Puntaje en historia: </label>
+            <input class="input is-warning" type="number" id="histScore" name="histScore" max=850 min=150 required>
+        </div>
+
+        <div class="field">
+            <label for="nemScore">Puntaje NEM: </label>
+            <input class="input is-warning" type="number" id="nemScore" name="nemScore" max=850 min=150 required>
+        </div>
+
+        <div class="field">
+            <label for="rankScore">Puntaje ránking: </label>
+            <input class="input is-warning" type="number" id="rankScore" name="rankScore" max=850 min=150 required>
+        </div>
+
+        <div class="field">
+            <label id="interes" for="interes">Selecciona tu área de interés: </label>
+            <select id="career-selector" required>
+                <option></option>
+                <option value="all" id="all">Todas las carreras</option>
+                <% careers.forEach((career) => { %>
+                <option id="<%= career.id %>" value="<%= career.name %> | <%= career.university %> | <%= career.id %>">
+                    <%= career.name %> |
+                    <%= career.university %> | <%= career.id %>
+                </option>
+                <% }) %>
+            </select>
+            <input type="hidden" name="interests" id="interests" value="" />
+            <div id="selection"></div>
+        </div>
+
+        <div class="field">
+            <input class="button is-primary" type="submit" id="create-sim" name="create" value="Obtener simulación" />
+        </div>
+    </form>
+
+</div>

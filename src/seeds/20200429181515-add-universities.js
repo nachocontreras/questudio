@@ -54,6 +54,14 @@ module.exports = {
          description: "La Universidad Diego Portales, también conocida como UDP, es una universidad privada chilena, fundada en Santiago de Chile en 1982 y bautizada en honor al político y comerciante chileno Diego Portales Palazuelos; está adscrita al sistema único de admisión de las universidades del Consejo de Rectores (CRUCH). Elegida como la mejor universidad de Iberoamérica en la categoría de instituciones con menos de 50 años de antigüedad.\
          Actualmente se encuentra acreditada por la Comisión Nacional de Acreditación (CNA-Chile) por un período de 5 años (de un máximo de 7), desde octubre de 2018 hasta octubre de 2023. Figura en la posición 7 dentro de las universidades chilenas según la clasificación webométrica del CSIC (julio de 2017). ​Además está en la posición 10 según el ranking de AméricaEconomía 2016. Dentro de las universidades chilenas está, además, entre las 11 que figuran en la Clasificación mundial de universidades QS 2017, entre las 10 que figuran en el ranking del Times Higher Education 2017, y entre las 25 que aparecen en el ranking de Scimago Institution Rankings (SIR) 2017, con la posición 16 a nivel nacional y 705 a nivel mundial. El Ranking del THE 2018, posiciona a la UDP como primera en Chile junto a la Pontificia Universidad Católica de Chile y la Federico Santa María. Asimismo, entre las universidades con menos de 50 años, la UDP es la primera en América Latina.",
        },
+       {
+         createdAt: new Date(),
+         updatedAt: new Date(),
+         name: "Universidad Mayor",
+         address: "Gertrudis Echeñique 485, Las Condes, Región Metropolitana, Chile",
+         description: "La Universidad Mayor tiene como misión la formación de personas a través de una experiencia educativa que estimule en ellas un comportamiento ético, una actitud de emprendimiento, innovación, liderazgo y respeto por la diversidad cultural y social. Para ello, imparte programas de pregrado y postgrado de excelencia y realiza actividades de generación, articulación y difusión del conocimiento que contribuyan a la comunidad nacional en los ámbitos cultural, educativo, social y económico, considerando el contexto de un mundo global y las normas del rigor científico.\
+         Su visión institucional es ser distinguida como una universidad privada referente en Chile y reconocida a nivel latinoamericano; destacada por la excelencia de sus programas académicos, su enfoque innovador, su nivel de internacionalización, la pertinencia de las contribuciones que realiza a la sociedad y la responsabilidad social y ambiental de su accionar.",
+       },
   ];
 
   return queryInterface.bulkInsert('universities', universitiesData);

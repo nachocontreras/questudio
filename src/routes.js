@@ -9,11 +9,14 @@ const user = require('./routes/user');
 const session = require('./routes/session');
 const vocacionales = require('./routes/vocacional');
 const experience = require('./routes/experience');
+const comment = require('./routes/comment');
+const simulation = require('./routes/simulation');
 const team = require('./routes/team');
 const admin = require('./routes/admin');
 const { sessionDecoder } = require('./routes/functions');
 const passwordRecovery = require('./routes/passwordRecovery');
 const verificateEmail = require('./routes/verificateEmail');
+const universitymedia = require('./routes/universitymedia');
 
 const router = new KoaRouter();
 
@@ -22,6 +25,7 @@ router.use(async (ctx, next) => {
         universitiesPath: ctx.router.url('universities.list'),
         careersPath: ctx.router.url('careers.list'),
         testsVocacionalesPath: ctx.router.url('vocacional.index'),
+        simulationPath: (user) => ctx.router.url('simulator.show', { userId: user.id }),
         welcomePath: '/',
         createUserPath: ctx.router.url('users.new'),
         newSessionPath: ctx.router.url('session.new'),
@@ -42,13 +46,16 @@ router.use('/hello', hello.routes());
 router.use('/universities', university.routes());
 router.use('/careers', career.routes());
 router.use('/search', search.routes());
+router.use('/simulation', simulation.routes());
 router.use('/account', session.routes());
 router.use('/users', user.routes());
 router.use('/vocacionales', vocacionales.routes());
 router.use('/experiences', experience.routes());
+router.use('/comments', comment.routes());
 router.use('/team', team.routes());
 router.use('/admin', admin.routes());
 router.use('/passwordRecovery', passwordRecovery.routes());
 router.use('/verificateEmail', verificateEmail.routes());
+router.use('/universitymedia', universitymedia.routes());
 
 module.exports = router;

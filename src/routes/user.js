@@ -25,16 +25,16 @@ function takeOutExtension(name) {
 
 router.get('users.index', '/', isAdmin, async (ctx) => {
   const usersList = await ctx.orm.user.findAll({
-    attributes: {exclude: ['password']}
+    attributes: { exclude: ['password'] }
   });
   let users = [];
-  let newUsers = usersList.map(async function(us){
+  let newUsers = usersList.map(async function (us) {
     us.isStaff = (await us.getStaffUniversities().length != 0) ? true : false;
     console.log(us.id, us.isStaff);
     users.push(us);
     return us;
   });
-  return Promise.all(newUsers).then(async function(){
+  return Promise.all(newUsers).then(async function () {
     switch (ctx.accepts(['json', 'html'])) {
       case 'json':
         ctx.body = {
@@ -49,7 +49,7 @@ router.get('users.index', '/', isAdmin, async (ctx) => {
         break;
       default:
         break;
-    }  
+    }
   });
 });
 
@@ -108,10 +108,22 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
   let careersList = []
   if (ctx.state.currentUser.admin) {
     careersList = await ctx.orm.career.findAll();
-    universitiesList = await ctx.orm.university.findAll(); 
+    universitiesList = await ctx.orm.university.findAll();
   }
+
+  const simulations = await user.getSimulations();
+  var universities = await Promise.all(simulations.map(async (career) => await career.getUniversity()))
+  universities = universities.map((uni) => uni.name)
+  for (var i = 0; i < simulations.length; i++) {
+    simulations[i].university = universities[i];
+  }
+  const careersOver = simulations.filter((career) => career.simulation.ponderation >= career.corte);
+  const careersUnder = simulations.filter((career) => career.simulation.ponderation < career.corte);
+
   await ctx.render('users/show', {
     user,
+    careersOver,
+    careersUnder,
     editUserPath,
     addUserImagePath,
     editableBoolean,
@@ -125,8 +137,10 @@ router.get('users.profile', '/:id/profile', userLogged, checkProfileEditable, as
     universityEditPath: university => ctx.router.url('universities.edit', { id: university.id }),
     careerListPath: ctx.router.url('careers.list'),
     newCareerPath: university => ctx.router.url('careers.new', { id: university.id }),
+    simulationsPath: (user) => ctx.router.url('simulator.show', { userId: user.id }),
     // admin
     universitiesList,
+    newUniversityPath: ctx.router.url('universities.new'),
     careersList,
     careerShowPath: career => ctx.router.url('careers.show', { id: career.id }),
     editCareerPath: career => ctx.router.url('careers.edit', { id: career.id }),
@@ -164,9 +178,9 @@ router.post('users.edit', '/:id/profile/edit', userLogged, checkProfileEditable,
 
 router.post('users.editPassword', '/:id/profile/password', userLogged, checkProfileEditable, redirectIfNotUser, async (ctx) => {
   const user = await ctx.orm.user.findById(ctx.params.id);
-  const { password, confirmPassword} = ctx.request.body;
+  const { password, confirmPassword } = ctx.request.body;
   try {
-    if ( password && password == confirmPassword ) {
+    if (password && password == confirmPassword) {
       await user.update({ password });
     } else {
     }
@@ -192,7 +206,7 @@ router.post('users.addImage', '/:id/add_image', userLogged, checkProfileEditable
 router.put('users.verifiy', '/:id/verify', userLogged, isAdmin, async (ctx) => {
   try {
     const user = await ctx.orm.user.findById(ctx.params.id);
-    await user.update({verificated: true});
+    await user.update({ verificated: true });
     ctx.status = 200;
     ctx.body = {
       "data": true

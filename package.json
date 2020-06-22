@@ -7,7 +7,7 @@
   "scripts": {
     "test-selenium": "mocha selenium-testing/test",
     "test-init": "node ./node_modules/jasmine/bin/jasmine.js init",
-    "test": "node ./node_modules/jasmine/bin/jasmine.js",
+    "test": "node_modules/.bin/sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all && node node_modules/jasmine/bin/jasmine.js",
     "start": "node index.js",
     "dev": "nodemon index.js",
     "lint": "eslint ./src index.js",
@@ -59,7 +59,9 @@
     "koa-session": "^5.5.0",
     "koa-static": "^5.0.0",
     "mocha": "^8.0.1",
+    "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.8",
+    "os": "^0.1.1",
     "pg": "^7.1.2",
     "pg-hstore": "^2.3.2",
     "prop-types": "^15.6.0",
@@ -70,7 +72,8 @@
     "react-router-dom": "^5.1.2",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "sequelize": "^4.6.0",
-    "sequelize-cli": "^5.5.1"
+    "sequelize-cli": "^5.5.1",
+    "supertest": "^4.0.2"
   },
   "engines": {
     "node": "^10.9.0",

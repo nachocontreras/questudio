@@ -1,0 +1,172 @@
+
+#simulation {
+    margin: 40px;
+    left: 8%;
+    height: 600px;
+}
+
+#sim-title {
+    font-size: 40px;
+    margin: 20px;
+}
+
+#subtitle {
+    font-size: 20px;
+    margin: 20px;
+    font-style: italic;
+}
+
+#selection {
+    position: absolute;
+    display: inline;
+    left: 125px;
+    width: 1000px;
+
+    .selected-career {
+        padding: 20px;
+        background-color: coral;
+        position: relative;
+        width: auto;
+        height: auto;
+        top: 30px;
+        left: 125px;
+        margin-top: 0px;
+    }
+}
+
+#interes {
+    position: absolute;
+    width: 300px;
+    top: 285px;
+}
+
+#career-selector {
+    position: absolute;
+    top: 290px;
+    width: 300px;
+}
+
+.simulator-form {
+    font-family: sans-serif;
+    font-size: 25px;
+
+    div {
+        width: 400px;
+        display: inline-flex;
+        margin: 20px;
+    }
+
+    label {
+        margin: 2px;
+        width: 4000px;
+    }
+
+    select {
+        position: absolute;
+        border: 2px solid gold;
+        height: 50px;
+        width: 200px;
+        left: 290px;
+
+        option {
+            position: relative;
+            font-family: sans-serif;
+            font-size: 20px;
+        }
+    }
+
+    input {
+        position: absolute;
+        width: 70px;
+        display: inline;
+        float: left;
+        margin-left: 270px;
+        border: 2px solid black;
+    }
+
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    #create-sim {
+        position: relative;
+        display: inline;
+        width: 100%;
+        margin: 3px auto;
+        left: 50%;
+    }
+}
+
+#user-postulations {
+    position: relative;
+    width: 100%;
+    left: 35%;
+    margin: 30px auto;
+}
+
+.over-corte {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0 auto;
+
+    h2 {
+        position: relative;
+        font-size: 30px;
+        margin-left: 30px;
+    }
+
+    .career-elem {
+        background-color: rgba(194, 247, 142, 0.979);
+    }
+}
+
+.under-corte {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0 auto;
+    
+    h2 {
+        position: relative;
+        font-size: 30px;
+        margin-left: 30px;
+    }
+
+    .career-elem {
+        background-color: rgb(247, 199, 199);
+    }
+}
+
+.career-elem {
+    position: relative;
+    display: inline-block;
+    border: 2px solid black;
+    vertical-align: top;
+    border-radius: 20px;
+    margin-top: 15px;
+    margin-right: 10px;
+    margin-left: 30px;
+    margin-bottom: 30px;
+    width: 300px;
+    height: 390px;
+    font-weight: 78px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 25px;;
+
+    h5 {
+        font-size: 18px;
+    }
+}
+
+.career-elem:hover {
+    color: blue;
+}
+
+.not {
+    font-style: italic;
+    font-size: sans-serif;
+    margin-top: 10px;
+    margin-left: 30px;
+}

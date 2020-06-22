@@ -1,44 +1,84 @@
 <div class="container">
   <% if (locals.errors) { %>
-    <div class="errors">
-      You need to fix the following errors:
-      <ul>
-        <% errors.forEach(error => { %>
-          <li><%= error.message %></li>
-        <% }); %>
-      </ul>
-    </div>
+  <div class="errors">
+    You need to fix the following errors:
+    <ul>
+      <% errors.forEach(error => { %>
+      <li><%= error.message %></li>
+      <% }); %>
+    </ul>
+  </div>
   <% } %>
   <form action="<%= submitCareerPath %>" method="post">
     <% if (!career.isNewRecord) { %>
-      <input type="hidden" name="_method" value="patch" />
+    <input type="hidden" name="_method" value="patch" />
     <% } %>
-    <div  class="field">
+    <div class="field">
       <label for="name">Nombre: </label>
       <input class="input is-warning" type="text" name="name" value="<%= career.name %>" required>
-      
+
     </div>
-    
-    <div  class="field">
+
+    <div class="field">
       <label for="area">Área: </label>
       <input class="input is-warning" type="text" name="area" value="<%= career.area %>" required>
     </div>
 
-    <div  class="field">
+    <div class="field">
       <label for="vacancies">Vacantes: </label>
       <input class="input is-warning" type="number" name="vacancies" value="<%= career.vacancies %>" required>
     </div>
 
-    <div  class="field">
+    <div class="field">
+      <label for="price">Arancel anual: </label>
+      <input class="input is-warning" type="number" name="price" value="<%= career.price %>" required>
+    </div>
+
+    <div class="field">
       <label for="minScore">Puntaje mínimo para postular: </label>
       <input class="input is-warning" type="number" name="minScore" value="<%= career.minScore %>" required>
     </div>
 
-    <div  class="field">
+    <div class="field">
+      <label for="mathScore">Ponderación en matemática: </label>
+      <input class="input is-warning" type="number" name="mathScore" value="<%= career.mathScore %>" required>
+    </div>
+
+    <div class="field">
+      <label for="lengScore">Ponderación en lenguaje: </label>
+      <input class="input is-warning" type="number" name="lengScore" value="<%= career.lengScore %>" required>
+    </div>
+
+    <div class="field">
+      <label for="scienceScore">Ponderación en ciencias: </label>
+      <input class="input is-warning" type="number" name="scienceScore" value="<%= career.scienceScore %>" required>
+    </div>
+
+    <div class="field">
+      <label for="histScore">Ponderación en historia: </label>
+      <input class="input is-warning" type="number" name="histScore" value="<%= career.histScore %>" required>
+    </div>
+
+    <div class="field">
+      <label for="nemScore">Ponderación de NEM: </label>
+      <input class="input is-warning" type="number" name="nemScore" value="<%= career.nemScore %>" required>
+    </div>
+
+    <div class="field">
+      <label for="rankScore">Ponderación en ránking: </label>
+      <input class="input is-warning" type="number" name="rankScore" value="<%= career.rankScore %>" required>
+    </div>
+
+    <div class="field">
+      <label for="corte">Puntaje de corte: </label>
+      <input class="input is-warning" type="number" name="corte" value="<%= career.corte %>" required>
+    </div>
+
+    <div class="field">
       <label for="duration">Duración: </label>
       <input class="input is-warning" type="number" name="duration" value="<%= career.duration %>" required>
     </div>
-    <div  class="field">
+    <div class="field">
       <% if (career.isNewRecord) { %>
         <input type="submit" name="create" value="Crear carrera" />
       <% } else { %>

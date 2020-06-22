@@ -7,12 +7,14 @@
 </style>
 <aside class="menu">
   <p class="menu-label">
-      Perfil
+    Perfil
   </p>
   <ul class="menu-list">
     <li><a id="personal-item" class="is-active item">Información personal</a></li>
     <li><a id="tests-item" class="item">Tests</a></li>
+    <li><a id="simulations-item" class="item">Simulación de puntajes</a></li>
     <li><a id="password-item" class="item">Contraseña y seguridad</a></li>
+    <!-- <li><a href="<%#- simulationsPath(user) %>" id="simulation-item" class="item">Simulación de puntajes</a></li> -->
   </ul>
   <% if (staffUniversities && staffUniversities.length > 0) { %>
   <p class="menu-label">
@@ -23,14 +25,13 @@
   </ul>
   <% } %>
   <% if (currentUser && currentUser.admin) { %>
-    <p class="menu-label">
-        Administrador
-    </p>
-    <ul class="menu-list">
-      <li><a id="users-item" class="item">Usuarios</a></li>
-      <li><a id="universities-item"class="item">Universidades</a></li>
-      <li><a id="careers-item" class="item">Carreras</a></li>
-      <li><a id="staff-item" class="item">Staffs</a></li>
-    </ul>
+  <p class="menu-label">
+    Administrador
+  </p>
+  <ul class="menu-list">
+    <li><a id="users-item" class="item">Usuarios</a></li>
+    <li><a id="universities-item" class="item">Universidades</a></li>
+    <li><a id="careers-item" class="item">Carreras</a></li>
+  </ul>
   <% } %>
 </aside>
