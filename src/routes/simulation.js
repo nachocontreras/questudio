@@ -66,7 +66,7 @@ router.post('simulator.create', '/:userId/create', userLogged, async (ctx) => {
         const ids = careerIds.map(id => id.slice(1,))
         addSimulationData(currentUser, ids, data, ctx.orm)
     }
-    ctx.redirect(ctx.router.url('users.profile', { id: currentUser.id }));
+    ctx.redirect(ctx.router.url('careers.list'));
 })
 
 router.get('simulator.show', '/:userId/results',
@@ -80,11 +80,7 @@ router.get('simulator.show', '/:userId/results',
         }
         const careersOver = simulations.filter((career) => career.simulation.ponderation >= career.corte);
         const careersUnder = simulations.filter((career) => career.simulation.ponderation < career.corte);
-        await ctx.render('careers/simulations', {
-            careersOver,
-            careersUnder,
-            careerPath: (career) => ctx.router.url('careers.show', { id: career.id })
-        })
+        ctx.redirect(ctx.router.url('users.profile'), { id: currentUser.id })
     })
 
 module.exports = router;

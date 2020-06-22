@@ -99,7 +99,7 @@
 
 #user-postulations {
     position: relative;
-    width: 510px;
+    width: 100%;
     left: 35%;
     margin: 30px auto;
 }
@@ -107,9 +107,8 @@
 .over-corte {
     position: relative;
     display: inline-block;
-    width: 1500px;
-    margin-right: 100px;
-    margin-top: 40px;
+    width: 100%;
+    margin: 0 auto;
 
     h2 {
         position: relative;
@@ -125,9 +124,8 @@
 .under-corte {
     position: relative;
     display: inline-block;
-    width: 1500px;
-    margin-right: 100px;
-    margin-top: 40px;
+    width: 100%;
+    margin: 0 auto;
     
     h2 {
         position: relative;
