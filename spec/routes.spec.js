@@ -25,7 +25,7 @@ cruds.forEach((crud) => {
         } else if ((host).includes('heroku')) {
             response = await fetch(`http://${host}/${crud}`)
         } else {
-            response = await fetch(`http://questudio-cl:${port}/${crud}`)
+            response = await fetch(`http://questudio-cl:5432/${crud}`)
         }
         expect(response.status).toEqual(status);
         done();
