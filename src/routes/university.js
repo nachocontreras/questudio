@@ -78,7 +78,10 @@ router.get('universities.show', '/:id', loadUniversity, async (ctx) => {
   const { university } = ctx.state;
   const staffs = await university.getStaffs();
   const careersList = await university.getCareers();
-  const userIsStaff = staffs.map((staff) => parseInt(staff.dataValues.id)).includes(parseInt(sessionDecoder(ctx.session.userId)))
+  let userIsStaff = false;
+  if (ctx.state.currentUser != null) {
+    userIsStaff = staffs.map((staff) => parseInt(staff.dataValues.id)).includes(parseInt(sessionDecoder(ctx.session.userId)))
+  }
   await ctx.render('universities/show', {
     university,
     careersList,
