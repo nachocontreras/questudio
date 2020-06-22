@@ -19,9 +19,9 @@
     </section>
     <br>
 
-    <div class="columns is-desktop ">
+    <div class="columns is-multiline is-mobile">
       <% universitiesList.forEach((university) => { %>
-        <div class="column is-3">
+       <div class="column is-one-quarter">
 
           <div class="card">
 
@@ -47,30 +47,15 @@
                 
               </div>
 
-
             </div>
-            <!-- <%# if (currentUser) { %>
-              <div class="card-footer">
               
-                <a href="<%#- universityEditPath(university) %>" class="card-footer-item">Editar universidad</a>
-                <form class="card-footer-item" action="<%#= universityDeletePath(university) %>" method="POST">
-                  <input type="hidden" name="_method" value="delete" />
-                  <input class="button is-light" type="submit" value="Borrar" />
-                </form>
-  
-                
-              </div>
-            <%# } %> -->
-              
-                 
-              
-            
           </div>
 
         </div>
         <% }); %>
 
     </div>
+    <br>
 
 </div>
 
