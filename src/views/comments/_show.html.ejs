@@ -1,4 +1,8 @@
-<div class="box">
+<% if (actualComment.slice(-1)[0] == comment.previousCommentId) { %>
+  <div class="box" style="margin-left: <%- actualComment.length * 20 %>px;margin-top: 0px;margin-bottom: 0px;">
+<% } else { %>
+  <div class="box" style="margin-bottom: 5px;">
+<% } %>
     <article class="media">
       <div class="media-left">
         <figure class="image is-64x64">
@@ -10,6 +14,9 @@
           <p>
             <strong><%= comment.user.name %></strong>
             <br>
+            id <%- comment.id %>
+            previo <%- comment.previousCommentId%>
+            <br>
             <%= comment.description %> 
           </p>
           <div class="level-right" >
@@ -17,14 +24,14 @@
           </div>
           
           <% if (currentUser) { %>
-          <div id="reply-button"><i class="fa fa-reply" style="color: #797c82;"></i></div>
-          <div id="reply">
-            <form id="reply-form" method="post">
+          <div class="reply-button" id="button-<%- comment.id%>"><i class="fa fa-reply" style="color: #797c82;"></i></div>
+          <div class="reply" id="reply-<%-comment.id %>">
+            <form class="reply-form" method="post">
 							<div class="field">
-								<input class="input is-light" id="comment-description" type="text" placeholder="Escribe tu respuesta aquí.." name="description" required >
-								<input id="comment-careerId" type="hidden" value="<%- career.id %> ">
-								<input id="comment-userId" type="hidden" value="<%- currentUser.id %> ">
-								<input id="comment-previousCommentId" type="hidden" value="<%- comment.id %> ">
+								<input class="input is-light comment-description" type="text" placeholder="Escribe tu respuesta aquí.." name="description" required >
+								<input class="comment-careerId" type="hidden" value="<%- career.id %> ">
+								<input class="comment-userId" type="hidden" value="<%- currentUser.id %> ">
+								<input class="comment-previousCommentId" type="hidden" value="<%- comment.id %> ">
 								<br>
 								<br>
 								<div class="field">

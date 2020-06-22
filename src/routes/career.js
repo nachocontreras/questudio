@@ -71,8 +71,66 @@ router.get('careers.show', '/:id', loadCareer, async (ctx) => {
     const university = await career.getUniversity();
     const commentsList = await ctx.orm.comment.findAll({
       where: {careerId: career.id},
-      include: { model: ctx.orm.user}
+      include: { model: ctx.orm.user},
     });
+    commentsList.sort((a, b)=> {
+      let ap = parseInt(a.previousCommentId);
+      let bp = parseInt(b.previousCommentId);
+      let ai = parseInt(a.id);
+      let bi = parseInt(b.id);
+
+      // let a_zerofilled = ('00000' + ap).slice(-5);
+      // let a_zerofilled2 = ('00000' + ai).slice(-5);
+      // let b_zerofilled = ('00000' + bp).slice(-5);
+      // let b_zerofilled2 = ('00000' + bi).slice(-5);
+      // let a_string = a_zerofilled + "." + a_zerofilled2;
+      // let b_string = b_zerofilled + "." + b_zerofilled2;
+      // if (a_zerofilled == b_zerofilled) {
+      //   return a_zerofilled2 > b_zerofilled2;
+      // } else if (a_zerofilled == '00000') {
+      //   return ai < bi;
+      // } else if (b_zerofilled == '00000') {
+      //   return ai > bi;
+      // }
+      // console.log(a_string, b_string);
+      // return a_string < b_string;
+
+      if (ap == bp) {
+        if (ai < bi) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else if (ap < bp) {
+        if (ap == 0) {
+          if (ai < bp) {
+            return -1;
+          } else if (ai > bp) {
+            return 1;
+          }
+          return -1;
+        }
+        if (ai < bi) {
+          return -1;
+        } else {
+          return -1;
+        }
+      } else {
+        if (bp == 0) {
+          if (bi < ap) {
+            return 1;
+          } else if (bi > ap) {
+            return -1;
+          }
+          return 1;
+        }
+        if (ai < bi) {
+          return 1;
+        } else {
+          return 1;
+        }
+      }
+    })
     const experiencesList = await ctx.orm.experience.findAll({
       where: {careerId: career.id},
       include: { model: ctx.orm.user}

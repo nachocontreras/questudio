@@ -1,5 +1,5 @@
   
-  #reply-button {
+  .reply-button {
       width: 27px;
       height: 27px;
       border-radius: 30px !important;
@@ -14,13 +14,13 @@
       border: 1px solid #999;
   }
   
-  #reply-button:hover {
+  .reply-button:hover {
       background-color: #e5e5e5;
       background-image: none;
       border-color: #adadad;
   }
   
-  #reply-button:active {
+  .reply-button:active {
     transform: perspective(1px) translateZ(-.04px);
   }
   
@@ -143,14 +143,14 @@
       border-color: transparent #343436 transparent transparent;
   }
   
-  #reply-button:hover .tooltiptext {
+  .reply-button:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
       pointer-events: none;
   }
   
  
-  #replytext {
+  .replytext {
       width: 85%;
       font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
       font-size: 1rem;
@@ -159,13 +159,13 @@
       margin-left: 7px;
   }
   
-  #replybubble {
+  .replybubble {
       padding-left: 0;
       list-style: none;
       margin-top: 27px;
   }
   
-  #reply-messenger-bulle {
+  .reply-messenger-bulle {
       background: rgba(204, 204, 204, 0.7);
       border-radius: 10px;
       padding-left: 10px;
@@ -181,7 +181,7 @@
       word-wrap: break-word;
   }
   
-  #reply-comment {
+  .reply-comment {
       font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
       background: rgba(0, 0, 0, 0);
       overflow: hidden;
@@ -197,7 +197,7 @@
       border: 1px solid #bec2c9;
   }
   
-  #reply-profpicture {
+  .reply-profpicture {
       position: absolute;
       margin-left: 19px;
       margin-top: -7px;
@@ -208,7 +208,7 @@
       transform: scale(0.75);
   }
   
-  #reply-send {
+  .reply-send {
       font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: rgba(0, 0, 0, 0);
       border: 0;
@@ -227,16 +227,16 @@
       transition: opacity .6s;
   }
     
-  #reply-send:hover {
+  .reply-send:hover {
       opacity: 1;
   }
   
-  #reply-send[disabled=disabled], #reply-send:disabled {
+  .reply-send[disabled=disabled], .reply-send:disabled {
      pointer-events:none;
      display:none;
   }
   
-  #reply {
+  .reply {
      display: none;
   }
   
@@ -255,7 +255,7 @@
     }
   }
   
-  #reply-logintopost {
+  .reply-logintopost {
       position: relative;
       background: rgba(0, 0, 0, 0);
       color: #365899;
@@ -271,7 +271,7 @@
       transform: scale(0.8);
   }
   
-  #reply-loginbtn {
+  .reply-loginbtn {
     position: relative;
     display:flex;
     align-items: center;
@@ -285,7 +285,7 @@
     transition: all 0.7s ease;
   }
   
-  #reply-loginbtn::before {
+  .reply-loginbtn::before {
     position: absolute;
     display: block;
     content: '';
@@ -299,15 +299,15 @@
     animation: pulse 1.2s ease infinite;
   }
   
-  #reply-loginbtn:hover {
+  .reply-loginbtn:hover {
     background: #365899;
   }
   
-  #reply-loginbtn:hover::before {
+  .reply-loginbtn:hover::before {
     background: #365899;
   }
   
-  #reply-logintext {
+  .reply-logintext {
       font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       color: #fff;
       font-size: 16px;

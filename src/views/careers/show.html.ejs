@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
-
-
-<body>
-
 	<div class="container">
 		<br>
 		<section class="hero is-warning">
@@ -16,9 +8,6 @@
 			</div>
 		</section>
 		<br>
-	</div>
-
-	<div class="container">
 		<section class="info-tiles">
                     <div class="tile is-ancestor has-text-centered">
                         <div class="tile is-parent">
@@ -53,7 +42,6 @@
 		<p>El puntaje de corte de esta carrera es <%- career.minScore %></p>
 		<p>Tiene una duración de <%- career.duration %> semestres</p>
 		<p>Esta carrera está en <%- university.name %></p> -->
-	</div>
 
 	<br><br>
 	
@@ -63,13 +51,11 @@
 
 
 
-<div class="container">
 	<div class="tile is-ancestor">
 		<div class="tile is-vertical is-12">
 		  <div class="tile">
 			<div class="tile is-parent">
 				<article class="tile is-child notification is-light">
-				  
 					<div class="container">
 							<section class="hero is-medium is-light">
 									<div class="container">
@@ -79,8 +65,16 @@
 						<% if (!commentsList.length) { %>
 							<p> Ninguna por ahora </p>
 						<% } else { %>
+						<% actualComment = [] %>
 						<% commentsList.forEach((comment) => { %>
+							<% if (actualComment && comment.previousCommentId < actualComment.slice(-1)[0] ) { %>
+								<% actualComment.pop(); %>
+							<% } %>
+							<% if (comment.previousCommentId == 0 ) { %>
+								<% actualComment = [] %>
+							<% } %>
 							<%- include('../comments/_show', { comment }) %><br>
+							<% actualComment.push(comment.id) %>
 							<% }) %>
 						<% } %>	
 					</div>
@@ -152,6 +146,5 @@
 		  </div>
 		</div>
 	</div>
-</div>
 
-</body>
+</div>
