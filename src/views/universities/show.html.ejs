@@ -88,7 +88,7 @@
 
 <div class="container">
   <br>
-
+  <% console.log(userIsStaff) %>
   <% if (userIsStaff || (currentUser && currentUser.admin)) { %>
     <%- include('staff/_staff_options') %>
   <% } else { %>
