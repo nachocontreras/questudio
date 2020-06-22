@@ -21,7 +21,7 @@ cruds.forEach((crud) => {
         if (host == 'localhost') {
             const port = process.env.PORT;
             response = await fetch(`http://${host}:${port}/${crud}`)
-        } else if {
+        } else {
             response = await fetch(`http://${host}/${crud}`)
         }
         expect(response.status).toEqual(status);
