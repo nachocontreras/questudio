@@ -69,18 +69,4 @@ router.post('simulator.create', '/:userId/create', userLogged, async (ctx) => {
     ctx.redirect(ctx.router.url('careers.list'));
 })
 
-router.get('simulator.show', '/:userId/results',
-    userLogged, async (ctx) => {
-        const { currentUser } = ctx.state;
-        const simulations = await currentUser.getSimulations();
-        var universities = await Promise.all(simulations.map(async (career) => await career.getUniversity()))
-        universities = universities.map((uni) => uni.name)
-        for (var i = 0; i < simulations.length; i++) {
-            simulations[i].university = universities[i];
-        }
-        const careersOver = simulations.filter((career) => career.simulation.ponderation >= career.corte);
-        const careersUnder = simulations.filter((career) => career.simulation.ponderation < career.corte);
-        ctx.redirect(ctx.router.url('users.profile'), { id: currentUser.id })
-    })
-
 module.exports = router;
