@@ -13,10 +13,10 @@ cache: yarn
 directories:
   - node_modules
 
-addons:
-  hosts: 
-    - travis.dev
-    - questudio.com
+#addons:
+#  hosts: 
+#    - travis.dev
+#    - questudio.com
 
 services:
   - postgresql
