@@ -2,7 +2,6 @@ const KoaRouter = require('koa-router');
 const router = new KoaRouter();
 
 const { userLogged } = require('../routes/middlewares');
-const { render } = require('node-sass');
 
 async function addSimulationData(user, interests, data, models) {
     var careers;
