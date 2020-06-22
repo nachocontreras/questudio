@@ -15,7 +15,7 @@ const config = {
   },
   test: {
     extend: 'default',
-    database: 'questudio_test',
+    database: 'questudio',
   },
   production: {
     extend: 'default',
