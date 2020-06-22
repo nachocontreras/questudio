@@ -1,0 +1,51 @@
+<% if (actualComment.slice(-1)[0] == comment.previousCommentId) { %>
+  <div class="box" style="margin-left: <%- actualComment.length * 20 %>px;margin-top: 0px;margin-bottom: 0px;">
+<% } else { %>
+  <div class="box" style="margin-bottom: 5px;">
+<% } %>
+    <article class="media">
+      <div class="media-left">
+        <figure class="image is-64x64">
+          <img src="<%= comment.user.imageUrl || 'https://res.cloudinary.com/dbs6fwbbs/image/upload/v1588796979/users-images/user-no-image_qdtjjb.jpg'%>" alt="Placeholder image">
+        </figure>
+      </div>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= comment.user.name %></strong>
+            <br>
+            id <%- comment.id %>
+            previo <%- comment.previousCommentId%>
+            <br>
+            <%= comment.description %> 
+          </p>
+          <div class="level-right" >
+            <p style="color: rgb(165,165,165);"><%= comment.createdAt %></p>
+          </div>
+          
+          <% if (currentUser) { %>
+          <div class="reply-button" id="button-<%- comment.id%>"><i class="fa fa-reply" style="color: #797c82;"></i></div>
+          <div class="reply" id="reply-<%-comment.id %>">
+            <form class="reply-form" method="post">
+							<div class="field">
+								<input class="input is-light comment-description" type="text" placeholder="Escribe tu respuesta aquí.." name="description" required >
+								<input class="comment-careerId" type="hidden" value="<%- career.id %> ">
+								<input class="comment-userId" type="hidden" value="<%- currentUser.id %> ">
+								<input class="comment-previousCommentId" type="hidden" value="<%- comment.id %> ">
+								<br>
+								<br>
+								<div class="field">
+									<input class="button is-primary" type="submit" name="create" value="Responder" />
+								</div>
+							</div>
+            </form>
+          </div>
+            
+            
+          
+            <% } %>
+  
+      </div>
+    </article>
+  </div>
+  
