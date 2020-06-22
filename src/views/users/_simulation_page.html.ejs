@@ -1,0 +1,57 @@
+<div class="over-corte">
+    <h2> Carreras posibles: </h2>
+    <% careersOver.forEach((career) => { %>
+    <a href="<%= careerPath(career) %>">
+        <div class="career-elem">
+            <div class="name">
+                <h5>Carrera:</h5> <%- career.name %>
+            </div>
+            <div class="uni">
+                <h5>Universidad:</h5> <%- career.university %>
+            </div>
+            <div class="corte">
+                <h5>Ptje. corte:</h5> <%- career.corte %>
+            </div>
+            <div class="vacancies">
+                <h5>Vacantes:</h5> <%- career.vacancies %>
+            </div>
+            <div class="pond">
+                <h5>Tu ponderación:</h5> <%- career.simulation.ponderation %>
+            </div>
+        </div>
+    </a>
+    <% }) %>
+
+    <% if (careersOver.length == 0) { %>
+    <div class="not">No hay carreras.</div>
+    <% } %>
+</div>
+
+<div class="under-corte">
+    <h2>Carreras en las que no quedarías: </h2>
+    <% careersUnder.forEach((career) => { %>
+    <a href="<%= careerPath(career) %>">
+        <div class="career-elem">
+            <div class="name">
+                <h5>Carrera:</h5> <%- career.name %>
+            </div>
+            <div class="uni">
+                <h5>Universidad:</h5> <%- career.university %>
+            </div>
+            <div class="corte">
+                <h5>Ptje. corte:</h5> <%- career.corte %>
+            </div>
+            <div class="vacancies">
+                <h5>Vacantes:</h5> <%- career.vacancies %>
+            </div>
+            <div class="pond">
+                <h5>Tu ponderación:</h5> <%- career.simulation.ponderation %>
+            </div>
+        </div>
+    </a>
+    <% }) %>
+
+    <% if (careersUnder.length == 0) { %>
+    <div class="not">No hay carreras.</div>
+    <% } %>
+</div>

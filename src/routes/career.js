@@ -27,7 +27,7 @@ router.get('careers.list', '/', async (ctx) => {
   });
 });
 
-router.get('careers.stats', '/stats', async (ctx) => {
+router.get('careers.stats', '/stats', userLogged, isAdmin, async (ctx) => {
   let careersList = await ctx.orm.career.findAll();
   ctx.status = 200;
   ctx.body = {
@@ -168,6 +168,7 @@ router.get('careers.show', '/:id', loadCareer, async (ctx) => {
   });
 });
 
+<
 router.get('careers.edit', '/:id/edit', userLogged,
   carrerIsStaffOrAdmin,
   loadCareer, async (ctx) => {
