@@ -66,25 +66,7 @@ router.post('simulator.create', '/:userId/create', userLogged, async (ctx) => {
         const ids = careerIds.map(id => id.slice(1,))
         addSimulationData(currentUser, ids, data, ctx.orm)
     }
-    ctx.redirect(ctx.router.url('users.profile', { id: currentUser.id }));
+    ctx.redirect(ctx.router.url('careers.list'));
 })
-
-router.get('simulator.show', '/:userId/results',
-    userLogged, async (ctx) => {
-        const { currentUser } = ctx.state;
-        const simulations = await currentUser.getSimulations();
-        var universities = await Promise.all(simulations.map(async (career) => await career.getUniversity()))
-        universities = universities.map((uni) => uni.name)
-        for (var i = 0; i < simulations.length; i++) {
-            simulations[i].university = universities[i];
-        }
-        const careersOver = simulations.filter((career) => career.simulation.ponderation >= career.corte);
-        const careersUnder = simulations.filter((career) => career.simulation.ponderation < career.corte);
-        await ctx.render('careers/simulations', {
-            careersOver,
-            careersUnder,
-            careerPath: (career) => ctx.router.url('careers.show', { id: career.id })
-        })
-    })
 
 module.exports = router;

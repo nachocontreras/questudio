@@ -1,42 +1,50 @@
-	<div class="container">
-		<br>
-		<section class="hero is-warning">
-			<div class="hero-body">
-				<div class="container">
-					<h1 class="title"> <%- career.name %> </h1>
-				</div>
+<div class="container">
+	<br>
+	<section class="hero is-warning">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title"> <%- career.name %> </h1>
 			</div>
-		</section>
-		<br>
-		<section class="info-tiles">
-                    <div class="tile is-ancestor has-text-centered">
-                        <div class="tile is-parent">
-                            <article class="tile is-child box">
-                                <p class="title"><%- career.vacancies %></p>
-                                <p class="subtitle">Vacantes</p>
-                            </article>
-                        </div>
-                        <div class="tile is-parent">
-                            <article class="tile is-child box">
-                                <p class="title"><%- career.minScore %></p>
-                                <p class="subtitle">Puntaje de corte</p>
-                            </article>
-                        </div>
-                        <div class="tile is-parent">
-                            <article class="tile is-child box">
-                                <p class="title"><%- career.duration %></p>
-                                <p class="subtitle">Semestres de duración</p>
-                            </article>
-                        </div>
-                        <div class="tile is-parent">
-                            <article class="tile is-child box">
-								
-								<p class="title is-5"><%- university.name %></p>
-                                
-                            </article>
-                        </div>
-                    </div>
-                </section>
+		</div>
+	</section>
+	<br>
+	<section class="info-tiles">
+		<div class="tile is-ancestor has-text-centered">
+			<div class="tile is-parent">
+				<article class="tile is-child box">
+					<p class="title"><%- career.vacancies %></p>
+					<p class="subtitle">Vacantes</p>
+				</article>
+			</div>
+			<div class="tile is-parent">
+				<article class="tile is-child box">
+					<p class="title"><%- career.minScore %></p>
+					<p class="subtitle">Puntaje de corte</p>
+				</article>
+			</div>
+			<% if (simulation && simulation.length > 0) { %>
+			<div class="tile is-parent">
+				<article class="tile is-child box">
+					<p class="title"><%- simulation[0].ponderation %></p>
+					<p class="subtitle">Tu ponderación</p>
+				</article>
+			</div>
+			<%	} %>
+			<div class="tile is-parent">
+				<article class="tile is-child box">
+					<p class="title"><%- career.duration %></p>
+					<p class="subtitle">Semestres de duración</p>
+				</article>
+			</div>
+			<div class="tile is-parent">
+				<article class="tile is-child box">
+
+					<p class="title is-5"><%- university.name %></p>
+
+				</article>
+			</div>
+		</div>
+	</section>
 
 	<!-- 	<p>Tiene <%- career.vacancies %> vacantes</p>
 		<p>El puntaje de corte de esta carrera es <%- career.corte %></p>
@@ -44,7 +52,7 @@
 		<p>Esta carrera está en <%- university.name %></p> -->
 
 	<br><br>
-	
+
 
 
 
@@ -54,98 +62,102 @@
 
 	<div class="tile is-ancestor">
 		<div class="tile is-vertical is-12">
-		  <div class="tile">
-			<div class="tile is-parent">
-				<article class="tile is-child notification is-light">
-					<div class="container">
+			<div class="tile">
+				<div class="tile is-parent">
+					<article class="tile is-child notification is-light">
+						<div class="container">
 							<section class="hero is-medium is-light">
-									<div class="container">
-										<h4 class="title"> Preguntas y respuestas </h4>
-									</div>
+								<div class="container">
+									<h4 class="title"> Preguntas y respuestas </h4>
+								</div>
 							</section>
-						<% if (!commentsList.length) { %>
+							<% if (!commentsList.length) { %>
 							<p> Ninguna por ahora </p>
-						<% } else { %>
-						<% actualComment = [] %>
-						<% commentsList.forEach((comment) => { %>
+							<% } else { %>
+							<% actualComment = [] %>
+							<% commentsList.forEach((comment) => { %>
 							<% if (actualComment && comment.previousCommentId < actualComment.slice(-1)[0] ) { %>
-								<% actualComment.pop(); %>
+							<% actualComment.pop(); %>
 							<% } %>
 							<% if (comment.previousCommentId == 0 ) { %>
-								<% actualComment = [] %>
+							<% actualComment = [] %>
 							<% } %>
 							<%- include('../comments/_show', { comment }) %><br>
 							<% actualComment.push(comment.id) %>
 							<% }) %>
-						<% } %>	
-					</div>
+							<% } %>
+						</div>
 
-					<% if (currentUser) { %>
-					<div class="container">
-						<form id="comment-form" method="post">
-							<div class="field">
-								<input class="input is-light" id="comment-description" type="text" placeholder="Escribe tu pregunta aquí.." name="description" required >
-								<input id="comment-careerId" type="hidden" value="<%- career.id %> ">
-								<input id="comment-userId" type="hidden" value="<%- currentUser.id %> ">
-								<input id="comment-previousCommentId" type="hidden" value='0'>
-								<br>
-								<br>
+						<% if (currentUser) { %>
+						<div class="container">
+							<form id="comment-form" method="post">
 								<div class="field">
-									<input class="button is-primary" type="submit" name="create" value="Publicar pregunta" />
+									<input class="input is-light" id="comment-description" type="text"
+										placeholder="Escribe tu pregunta aquí.." name="description" required>
+									<input id="comment-careerId" type="hidden" value="<%- career.id %> ">
+									<input id="comment-userId" type="hidden" value="<%- currentUser.id %> ">
+									<input id="comment-previousCommentId" type="hidden" value='0'>
+									<br>
+									<br>
+									<div class="field">
+										<input class="button is-primary" type="submit" name="create"
+											value="Publicar pregunta" />
+									</div>
 								</div>
-							</div>
-						</form>
-					</div>
-					<% } %>
-				</article>
+							</form>
+						</div>
+						<% } %>
+					</article>
 
-			</div>
+				</div>
 
-			<div class="tile is-parent">
-			  
-				<article class="tile is-child notification is-light">
-				
-					<div class="container">
-						
+				<div class="tile is-parent">
+
+					<article class="tile is-child notification is-light">
+
+						<div class="container">
+
 							<section class="hero is-medium is-light">
 								<div class="container">
 									<h4 class="title"> Experiencias y testimonios alumnos </h4>
 								</div>
 							</section>
-			
-						<% if (!experiencesList.length) { %>
+
+							<% if (!experiencesList.length) { %>
 							<div class="container">
 								<h4> Ninguna por ahora </h4>
 							</div>
-							
-						<% } else { %>
-						<% experiencesList.forEach((exp) => { %>
+
+							<% } else { %>
+							<% experiencesList.forEach((exp) => { %>
 							<%- include('../experiences/_show', { exp }) %><br>
 							<% }) %>
-						<% } %>
-					
-					</div>
-		
-					<% if (currentUser && currentUser.universityId == career.universityId && currentUser.userType == 1) { %>
-					<div class="container">
-						<form id="experience-form" method="post">
-							<div class="field">
-								<input class="input is-light" id="experience-comment" type="text" placeholder="Escribe tu experiencia aquí.." name="description" required >
-								<input id="experience-careerId" type="hidden" value="<%- career.id %> ">
-								<input id="experience-userId" type="hidden" value="<%- currentUser.id %> ">
-								<br>
-								<br>
-								<div class="field">
-									<input class="button is-primary" type="submit" name="create" value="Publicar experiencia" />
-								</div>
-							</div>
-						</form>
-					</div>
-					<% } %>
-				</article>
+							<% } %>
 
+						</div>
+
+						<% if (currentUser && currentUser.universityId == career.universityId && currentUser.userType == 1) { %>
+						<div class="container">
+							<form id="experience-form" method="post">
+								<div class="field">
+									<input class="input is-light" id="experience-comment" type="text"
+										placeholder="Escribe tu experiencia aquí.." name="description" required>
+									<input id="experience-careerId" type="hidden" value="<%- career.id %> ">
+									<input id="experience-userId" type="hidden" value="<%- currentUser.id %> ">
+									<br>
+									<br>
+									<div class="field">
+										<input class="button is-primary" type="submit" name="create"
+											value="Publicar experiencia" />
+									</div>
+								</div>
+							</form>
+						</div>
+						<% } %>
+					</article>
+
+				</div>
 			</div>
-		  </div>
 		</div>
 	</div>
 
