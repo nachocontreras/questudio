@@ -174,8 +174,8 @@ router.patch('careers.update', '/:id', userLogged,
                                        loadCareer, async (ctx) => {
   const { career } = ctx.state;
   try {
-    const { name, area, vacancies, minScore, duration } = ctx.request.body;
-    await career.update({ name, area, vacancies, minScore, duration });
+    const { name, area, vacancies, minScore, duration, price} = ctx.request.body;
+    await career.update({ name, area, vacancies, minScore, duration, price });
     ctx.redirect(ctx.router.url('universities.show', { id: career.universityId }));
   } catch (validationError) {
     await ctx.render('careers/edit', {
