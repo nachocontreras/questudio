@@ -7,6 +7,8 @@ Luego, se debe incluir a tu PATH. Para esto se recomienda agregar la siguiente l
 ```bash
 export PATH="/home/greg/geckodriver-v0.26.0-linux64:$PATH"
 ```
+
+Actualizar librerías
 ```bash
 yarn install
 ```
