@@ -1,7 +1,18 @@
 const app = require('../src/app');
-
-console.log("Executing in " + process.env.NODE_ENV + " environment.")
+const db = require('../src/models');
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT)
-console.info(`Listening to ${PORT}`)
+
+db.sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Connection to the database has been established successfully.');
+        app.listen(PORT, (err) => {
+            if (err) {
+                return console.error('Failed', err);
+            }
+            console.log(`Listening on port ${PORT}`);
+            return app;
+        });
+    })
+    .catch(err => console.error('Unable to connect to the database:', err));

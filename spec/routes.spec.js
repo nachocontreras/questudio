@@ -12,7 +12,6 @@ cruds.forEach(async (crud) => {
     var status = 200;
     it(`${crud} route works`, async () => {
         const response = await request(app.callback()).get(`/${crud}`);
-        console.log(response)
         expect(response.status).toBe(status);
     });
 })
