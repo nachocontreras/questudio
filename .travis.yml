@@ -14,7 +14,9 @@ directories:
   - node_modules
 
 addons:
-  hostname: questudio-cl
+  hosts: 
+    - travis.dev
+    - questudio.com
 
 services:
   - postgresql
