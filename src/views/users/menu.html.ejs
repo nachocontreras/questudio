@@ -14,6 +14,7 @@
     <li><a id="tests-item" class="item">Tests</a></li>
     <li><a id="simulations-item" class="item">Simulación de puntajes</a></li>
     <li><a id="password-item" class="item">Contraseña y seguridad</a></li>
+    <li><a href="<%- simulationsPath(user) %>" id="simulation-item" class="item">Simulación de puntajes</a></li>
   </ul>
   <% if (staffUniversities && staffUniversities.length > 0) { %>
   <p class="menu-label">
@@ -24,6 +25,7 @@
   </ul>
   <% } %>
   <% if (currentUser && currentUser.admin) { %>
+<<<<<<< HEAD
   <p class="menu-label">
     Administrador
   </p>
@@ -33,5 +35,15 @@
     <li><a id="careers-item" class="item">Carreras</a></li>
     <li><a id="staff-item" class="item">Staffs</a></li>
   </ul>
+=======
+    <p class="menu-label">
+        Administrador
+    </p>
+    <ul class="menu-list">
+      <li><a id="users-item" class="item">Usuarios</a></li>
+      <li><a id="universities-item"class="item">Universidades</a></li>
+      <li><a id="careers-item" class="item">Carreras</a></li>
+    </ul>
+>>>>>>> 0461bb15175d38893162a442ca0da85d4af2270a
   <% } %>
 </aside>
